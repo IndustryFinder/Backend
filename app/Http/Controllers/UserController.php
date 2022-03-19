@@ -16,7 +16,9 @@ class UserController extends Controller
                 'password' => 'required|min:8|confirmed',
             ]
         );
+
         $validated['password']=bcrypt($validated['password']);
+        $validated['role']='user';
         $user = User::create($validated);
         $token = $user->createToken('token')->plainTextToken;
         return response(['user' => $user, 'token' => $token],201);
@@ -34,12 +36,12 @@ class UserController extends Controller
             return response(['user' => $user->get(), 'token' => $token]);
         }
         else{
-            return response($user->get(), 401);
+            return response(['message'=>'Unauthorized'], 401);
         }
     }
 
     public function Logout(){
         auth()->user()->tokens()->delete();
-        return response('Logged Out');
+        return response(['message'=>'Logged Out']);
     }
 }
