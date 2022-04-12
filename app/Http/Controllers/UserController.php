@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function Register(Request $request){
         $validated=$request->validate([
-                'name' => 'required|min:5|string',
+                'name' => 'required|min:3|string',
                 'email' => 'required|email:rfc|unique:users,email|string',
                 'password' => 'required|min:8|confirmed',
             ]
@@ -33,7 +33,7 @@ class UserController extends Controller
         $user=User::where('email', $validated['email'])->first();
         if ($user && Hash::check($validated['password'],$user->password)) {
             $token =$user->createToken('theToken')->plainTextToken;
-            return response(['user' => $user->get(), 'token' => $token]);
+            return response(['user' => $user, 'token' => $token]);
         }
         else{
             return response(['message'=>'Unauthorized'], 401);
