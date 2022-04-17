@@ -44,4 +44,11 @@ class UserController extends Controller
         auth()->user()->tokens()->delete();
         return response(['message'=>'Logged Out']);
     }
+    public function ChangePass(Request $request){
+        $validated=$request->validate([
+            'new_pass' => 'required|min:8|confirmed'
+        ]);
+        $user=User::find(auth('sanctum')->user()->id)->update(['password' => bcrypt($validated['password'])]);
+        return response(['message' => $user?'success':'failed', $user?200:404]);
+    }
 }
