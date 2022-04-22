@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/user/register', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
+Route::post('/Company/Get', [\App\Http\Controllers\CompanyController::class, 'index']);
+Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class, 'show']);
 
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -25,4 +27,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
     Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
     Route::delete('/user/bookmarks/del',[BookmarkController::class,'destroy']);
+    Route::post('/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
+    Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
+    Route::post('Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
+    Route::post('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
+    Route::post('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
 });
