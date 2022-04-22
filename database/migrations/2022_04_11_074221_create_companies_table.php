@@ -20,9 +20,9 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('user_id');
-            $table->string('logo');
-            $table->string('description');
-            $table->string('website');
+            $table->string('logo')->nullable();
+            $table->string('description')->nullable();
+            $table->string('website')->nullable();
             $table->timestamps();
         });
     }
