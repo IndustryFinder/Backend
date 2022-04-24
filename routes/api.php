@@ -24,16 +24,17 @@ Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class,
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout',[UserController::class,'Logout']);
+    Route::post('/user/changepass',[UserController::class,'ChangePass']);
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
-    Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
-    Route::delete('/user/bookmarks/del',[BookmarkController::class,'destroy']);
+    Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
+    Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
     Route::post('/Ad/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
     Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
     Route::put('/Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
     Route::delete('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
-    Route::put('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
+    Route::post('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
     Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
-    Route::put('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
-    Route::put('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
+    Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
+    Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
 
 });

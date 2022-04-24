@@ -12,7 +12,6 @@ class BookmarkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return Response
      */
     /**
@@ -35,10 +34,14 @@ class BookmarkController extends Controller
      *     ),
      * )
      */
-    public function index(Request $request)
+    public function index()
     {
         $id=auth('sanctum')->user()->id;
-        return User::find($id)->BookMarks;
+		$result = User::find($id)->BookMarks;
+		foreach($result as $r){
+			$r=$r->marked;
+		}
+        return response($result, 200);
     }
 
     /**
@@ -67,19 +70,12 @@ class BookmarkController extends Controller
      *     ),
      * )
      */
-    public function store(Request $request)
+    public function store($id)
     {
-
-//        $validated=$request->validate([
-//            'company' => 'required|exists:companies,id'
-//        ]);
-//        die();
         $mark=new Bookmark();
         $mark->user_id=auth('sanctum')->user()->id;
-        $mark->marked_id=$request['company'];
+        $mark->marked_id=$id;
         $mark->save();
-//        var_dump($mark);
-//        die();
         return response(['message' => 'success'], 201);
     }
 
@@ -111,7 +107,8 @@ class BookmarkController extends Controller
      */
     public function destroy($id)
     {
-        $result = Bookmark::find($id)->delete();
-        return response(['message' => $result?'success':'failed', $result?200:404]);
+        $result = Bookmark::find($id);
+		$result?$result->delete():null;
+        return response(['message' => $result?'success':'failed'], $result?200:404);
     }
 }

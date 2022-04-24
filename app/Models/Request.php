@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Request whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Request whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Ad|null $ad
+ * @property-read \App\Models\Company|null $company
  */
 class Request extends Model
 {
@@ -36,4 +38,12 @@ class Request extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+	public function ad()
+	{
+		return $this->belongsTo(Ad::class);
+	}
+	public function company()
+	{
+		return $this->belongsTo(Company::class);
+	}
 }
