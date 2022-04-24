@@ -28,4 +28,12 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'ad_id', 'company_id', 'status'
+    ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 }

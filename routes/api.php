@@ -32,4 +32,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
     Route::post('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
     Route::post('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
+    Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
+    Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
+    Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
+
 });
