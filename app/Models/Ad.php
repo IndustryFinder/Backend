@@ -32,6 +32,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Ad whereSender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ad whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $title
+ * @property-read \App\Models\Company|null $Receiver
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Request[] $Requests
+ * @property-read int|null $requests_count
+ * @property-read \App\Models\User|null $Sender
+ * @property-read \App\Models\Category|null $category
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad whereTitle($value)
  */
 class Ad extends Model
 {
@@ -40,6 +47,18 @@ class Ad extends Model
     protected $fillable = [
         'title', 'sender', 'receiver', 'isCompany', 'description', 'category_id', 'max_budget', 'min_budget'
     ];
+	public function category(){
+		return $this->hasOne('App\Models\Category');
+	}
+	public function Sender(){
+		return $this->belongsTo(User::class, 'sender');
+	}
+	public function Receiver(){
+		return $this->hasOne(Company::class, 'receiver');
+	}
+	public function Requests(){
+		return $this->hasMany(Request::class, 'id', 'ad_id');
+	}
 
     protected $hidden = [
         'created_at', 'updated_at'

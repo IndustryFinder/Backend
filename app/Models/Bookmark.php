@@ -22,11 +22,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Bookmark whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bookmark whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Company|null $marked
+ * @property-read \App\Models\User|null $user
  */
 class Bookmark extends Model
 {
     use HasFactory;
-    public function User(){
-        $this->belongsTo(User::class, 'id', 'user_id');
-    }
+	protected $fillable = ['user_id', 'marked_id'];
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
+	public function marked()
+	{
+		return $this->belongsTo(Company::class);
+	}
 }

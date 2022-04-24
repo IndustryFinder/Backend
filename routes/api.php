@@ -25,8 +25,8 @@ Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class,
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout',[UserController::class,'Logout']);
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
-    Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
-    Route::delete('/user/bookmarks/del',[BookmarkController::class,'destroy']);
+    Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
+    Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
     Route::post('/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
     Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
     Route::post('Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);

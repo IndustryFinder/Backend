@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class RequestController extends Controller
 {
-    function makeRequest(Request $request) {
+    public function makeRequest(Request $request) {
         $validated = $request->validate([
             'ad_id' => 'required|exists:ads,id',
             'company_id' => 'required|exists:companies,id'
@@ -15,7 +15,7 @@ class RequestController extends Controller
         return response($instance, $instance ? 201 : 500);
     }
 
-    function Accept(Request $request) {
+    public function Accept(Request $request) {
         $validated = $request->validate([
             'id' => 'required|exists:requests,id'
         ]);
@@ -31,7 +31,7 @@ class RequestController extends Controller
         return response($req, 201);
     }
 
-    function Reject(Request $request) {
+    public function Reject(Request $request) {
         $validated = $request->validate([
             'id' => 'required|exists:requests,id'
         ]);

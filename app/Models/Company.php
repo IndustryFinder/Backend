@@ -34,6 +34,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Company whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Company whereWebsite($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Category|null $Category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Request[] $Requests
+ * @property-read int|null $requests_count
+ * @property-read \App\Models\User|null $User
  */
 class Company extends Model
 {
@@ -42,4 +46,16 @@ class Company extends Model
     protected $fillable = [
         'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id'
         ];
+	public function User()
+	{
+		return $this->belongsTo(User::class);
+	}
+	public function Category()
+	{
+		return $this->hasOne(Category::class);
+	}
+	public function Requests()
+	{
+		return $this->hasMany(Request::class);
+	}
 }

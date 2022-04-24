@@ -40,6 +40,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Bookmark[] $BookMarks
  * @property-read int|null $book_marks_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ad[] $Ad
+ * @property-read int|null $ad_count
+ * @property-read \App\Models\Company|null $Company
  */
 class User extends Authenticatable
 {
@@ -75,7 +78,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function BookMarks(){
-        return $this->hasMany(Bookmark::class);
-    }
+    public function Company(){
+		return $this->hasOne(Company::class);
+	}
+	public function Ad(){
+		return $this->hasMany(Ad::class);
+	}
+	public function BookMarks(){
+		return $this->hasMany(Bookmark::class);
+	}
+
 }
