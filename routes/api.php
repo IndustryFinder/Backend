@@ -24,6 +24,7 @@ Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class,
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout',[UserController::class,'Logout']);
+    Route::post('/user/changepass',[UserController::class,'ChangePass']);
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
     Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
     Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
