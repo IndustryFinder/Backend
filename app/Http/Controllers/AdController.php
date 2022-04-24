@@ -7,7 +7,27 @@ use Illuminate\Http\Request;
 
 class AdController extends Controller
 {
-    function makeAd(Request $request) {
+    /**
+     * @OA\Post    (
+     *     path="/Ad/makeAd",
+     *     tags={"Ad"},
+     *     operationId="1",
+     *     summary="create new advertisement",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
+    public function makeAd(Request $request) {
         $validated = $request->validate([
             'title' => 'required|min:5|max:50',
             'category_id' => 'required|exists:categories,id',
@@ -21,8 +41,27 @@ class AdController extends Controller
         $ad = Ad::create($validated);
         return response($ad, $ad ? 201 : 500);
     }
-
-    function Accept(Request $request) {
+    /**
+     * @OA\Put     (
+     *     path="/Ad/Accept",
+     *     tags={"Ad"},
+     *     operationId="2",
+     *     summary="Accepting advertisement",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
+    public function Accept(Request $request) {
         $validated = $request->validate([
             'ad_id' => 'required|exists:ads,id',
             'user_id' => 'required|exists:users,id'

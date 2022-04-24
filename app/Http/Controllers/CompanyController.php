@@ -12,6 +12,26 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Post(
+     *     path="/Company/Get",
+     *     tags={"Company"},
+     *     operationId="6",
+     *     summary="company index",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
     public function index(Request $request)
     {
         switch ($request['sort']) {
@@ -31,6 +51,26 @@ class CompanyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *     path="/Company/Add",
+     *     tags={"Company"},
+     *     operationId="7",
+     *     summary="Add company",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
      */
     public function store(Request $request)
     {
@@ -53,6 +93,26 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/Company/Get/{id}",
+     *     tags={"Company"},
+     *     operationId="8",
+     *     summary="Find Company By id",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
     public function show($id)
     {
         $company = Company::find($id);
@@ -65,6 +125,26 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Put (
+     *     path="/Company/Update/{id}",
+     *     tags={"Company"},
+     *     operationId="9",
+     *     summary="Update company",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -84,6 +164,26 @@ class CompanyController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete   (
+     *     path="/Company/Delete/{id}",
+     *     tags={"Company"},
+     *     operationId="10",
+     *     summary="Delete company",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
      */
     public function destroy($id)
     {
