@@ -1,0 +1,361 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/Ad/makeAd": {
+            "post": {
+                "tags": [
+                    "Ad"
+                ],
+                "summary": "create new advertisement",
+                "description": "",
+                "operationId": "addPet12",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Ad/Accept": {
+            "put": {
+                "tags": [
+                    "Ad"
+                ],
+                "summary": "Accepting advertisement",
+                "description": "",
+                "operationId": "addPet13",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/bookmarks": {
+            "get": {
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "Find Bookmark By id",
+                "description": "",
+                "operationId": "addPet17",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/bookmarks/add": {
+            "post": {
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "Add new Bookmark",
+                "description": "",
+                "operationId": "addPet14",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/bookmarks/del": {
+            "delete": {
+                "tags": [
+                    "Bookmark"
+                ],
+                "summary": "Delete Bookmark",
+                "description": "",
+                "operationId": "addPet15",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Company/Get": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "company index",
+                "description": "",
+                "operationId": "addPet7",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Company/Add": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Add company",
+                "description": "",
+                "operationId": "addPet8",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Company/Get/{id}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Find Company By id",
+                "description": "",
+                "operationId": "addPet9",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Company/Update/{id}": {
+            "put": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Update company",
+                "description": "",
+                "operationId": "addPet10",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Company/Delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Delete company",
+                "description": "",
+                "operationId": "addPet11",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Request/Add": {
+            "post": {
+                "tags": [
+                    "Request"
+                ],
+                "summary": "create a new request",
+                "description": "",
+                "operationId": "addPet",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Request/Accept": {
+            "put": {
+                "tags": [
+                    "Request"
+                ],
+                "summary": "Accept the fucking request and Reject other fucking requests",
+                "description": "",
+                "operationId": "addPet1",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/Request/Reject": {
+            "put": {
+                "tags": [
+                    "Request"
+                ],
+                "summary": "Reject the fucking request",
+                "description": "",
+                "operationId": "addPet2",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register new user",
+                "description": "",
+                "operationId": "addPet5",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register new user",
+                "description": "",
+                "operationId": "addPet3",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/logout": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logout from account",
+                "description": "",
+                "operationId": "addPet4",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        }
+    }
+}

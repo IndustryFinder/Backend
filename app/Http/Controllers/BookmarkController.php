@@ -15,6 +15,26 @@ class BookmarkController extends Controller
      * @param Request $request
      * @return Response
      */
+    /**
+     * @OA\Get   (
+     *     path="/user/bookmarks",
+     *     tags={"Bookmark"},
+     *     operationId="3",
+     *     summary="Find Bookmark By id",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
     public function index(Request $request)
     {
         $id=auth('sanctum')->user()->id;
@@ -26,6 +46,26 @@ class BookmarkController extends Controller
      *
      * @param Request $request
      * @return Response
+     */
+    /**
+     * @OA\Post   (
+     *     path="/user/bookmarks/add",
+     *     tags={"Bookmark"},
+     *     operationId="4",
+     *     summary="Add new Bookmark",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
      */
     public function store(Request $request)
     {
@@ -48,6 +88,26 @@ class BookmarkController extends Controller
      *
      * @param  int  $id
      * @return Response
+     */
+    /**
+     * @OA\Delete    (
+     *     path="/user/bookmarks/del",
+     *     tags={"Bookmark"},
+     *     operationId="5",
+     *     summary="Delete Bookmark",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
      */
     public function destroy($id)
     {
