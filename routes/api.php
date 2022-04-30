@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/user/register', [UserController::class,'Register']);
+Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/Company/Get', [\App\Http\Controllers\CompanyController::class, 'index']);
 Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class, 'show']);
@@ -25,6 +25,7 @@ Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class,
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout',[UserController::class,'Logout']);
     Route::post('/user/changepass',[UserController::class,'ChangePass']);
+    Route::post('/user/update',[UserController::class,'update']);
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
     Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
     Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);

@@ -12,7 +12,7 @@
                 ],
                 "summary": "create new advertisement",
                 "description": "",
-                "operationId": "addPet12",
+                "operationId": "1",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -34,7 +34,7 @@
                 ],
                 "summary": "Accepting advertisement",
                 "description": "",
-                "operationId": "addPet13",
+                "operationId": "2",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -56,7 +56,7 @@
                 ],
                 "summary": "Find Bookmark By id",
                 "description": "",
-                "operationId": "addPet17",
+                "operationId": "3",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -78,7 +78,7 @@
                 ],
                 "summary": "Add new Bookmark",
                 "description": "",
-                "operationId": "addPet14",
+                "operationId": "4",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -100,7 +100,7 @@
                 ],
                 "summary": "Delete Bookmark",
                 "description": "",
-                "operationId": "addPet15",
+                "operationId": "5",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -122,7 +122,7 @@
                 ],
                 "summary": "company index",
                 "description": "",
-                "operationId": "addPet7",
+                "operationId": "6",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -144,7 +144,7 @@
                 ],
                 "summary": "Add company",
                 "description": "",
-                "operationId": "addPet8",
+                "operationId": "7",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -166,7 +166,7 @@
                 ],
                 "summary": "Find Company By id",
                 "description": "",
-                "operationId": "addPet9",
+                "operationId": "8",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -188,7 +188,7 @@
                 ],
                 "summary": "Update company",
                 "description": "",
-                "operationId": "addPet10",
+                "operationId": "9",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -210,7 +210,7 @@
                 ],
                 "summary": "Delete company",
                 "description": "",
-                "operationId": "addPet11",
+                "operationId": "10",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -232,7 +232,7 @@
                 ],
                 "summary": "create a new request",
                 "description": "",
-                "operationId": "addPet",
+                "operationId": "11",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -254,7 +254,7 @@
                 ],
                 "summary": "Accept the fucking request and Reject other fucking requests",
                 "description": "",
-                "operationId": "addPet1",
+                "operationId": "12",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -276,7 +276,7 @@
                 ],
                 "summary": "Reject the fucking request",
                 "description": "",
-                "operationId": "addPet2",
+                "operationId": "13",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -298,7 +298,7 @@
                 ],
                 "summary": "Register new user",
                 "description": "",
-                "operationId": "addPet5",
+                "operationId": "14",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -320,7 +320,7 @@
                 ],
                 "summary": "Register new user",
                 "description": "",
-                "operationId": "addPet3",
+                "operationId": "15",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -342,7 +342,7 @@
                 ],
                 "summary": "Logout from account",
                 "description": "",
-                "operationId": "addPet4",
+                "operationId": "16",
                 "requestBody": {
                     "description": "Pet object that needs to be added to the store",
                     "required": true,
@@ -351,6 +351,31 @@
                     }
                 },
                 "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "description": "",
+                "operationId": "25fa6e59311f61c2be4cca80c602dde3",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
                     "405": {
                         "description": "Invalid input"
                     }
