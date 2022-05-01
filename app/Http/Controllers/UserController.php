@@ -11,6 +11,9 @@ use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+	public function loggedInUser(){
+		return response()->json(auth()->user());
+	}
     /**
      * @OA\Post(
      *     path="/user/register",

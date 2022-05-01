@@ -24,18 +24,21 @@ Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class,
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout',[UserController::class,'Logout']);
+    Route::get('/user/this',[UserController::class,'loggedInUser']);
     Route::post('/user/changepass',[UserController::class,'ChangePass']);
     Route::post('/user/update',[UserController::class,'update']);
     Route::get('/user/bookmarks',[BookmarkController::class,'index']);
     Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
     Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
-    Route::post('/Ad/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
-    Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
-    Route::put('/Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
-    Route::delete('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
-    Route::post('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
-    Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
-    Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
-    Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
+    Route::post('/ad/makead', [\App\Http\Controllers\AdController::class, 'makeAd']);
+    Route::post('/company/add', [\App\Http\Controllers\CompanyController::class, 'store']);
+    Route::post('/company/add', [\App\Http\Controllers\CompanyController::class, 'store']);
+    Route::post('/company/add', [\App\Http\Controllers\CompanyController::class, 'store']);
+    Route::post('/company/update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
+    Route::delete('/company/delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
+    Route::post('/ad/accept', [\App\Http\Controllers\AdController::class, 'Accept']);
+    Route::post('/request/add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
+    Route::post('/request/accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
+    Route::post('/request/reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
 
 });
