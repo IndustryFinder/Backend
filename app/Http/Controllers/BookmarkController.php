@@ -18,7 +18,7 @@ class BookmarkController extends Controller
      * @OA\Get   (
      *     path="/user/bookmarks",
      *     tags={"Bookmark"},
-     *     operationId="3",
+     *     operationId="4",
      *     summary="Find Bookmark By id",
      *     description="",
      *     @OA\RequestBody(
@@ -54,7 +54,7 @@ class BookmarkController extends Controller
      * @OA\Post   (
      *     path="/user/bookmarks/add",
      *     tags={"Bookmark"},
-     *     operationId="4",
+     *     operationId="5",
      *     summary="Add new Bookmark",
      *     description="",
      *     @OA\RequestBody(
@@ -89,7 +89,7 @@ class BookmarkController extends Controller
      * @OA\Delete    (
      *     path="/user/bookmarks/del",
      *     tags={"Bookmark"},
-     *     operationId="5",
+     *     operationId="6",
      *     summary="Delete Bookmark",
      *     description="",
      *     @OA\RequestBody(

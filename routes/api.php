@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
     Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
     Route::post('/Ad/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
+    Route::get('/Ad/GetByUser/{User_id}', [\App\Http\Controllers\AdController::class, 'AdsByUser']);
     Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
     Route::put('/Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
     Route::delete('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
@@ -36,5 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
     Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
     Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
+    Route::get('/Request/GetByUser/{User_id}', [\App\Http\Controllers\RequestController::class, 'RequestsByUser']);
+    Route::get('/Request/GetByAd/{Ad_id}', [\App\Http\Controllers\RequestController::class, 'RequestsByAd']);
 
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -10,7 +12,7 @@ class RequestController extends Controller
      * @OA\Post(
      *     path="/Request/Add",
      *     tags={"Request"},
-     *     operationId="11",
+     *     operationId="12",
      *     summary="create a new request",
      *     description="",
      *     @OA\RequestBody(
@@ -38,7 +40,7 @@ class RequestController extends Controller
      * @OA\Put (
      *     path="/Request/Accept",
      *     tags={"Request"},
-     *     operationId="12",
+     *     operationId="13",
      *     summary="Accept the fucking request and Reject other fucking requests",
      *     description="",
      *     @OA\RequestBody(
@@ -73,7 +75,7 @@ class RequestController extends Controller
      * @OA\Put (
      *     path="/Request/Reject",
      *     tags={"Request"},
-     *     operationId="13",
+     *     operationId="14",
      *     summary="Reject the fucking request",
      *     description="",
      *     @OA\RequestBody(
@@ -98,6 +100,61 @@ class RequestController extends Controller
         $req->status = 'rejected';
         $req->save();
         return response($req, 201);
+    }
+    /**
+     * @OA\Get  (
+     *     path="/Request/GetByUser/{User_id}",
+     *     tags={"Request"},
+     *     operationId="15",
+     *     summary="Return List of Requests For User's Ads",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
+    public function RequestsByUser($id)
+    {
+        $Ads = Ad::all()->where('sender', '=', $id);
+        $requests = collect();
+        foreach($Ads as $A){
+            $requests->push(\App\Models\Request::all()->where('ad_id','=',$A->id));
+        }
+        return response($requests, 200);
+    }
+
+    /**
+     * @OA\Get  (
+     *     path="/Request/GetByAd/{Ad_id}",
+     *     tags={"Request"},
+     *     operationId="16",
+     *     summary="Return List of Requests For specific Ad",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
+    public function RequestsByAd($id)
+    {
+        $requests= \App\Models\Request::all()->where('ad_id','=',$id);
+        return response($requests, 200);
     }
 
 }

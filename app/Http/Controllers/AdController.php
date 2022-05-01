@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdController extends Controller
@@ -70,5 +71,30 @@ class AdController extends Controller
         $ad->receiver = $request['user_id'];
         $ad->save();
         return response($ad, 201);
+    }
+    /**
+     * @OA\Get      (
+     *     path="/Ad/GetByUser/{User_id}",
+     *     tags={"Ad"},
+     *     operationId="3",
+     *     summary="Return List of Ads for specific User",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Pet object that needs to be added to the store",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     ),
+     * )
+     */
+    public function AdsByUser($id)
+    {
+        $result = Ad::all()->where('sender','=',$id);
+        return response($result, 200);
     }
 }

@@ -13,7 +13,7 @@ class UserController extends Controller
      * @OA\Post(
      *     path="/user/register",
      *     tags={"User"},
-     *     operationId="14",
+     *     operationId="17",
      *     summary="Register new user",
      *     description="",
      *     @OA\RequestBody(
@@ -48,7 +48,7 @@ class UserController extends Controller
      * @OA\Post(
      *     path="/user/login",
      *     tags={"User"},
-     *     operationId="15",
+     *     operationId="18",
      *     summary="Register new user",
      *     description="",
      *     @OA\RequestBody(
@@ -83,7 +83,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/user/logout",
      *     tags={"User"},
-     *     operationId="16",
+     *     operationId="19",
      *     summary="Logout from account",
      *     description="",
      *     @OA\RequestBody(

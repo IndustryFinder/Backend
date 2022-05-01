@@ -16,7 +16,7 @@ class CompanyController extends Controller
      * @OA\Post(
      *     path="/Company/Get",
      *     tags={"Company"},
-     *     operationId="6",
+     *     operationId="7",
      *     summary="company index",
      *     description="",
      *     @OA\RequestBody(
@@ -56,7 +56,7 @@ class CompanyController extends Controller
      * @OA\Post(
      *     path="/Company/Add",
      *     tags={"Company"},
-     *     operationId="7",
+     *     operationId="8",
      *     summary="Add company",
      *     description="",
      *     @OA\RequestBody(
@@ -97,7 +97,7 @@ class CompanyController extends Controller
      * @OA\Get(
      *     path="/Company/Get/{id}",
      *     tags={"Company"},
-     *     operationId="8",
+     *     operationId="9",
      *     summary="Find Company By id",
      *     description="",
      *     @OA\RequestBody(
@@ -130,7 +130,7 @@ class CompanyController extends Controller
      * @OA\Put (
      *     path="/Company/Update/{id}",
      *     tags={"Company"},
-     *     operationId="9",
+     *     operationId="10",
      *     summary="Update company",
      *     description="",
      *     @OA\RequestBody(
@@ -169,7 +169,7 @@ class CompanyController extends Controller
      * @OA\Delete   (
      *     path="/Company/Delete/{id}",
      *     tags={"Company"},
-     *     operationId="10",
+     *     operationId="11",
      *     summary="Delete company",
      *     description="",
      *     @OA\RequestBody(
