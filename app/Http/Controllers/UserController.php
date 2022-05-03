@@ -14,26 +14,7 @@ class UserController extends Controller
 	public function loggedInUser(){
 		return response()->json(auth()->user());
 	}
-    /**
-     * @OA\Post(
-     *     path="/user/register",
-     *     tags={"User"},
-     *     operationId="14",
-     *     summary="Register new user",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
 	public function Register(Request $request)
 	{
 		$validated=$request->validate([
@@ -50,26 +31,6 @@ class UserController extends Controller
 		return response(['user'=>$user,'token'=>$token],201);
 	}
 
-    /**
-     * @OA\Post(
-     *     path="/user/login",
-     *     tags={"User"},
-     *     operationId="15",
-     *     summary="Register new user",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
     public function Login(Request $request){
         $validated=$request->validate([
                 'email' => 'required|email:rfc|string',
@@ -85,31 +46,13 @@ class UserController extends Controller
             return response(['message'=>'Unauthorized'], 401);
         }
     }
-    /**
-     * @OA\Get(
-     *     path="/user/logout",
-     *     tags={"User"},
-     *     operationId="16",
-     *     summary="Logout from account",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
     public function Logout(){
         auth()->user()->tokens()->delete();
         return response(['message'=>'Logged Out']);
     }
-    public function ChangePass(Request $request){
+
+	public function ChangePass(Request $request){
 		$validated=$request->validate([
 			'password' => 'required',
 			'new_password' => 'required|min:8|confirmed',
@@ -126,38 +69,6 @@ class UserController extends Controller
 		}
 	}
 
-	/**
-	 * @OA\Post (
-	 *     path="/user/update",
-	 *     tags={"User"},
-	 *     summary="Update user",
-	 *     description="",
-	 *     @OA\RequestBody(
-	 *         description="Pet object that needs to be added to the store",
-	 *         required=true,
-	 *         @OA\MediaType(
-	 *             mediaType="application/json",
-	 *         ),
-	 *       @OA\Parameter (
-	 *              name="name",
-	 *          ),
-	 *       @OA\Parameter (
-	 *             name="phone",
-	 *         ),
-	 *     @OA\Parameter (
-	 *          name="logo",
-	 *       ),
-	 *     ),
-	 *     @OA\Response  (
-	 *        response=200,
-	 *        description="successful operation",
-	 *     ),
-	 *     @OA\Response(
-	 *         response=405,
-	 *         description="Invalid input",
-	 *     ),
-	 * )
-	 */
 	public function update(Request $request){
 		$validated=$request->validate([
 				'name' => 'required|min:3|string',

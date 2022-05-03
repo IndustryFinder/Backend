@@ -43,6 +43,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ad[] $Ad
  * @property-read int|null $ad_count
  * @property-read \App\Models\Company|null $Company
+ * @property string|null $phone
+ * @property string|null $avatar
+ * @property int $is_active
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  */
 class User extends Authenticatable
 {

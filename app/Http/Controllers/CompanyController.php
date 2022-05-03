@@ -8,31 +8,7 @@ use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * @OA\Post(
-     *     path="/Company/Get",
-     *     tags={"Company"},
-     *     operationId="6",
-     *     summary="company index",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
     public function index(Request $request)
     {
 	    $validated= $request->validate([
@@ -49,45 +25,21 @@ class CompanyController extends Controller
 			$company = Company::find($validated['user'])->get();
 			return response()->json($company);
 		}
+		$company = Company::all();
 		if ($validated['category']!=null){
-			$company = Company::where('category',$validated['category']);
+			$company = $company->where('category',$validated['category']);
 		}
 		if ($validated['text']!=null){
-			$company = Company::where('title','like','%'.$validated['text'].'%')
+			$company = $company->where('title','like','%'.$validated['text'].'%')
 				->orWhere('description','like','%'.$validated['text'].'%');
 		}
 		if ($company!=null){
 			$company = $company->where('is_active', 1)->get();
 			return response()->json($company);
 		}
-		return response(['message'=>'Parameter needed'],404);
+		return response()->json(['error'=>'not found'],404);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * @OA\Post(
-     *     path="/Company/Add",
-     *     tags={"Company"},
-     *     operationId="7",
-     *     summary="Add company",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -115,32 +67,6 @@ class CompanyController extends Controller
 		return response(['error'=>'Unauthorized'],401);
 	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * @OA\Get(
-     *     path="/Company/Get/{id}",
-     *     tags={"Company"},
-     *     operationId="8",
-     *     summary="Find Company By id",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
     public function show($id)
     {
         $company = Company::find($id);
@@ -148,33 +74,6 @@ class CompanyController extends Controller
         return response($company?:['message'=>'Not Found'],$company?200:404);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * @OA\Put (
-     *     path="/Company/Update/{id}",
-     *     tags={"Company"},
-     *     operationId="9",
-     *     summary="Update company",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -197,32 +96,6 @@ class CompanyController extends Controller
         return response(['message' => $company == 1 ? 'success' : 'failed'], $company == 1 ? 201 : 500);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /**
-     * @OA\Delete   (
-     *     path="/Company/Delete/{id}",
-     *     tags={"Company"},
-     *     operationId="10",
-     *     summary="Delete company",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
     public function destroy($id)
     {
         $result = Company::find($id)->update(['is_active' => 0]);
