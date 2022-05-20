@@ -22,7 +22,10 @@ class CreateCompaniesTable extends Migration
             $table->string('user_id');
             $table->string('logo')->nullable();
             $table->string('description')->nullable();
+            $table->string('verification_file')->nullable();
             $table->string('website')->nullable();
+			$table->boolean('is_verified')->default(0);
+			$table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

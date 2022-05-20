@@ -44,7 +44,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id'
+        'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id', 'is_active', 'is_verified', 'verification_file'
         ];
 	public function User()
 	{

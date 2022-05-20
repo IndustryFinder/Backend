@@ -45,7 +45,7 @@ class Ad extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'sender', 'receiver', 'isCompany', 'description', 'category_id', 'max_budget', 'min_budget'
+        'title', 'sender', 'receiver', 'isCompany', 'description', 'category_id', 'max_budget', 'min_budget', 'is_active'
     ];
 	public function category(){
 		return $this->hasOne('App\Models\Category');

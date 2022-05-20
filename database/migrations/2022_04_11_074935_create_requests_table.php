@@ -17,6 +17,7 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->integer('ad_id');
             $table->integer('company_id');
+			$table->text('message');
             $table->enum('status',['pending','accepted','rejected'])->default('pending');
             $table->timestamps();
         });
