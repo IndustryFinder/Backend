@@ -4,157 +4,81 @@ namespace App\Http\Controllers;
 
 use App\Models\Ad;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Models\Request as RequestModel;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class RequestController extends Controller
 {
-    /**
-     * @OA\Post(
-     *     path="/Request/Add",
-     *     tags={"Request"},
-     *     operationId="12",
-     *     summary="create a new request",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
      public function makeRequest(Request $request) {
         $validated = $request->validate([
             'ad_id' => 'required|exists:ads,id',
-            'company_id' => 'required|exists:companies,id'
+            'company_id' => 'required|exists:companies,id',
+	        'message' => 'required|string',
         ]);
-        $instance = \App\Models\Request::create($validated);
-        return response($instance, $instance ? 201 : 500);
+		$user=User::find(auth('sanctum')->user()->id);
+		if ($validated['company_id'] == $user->Company->id) {
+			$instance=RequestModel::create($validated);
+			return response($instance, $instance ? 201 : 500);
+		}
+		return response(['message' => 'unauthorized'], 401);
     }
-    /**
-     * @OA\Put (
-     *     path="/Request/Accept",
-     *     tags={"Request"},
-     *     operationId="13",
-     *     summary="Accept the fucking request and Reject other fucking requests",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
-    public function Accept(Request $request) {
-        $validated = $request->validate([
-            'id' => 'required|exists:requests,id'
-        ]);
 
-        $req = \App\Models\Request::find($request['id']);
-        $otherReqs = \App\Models\Request::all()->where('ad_id', '=', $req->ad_id);
-        foreach ($otherReqs as $x) {
-            $x->status = 'rejected';
-            $x->save();
+    public function Accept($id) {
+		$instance=RequestModel::find($id);
+		if ($instance) {
+			$otherReqs=RequestModel::all()->where('ad_id',$instance->id);
+			foreach ($otherReqs as $req) {
+				$req->update(['status'=>'rejected']);
+			}
+			$instance->update(['status'=>'accepted']);
+			return response($instance,201);
+		}
+		return response(['message'=>'not found'],404);
+    }
+
+    public function Reject($id) {
+		$instance=RequestModel::find($id);
+        if ($instance) {
+	        $instance->status='rejected';
+	        $instance->save();
+	        return response($instance,201);
         }
-        $req->status = 'accepted';
-        $req->save();
-        return response($req, 201);
+		return response(['message'=>'not found'],404);
     }
-    /**
-     * @OA\Put (
-     *     path="/Request/Reject",
-     *     tags={"Request"},
-     *     operationId="14",
-     *     summary="Reject the fucking request",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
-    public function Reject(Request $request) {
-        $validated = $request->validate([
-            'id' => 'required|exists:requests,id'
-        ]);
 
-        $req = \App\Models\Request::find($request['id']);
-        $req->status = 'rejected';
-        $req->save();
-        return response($req, 201);
-    }
-    /**
-     * @OA\Get  (
-     *     path="/Request/GetByUser/{User_id}",
-     *     tags={"Request"},
-     *     operationId="15",
-     *     summary="Return List of Requests For User's Ads",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
-    public function RequestsByUser($id)
-    {
-        $Ads = Ad::all()->where('sender', '=', $id);
-        $requests = collect();
-        foreach($Ads as $A){
-            $requests->push(\App\Models\Request::all()->where('ad_id','=',$A->id));
+	public function Destroy($id) {
+		$req = RequestModel::find($id);
+		if ($req) {
+			if ($req->company->User->id == auth('sanctum')->user()->id) {
+				$req->delete();
+				return response($req,201);
+			}
+			return response('unauthorized',401);
+		}
+		return response('not found',404);
+	}
+
+    public function RequestsByAd($id){
+        $result = Ad::find($id)->Requests;
+        foreach ($result as $res){
+            $res['company'] = Company::find($res->company_id);
         }
-        return response($requests, 200);
+        return response($result, 200);
     }
 
-    /**
-     * @OA\Get  (
-     *     path="/Request/GetByAd/{Ad_id}",
-     *     tags={"Request"},
-     *     operationId="16",
-     *     summary="Return List of Requests For specific Ad",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
-    public function RequestsByAd($id)
-    {
-        $requests= \App\Models\Request::all()->where('ad_id','=',$id);
-        return response($requests, 200);
+    public  function RequestsByUser($id){
+         $result= User::find($id)->Ad;
+         foreach ($result as $r){
+             $r['requests']=$r->Requests;
+         }
+         foreach ($result as $r){
+             foreach ($r['requests'] as $req){
+                 $req['company'] = Company::find($req->company_id);
+             }
+         }
+         return response($result,200);
     }
-
 }
