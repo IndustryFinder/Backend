@@ -32,7 +32,7 @@ class Request extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ad_id', 'company_id', 'status'
+        'ad_id', 'company_id', 'status', 'message'
     ];
 
     protected $hidden = [

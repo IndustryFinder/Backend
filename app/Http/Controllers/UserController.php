@@ -5,65 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\facades;
+use Intervention\Image\Facades\Image;
 
 
 class UserController extends Controller
 {
-    /**
-     * @OA\Post(
-     *     path="/user/register",
-     *     tags={"User"},
-     *     operationId="17",
-     *     summary="Register new user",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
-    public function Register(Request $request){
-        $validated=$request->validate([
-                'name' => 'required|min:3|string',
-                'email' => 'required|email:rfc|unique:users,email|string',
-                'password' => 'required|min:8|confirmed',
-            ]
-        );
 
-        $validated['password']=bcrypt($validated['password']);
-        $validated['role']='user';
-        $user = User::create($validated);
-        $token = $user->createToken('token')->plainTextToken;
-        return response(['user' => $user, 'token' => $token],201);
-    }
+	public function loggedInUser(){
+		return response()->json(auth()->user());
+	}
 
-    /**
-     * @OA\Post(
-     *     path="/user/login",
-     *     tags={"User"},
-     *     operationId="18",
-     *     summary="Register new user",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+	public function Register(Request $request)
+	{
+		$validated=$request->validate([
+				'name'=>'required|min:3|string',
+				'email'=>'required|email:rfc|unique:users,email|string',
+				'password'=>'required|min:8|confirmed',
+			]
+		);
+
+		$validated['password']=bcrypt($validated['password']);
+		$validated['role']    ='user';
+		$user                 =User::create($validated);
+		$token                =$user->createToken('token')->plainTextToken;
+		return response(['user'=>$user,'token'=>$token],201);
+	}
+
+
     public function Login(Request $request){
         $validated=$request->validate([
                 'email' => 'required|email:rfc|string',
@@ -79,38 +48,46 @@ class UserController extends Controller
             return response(['message'=>'Unauthorized'], 401);
         }
     }
-    /**
-     * @OA\Get(
-     *     path="/user/logout",
-     *     tags={"User"},
-     *     operationId="19",
-     *     summary="Logout from account",
-     *     description="",
-     *     @OA\RequestBody(
-     *         description="Pet object that needs to be added to the store",
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input",
-     *     ),
-     * )
-     */
+
     public function Logout(){
         auth()->user()->tokens()->delete();
         return response(['message'=>'Logged Out']);
     }
-    public function ChangePass(Request $request){
+
+	public function ChangePass(Request $request){
 		$validated=$request->validate([
-				'password' => 'required|min:8|confirmed',
+			'password' => 'required',
+			'new_password' => 'required|min:8|confirmed',
 			]
 		);
 		$user=auth()->user();
-		$user->password=bcrypt($validated['password']);
+		if (Hash::check($validated['password'],$user->password)) {
+			$user->password=bcrypt($validated['new_password']);
+			$user->save();
+			return response(['message'=>'Password Changed']);
+		}
+		else{
+			return response(['message'=>'Unauthorized'], 401);
+		}
+	}
+
+	public function update(Request $request){
+		$validated=$request->validate([
+				'name' => 'required|min:3|string',
+				'phone' => 'required|min:10|string',
+				'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			]
+		);
+		$user=auth()->user();
+		$user->name=$validated['name'];
+		$user->phone=$validated['phone'];
+		if($request->hasFile('avatar')){
+			$avatar=$request->file('avatar');
+			$filename=uniqid().'.'.$avatar->getClientOriginalExtension();
+			Image::make($avatar)->resize(300,300)->save(public_path('/storage/avatars/'.$filename));
+			$user->avatar=$filename;
+		}
 		$user->save();
-		return response(['message'=>'Password Changed']);
+		return response(['user'=>$user]);
 	}
 }

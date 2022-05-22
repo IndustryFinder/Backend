@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Ad;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Request as RequestModel;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
@@ -24,6 +26,7 @@ class RequestController extends Controller
 			return response($instance, $instance ? 201 : 500);
 		}
 		return response(['message' => 'unauthorized'], 401);
+
     }
 
     public function Accept($id) {
@@ -80,5 +83,5 @@ class RequestController extends Controller
              }
          }
          return response($result,200);
-    }
+    }    
 }
