@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Ad;
+use App\Models\User;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Request as RequestModel;
@@ -22,6 +26,7 @@ class RequestController extends Controller
 			return response($instance, $instance ? 201 : 500);
 		}
 		return response(['message' => 'unauthorized'], 401);
+
     }
 
     public function Accept($id) {
@@ -58,4 +63,25 @@ class RequestController extends Controller
 		}
 		return response('not found',404);
 	}
+
+    public function RequestsByAd($id){
+        $result = Ad::find($id)->Requests;
+        foreach ($result as $res){
+            $res['company'] = Company::find($res->company_id);
+        }
+        return response($result, 200);
+    }
+
+    public  function RequestsByUser($id){
+         $result= User::find($id)->Ad;
+         foreach ($result as $r){
+             $r['requests']=$r->Requests;
+         }
+         foreach ($result as $r){
+             foreach ($r['requests'] as $req){
+                 $req['company'] = Company::find($req->company_id);
+             }
+         }
+         return response($result,200);
+    }    
 }

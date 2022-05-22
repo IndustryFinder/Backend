@@ -32,6 +32,7 @@ class BookmarkController extends Controller
         return response(['message' => 'success'], 201);
     }
 
+
     public function destroy($id)
     {
         $result = Bookmark::find($id);

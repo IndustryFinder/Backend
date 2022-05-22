@@ -58,4 +58,8 @@ class Company extends Model
 	{
 		return $this->hasMany(Request::class);
 	}
+    public function Ads()
+    {
+        return $this->hasMany(Ad::class, 'receiver', 'id');
+    }
 }

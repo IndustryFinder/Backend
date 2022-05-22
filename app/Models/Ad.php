@@ -57,7 +57,7 @@ class Ad extends Model
 		return $this->hasOne(Company::class, 'receiver');
 	}
 	public function Requests(){
-		return $this->hasMany(Request::class, 'id', 'ad_id');
+		return $this->hasMany(Request::class, 'ad_id', 'id');
 	}
 
     protected $hidden = [

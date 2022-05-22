@@ -11,6 +11,7 @@ use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+
 	public function loggedInUser(){
 		return response()->json(auth()->user());
 	}
@@ -30,6 +31,7 @@ class UserController extends Controller
 		$token                =$user->createToken('token')->plainTextToken;
 		return response(['user'=>$user,'token'=>$token],201);
 	}
+
 
     public function Login(Request $request){
         $validated=$request->validate([

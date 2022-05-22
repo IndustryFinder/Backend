@@ -88,7 +88,7 @@ class User extends Authenticatable
 		return $this->hasOne(Company::class);
 	}
 	public function Ad(){
-		return $this->hasMany(Ad::class);
+		return $this->hasMany(Ad::class, 'sender', 'id');
 	}
 	public function BookMarks(){
 		return $this->hasMany(Bookmark::class);

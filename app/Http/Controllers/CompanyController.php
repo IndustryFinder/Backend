@@ -40,6 +40,7 @@ class CompanyController extends Controller
 		return response()->json(['error'=>'not found'],404);
     }
 
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -67,12 +68,14 @@ class CompanyController extends Controller
 		return response(['error'=>'Unauthorized'],401);
 	}
 
+
     public function show($id)
     {
         $company = Company::find($id);
 		$company=$company->is_active ? $company : null;
         return response($company?:['message'=>'Not Found'],$company?200:404);
     }
+
 
     public function update(Request $request, $id)
     {
@@ -95,6 +98,7 @@ class CompanyController extends Controller
         $company = Company::find($id)->update($validated);
         return response(['message' => $company == 1 ? 'success' : 'failed'], $company == 1 ? 201 : 500);
     }
+
 
     public function destroy($id)
     {

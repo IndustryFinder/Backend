@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdController extends Controller
@@ -70,6 +71,7 @@ class AdController extends Controller
         $ad->save();
         return response($ad, 201);
     }
+
 
 	public function destroy($id){
 		$ad=Ad::find($id);

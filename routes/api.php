@@ -7,6 +7,7 @@ use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AdController;
 use \App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/request/add', [RequestController::class, 'makeRequest']);
     Route::get('/request/accept/{id}', [RequestController::class, 'Accept']);
     Route::get('/request/reject/{id}', [RequestController::class, 'Reject']);
+    Route::get('/Request/GetByUser/{User_id}', [RequestController::class, 'RequestsByUser']);
+    Route::get('/Request/GetByAd/{Ad_id}', [RequestController::class, 'RequestsByAd']);
     Route::delete('/request/del/{id}', [RequestController::class, 'Destroy']);
 });
