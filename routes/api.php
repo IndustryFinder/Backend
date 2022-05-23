@@ -36,5 +36,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
     Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
     Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
-
+    Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
+    Route::delete('/Comment/Delete/{id}', [\App\Http\Controllers\CommentController::class, 'delete']);
+    Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
+    Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
+    Route::get('/Comment/getAvgRate/{id}', [\App\Http\Controllers\CommentController::class, 'avgRating']);
 });

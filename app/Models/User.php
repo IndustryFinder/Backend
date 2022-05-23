@@ -43,6 +43,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ad[] $Ad
  * @property-read int|null $ad_count
  * @property-read \App\Models\Company|null $Company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $Comment
+ * @property-read int|null $comment_count
  */
 class User extends Authenticatable
 {
@@ -88,4 +90,7 @@ class User extends Authenticatable
 		return $this->hasMany(Bookmark::class);
 	}
 
+    public function Comment() {
+        return $this->hasMany(Comment::class);
+    }
 }
