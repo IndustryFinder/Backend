@@ -23,7 +23,8 @@ use App\Http\Controllers;
 Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
-Route::get('/ad/search', [AdController::class, 'index']);
+Route::post('/ad/search', [AdController::class, 'index']);
+Route::get('/categories', [UserController::class, 'categories']);
 Route::post('/company/show/{id}', [CompanyController::class, 'show']);
 
 //protected Routes

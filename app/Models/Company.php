@@ -38,6 +38,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Request[] $Requests
  * @property-read int|null $requests_count
  * @property-read \App\Models\User|null $User
+ * @property string|null $verification_file
+ * @property int $is_verified
+ * @property int $is_active
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereIsVerified($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereVerificationFile($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $Comment
  * @property-read int|null $comment_count
  */

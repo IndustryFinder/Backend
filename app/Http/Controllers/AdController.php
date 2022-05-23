@@ -11,12 +11,19 @@ class AdController extends Controller
 	public function index(Request $request){
 		$validated=$request->validate([
 			'id'=>'integer',
-			'category'=>'integer',
+			'category'=>'numeric',
 			'isCompany'=>'boolean',
 			'sender'=>'integer',
 			'receiver'=>'integer',
-			'text'=>'string',
+			'text'=>'string|nullable',
 		]);
+		if (isset($validated['receiver'])){
+			$ads=Ad::where('receiver',$validated['receiver'])->get();
+			if ($ads==null){
+				return response()->json(['error'=>'Ad not found'],404);
+			}
+			return response()->json($ads);
+		}
 		if (isset($validated['id'])){
 			$ad=Ad::find($validated['id']);
 			if ($ad==null){
@@ -24,27 +31,40 @@ class AdController extends Controller
 			}
 			return response()->json($ad);
 		}
-		$ads=Ad::all();
 		if (isset($validated['category'])){
-			$ads=$ads->where('category',$validated['category'])->get();
+			$ads=Ad::where('category_id',$validated['category']);
 		}
 		if (isset($validated['isCompany'])){
-			if ($validated['isCompany']){
-				$ads=$ads->where('isCompany',true)->get();
-			}
+			if (isset($ads))
+				$ads=$ads->where('isCompany',$validated['isCompany']);
+			else
+				$ads=Ad::where('isCompany',$validated['isCompany']);
 		}
 		if (isset($validated['sender'])){
-			$ads=$ads->where('sender',$validated['sender']);
-		}
-		if (isset($validated['receiver'])){
-			$ads=$ads->where('receiver',$validated['receiver']);
+			if (isset($ads))
+				$ads=$ads->where('sender',$validated['sender']);
+			else
+				$ads=Ad::where('sender',$validated['sender']);
 		}
 		if (isset($validated['text'])){
-			$ads=$ads->where('title','like','%'.$validated['text'].'%')
-				->orWhere('description','like','%'.$validated['text'].'%');
+			if (isset($ads))
+				$ads=$ads->where('title',"like",'%'.$validated['text'].'%');
+			else
+				$ads=Ad::where('title','like','%'.$validated['text'].'%');
 		}
-		$ads=$ads->where('is_active',true)->get();
-		return response()->json($ads);
+		if (isset($ads))
+			$ads=$ads->where('is_active',true)->get();
+		else
+			$ads=Ad::where('is_active',true)->get();
+
+		if ($ads!=null){
+			foreach ($ads as $ad){
+				$ad->sender=$ad->Sender;
+				$ad->sender['company']=$ad->sender->Company;
+			}
+			return response()->json($ads);
+		}
+		return response()->json(['error'=>'Ad not found'],404);
 	}
 
     public function makeAd(Request $request) {
