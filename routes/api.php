@@ -52,4 +52,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/Request/GetByUser/{User_id}', [RequestController::class, 'RequestsByUser']);
     Route::get('/Request/GetByAd/{Ad_id}', [RequestController::class, 'RequestsByAd']);
     Route::delete('/request/del/{id}', [RequestController::class, 'Destroy']);
+  // Commit_&_rating
+    Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
+    Route::delete('/Comment/Delete/{id}', [\App\Http\Controllers\CommentController::class, 'delete']);
+    Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
+    Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
+    Route::get('/Comment/getAvgRate/{id}', [\App\Http\Controllers\CommentController::class, 'avgRating']);
 });

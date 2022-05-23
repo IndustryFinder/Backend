@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Request[] $Requests
  * @property-read int|null $requests_count
  * @property-read \App\Models\User|null $User
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $Comment
+ * @property-read int|null $comment_count
  */
 class Company extends Model
 {
@@ -58,6 +60,9 @@ class Company extends Model
 	{
 		return $this->hasMany(Request::class);
 	}
+    public function Comment() {
+        return $this->hasMany(Comment::class);
+    }
     public function Ads()
     {
         return $this->hasMany(Ad::class, 'receiver', 'id');
