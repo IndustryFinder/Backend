@@ -45,6 +45,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \App\Models\Company|null $Company
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $Comment
  * @property-read int|null $comment_count
+ * @property string|null $phone
+ * @property string|null $avatar
+ * @property int $is_active
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  */
 class User extends Authenticatable
 {
@@ -56,7 +62,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'phone', 'logo', 'is_active'
     ];
     protected $attributes=[
         'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null
@@ -84,7 +90,7 @@ class User extends Authenticatable
 		return $this->hasOne(Company::class);
 	}
 	public function Ad(){
-		return $this->hasMany(Ad::class);
+		return $this->hasMany(Ad::class, 'sender', 'id');
 	}
 	public function BookMarks(){
 		return $this->hasMany(Bookmark::class);

@@ -2,8 +2,12 @@
 
 use Illuminate\Http\Request;
 use \App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\AdController;
 use \App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,26 +20,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/user/register', [UserController::class,'Register']);
+Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
-Route::post('/Company/Get', [\App\Http\Controllers\CompanyController::class, 'index']);
-Route::get('/Company/Get/{id}', [\App\Http\Controllers\CompanyController::class, 'show']);
+Route::post('/company/search', [CompanyController::class, 'index']);
+Route::get('/ad/search', [AdController::class, 'index']);
+Route::post('/company/show/{id}', [CompanyController::class, 'show']);
 
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/user/logout',[UserController::class,'Logout']);
-    Route::post('/user/changepass',[UserController::class,'ChangePass']);
-    Route::get('/user/bookmarks',[BookmarkController::class,'index']);
-    Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
-    Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
-    Route::post('/Ad/makeAd', [\App\Http\Controllers\AdController::class, 'makeAd']);
-    Route::post('/Company/Add', [\App\Http\Controllers\CompanyController::class, 'store']);
-    Route::put('/Company/Update/{id}', [\App\Http\Controllers\CompanyController::class, 'update']);
-    Route::delete('/Company/Delete/{id}', [\App\Http\Controllers\CompanyController::class, 'destroy']);
-    Route::post('/Ad/Accept', [\App\Http\Controllers\AdController::class, 'Accept']);
-    Route::post('/Request/Add', [\App\Http\Controllers\RequestController::class, 'makeRequest']);
-    Route::post('/Request/Accept', [\App\Http\Controllers\RequestController::class, 'Accept']);
-    Route::post('/Request/Reject', [\App\Http\Controllers\RequestController::class, 'Reject']);
+	//*** User ***//
+	Route::get('/user/logout',[UserController::class,'Logout']);
+	Route::get('/user/this',[UserController::class,'loggedInUser']);
+	Route::post('/user/changepass',[UserController::class,'ChangePass']);
+	Route::post('/user/update',[UserController::class,'update']);
+	//*** Bookmark ***//
+	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
+	Route::get('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
+	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
+	//*** Ad ***//
+	Route::post('/ad/makead', [AdController::class, 'makeAd']);
+	Route::post('/ad/accept', [AdController::class, 'Accept']);
+	Route::delete('/ad/del/{id}', [AdController::class, 'destroy']);
+	//*** Company ***//
+	Route::post('/company/add', [CompanyController::class, 'store']);
+	Route::post('/company/update/{id}', [CompanyController::class, 'update']);
+	Route::delete('/company/delete/{id}', [CompanyController::class, 'destroy']);
+	//*** Request ***//
+    Route::post('/request/add', [RequestController::class, 'makeRequest']);
+    Route::get('/request/accept/{id}', [RequestController::class, 'Accept']);
+    Route::get('/request/reject/{id}', [RequestController::class, 'Reject']);
+    Route::get('/Request/GetByUser/{User_id}', [RequestController::class, 'RequestsByUser']);
+    Route::get('/Request/GetByAd/{Ad_id}', [RequestController::class, 'RequestsByAd']);
+    Route::delete('/request/del/{id}', [RequestController::class, 'Destroy']);
+  // Commit_&_rating
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{id}', [\App\Http\Controllers\CommentController::class, 'delete']);
     Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);

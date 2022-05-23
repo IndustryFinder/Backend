@@ -46,7 +46,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id'
+        'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id', 'is_active', 'is_verified', 'verification_file'
         ];
 	public function User()
 	{
@@ -60,8 +60,11 @@ class Company extends Model
 	{
 		return $this->hasMany(Request::class);
 	}
-
     public function Comment() {
         return $this->hasMany(Comment::class);
+    }
+    public function Ads()
+    {
+        return $this->hasMany(Ad::class, 'receiver', 'id');
     }
 }
