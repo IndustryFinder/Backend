@@ -53,16 +53,16 @@ class AdController extends Controller
 				$ads=Ad::where('title','like','%'.$validated['text'].'%');
 		}
 		if (isset($ads))
-			$ads=$ads->where('is_active',true)->get();
+			$ads=$ads->where('is_active',true)->paginate(6);
 		else
-			$ads=Ad::where('is_active',true)->get();
+			$ads=Ad::where('is_active',true)->paginate(6);
 
 		if ($ads!=null){
 			foreach ($ads as $ad){
 				$ad->sender=$ad->Sender;
 				$ad->sender['company']=$ad->sender->Company;
 			}
-			return response()->json($ads);
+			return response($ads);
 		}
 		return response()->json(['error'=>'Ad not found'],404);
 	}

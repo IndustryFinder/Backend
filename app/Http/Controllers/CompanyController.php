@@ -35,10 +35,10 @@ class CompanyController extends Controller
 				$company = Company::where('name','like','%'.$validated['text'].'%');
 		}
 		if (isset($company))
-			$company = $company->where('is_active', 1)->get();
+			$company = $company->where('is_active', 1)->paginate(6);
 		else
-			$company = Company::where('is_active', 1)->get();
-		return response()->json($company);
+			$company = Company::where('is_active', 1)->paginate(6);
+		return response($company);
     }
 
 
