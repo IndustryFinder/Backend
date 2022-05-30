@@ -74,10 +74,12 @@ class UserController extends Controller
 
 	public function update(Request $request){
 		$validated=$request->validate([
+
 				'name' => 'min:3|string',
 				'phone' => 'min:10|string',
 				'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 				'email' => 'email:rfc|string',
+
 			]
 		);
 		$user=auth()->user();
@@ -94,8 +96,22 @@ class UserController extends Controller
 		return response(['user'=>$user]);
 	}
 
+
+    public  function  TodoUpdate(Request $request){
+        $validated=$request->validate([
+                'todo' => 'required|string',
+            ]
+        );
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        $user->todo=$validated['todo'];
+        $user->save();
+        return response(['message'=>'Updated'],200);
+    }
+
 	public function Categories(){
 		$categories=Category::all();
 		return response(['categories'=>$categories]);
 	}
+
 }
