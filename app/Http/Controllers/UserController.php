@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\facades;
@@ -73,14 +74,18 @@ class UserController extends Controller
 
 	public function update(Request $request){
 		$validated=$request->validate([
-				'name' => 'required|min:3|string',
-				'phone' => 'required|min:10|string',
+
+				'name' => 'min:3|string',
+				'phone' => 'min:10|string',
 				'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+				'email' => 'email:rfc|string',
+
 			]
 		);
 		$user=auth()->user();
-		$user->name=$validated['name'];
-		$user->phone=$validated['phone'];
+		if (isset($validated['name'])) $user->name=$validated['name'];
+		if (isset($validated['phone'])) $user->phone=$validated['phone'];
+		if (isset($validated['email'])) $user->email=$validated['email'];
 		if($request->hasFile('avatar')){
 			$avatar=$request->file('avatar');
 			$filename=uniqid().'.'.$avatar->getClientOriginalExtension();
@@ -90,6 +95,7 @@ class UserController extends Controller
 		$user->save();
 		return response(['user'=>$user]);
 	}
+
 
     public  function  TodoUpdate(Request $request){
         $validated=$request->validate([
@@ -102,4 +108,10 @@ class UserController extends Controller
         $user->save();
         return response(['message'=>'Updated'],200);
     }
+
+	public function Categories(){
+		$categories=Category::all();
+		return response(['categories'=>$categories]);
+	}
+
 }

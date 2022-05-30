@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Models\Ad|null $ad
  * @property-read \App\Models\Company|null $company
+ * @property string $message
+ * @method static \Illuminate\Database\Eloquent\Builder|Request whereMessage($value)
  */
 class Request extends Model
 {

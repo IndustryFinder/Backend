@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\User|null $Sender
  * @property-read \App\Models\Category|null $category
  * @method static \Illuminate\Database\Eloquent\Builder|Ad whereTitle($value)
+ * @property int $is_active
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad whereIsActive($value)
  */
 class Ad extends Model
 {

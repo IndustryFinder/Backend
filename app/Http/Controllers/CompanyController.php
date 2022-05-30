@@ -14,30 +14,31 @@ class CompanyController extends Controller
 	    $validated= $request->validate([
 		    'id'=>'number',
 		    'user'=>'number',
-		    'category'=>'number',
-		    'text'=>'string',
+		    'category'=>'numeric',
+		    'text'=>'string|nullable',
 	    ]);
-		if ($validated['id']) {
-			$company = Company::find($validated['id'])->get();
+		if (isset($validated['id'])) {
+			$company = Company::find($validated['id']);
 			return response()->json($company);
 		}
-		if ($validated['id']) {
-			$company = Company::find($validated['user'])->get();
+		if (isset($validated['user'])) {
+			$company = Company::find($validated['user']);
 			return response()->json($company);
 		}
-		$company = Company::all();
-		if ($validated['category']!=null){
-			$company = $company->where('category',$validated['category']);
+		if (isset($validated['category'])){
+			$company = Company::where('category_id',$validated['category']);
 		}
-		if ($validated['text']!=null){
-			$company = $company->where('title','like','%'.$validated['text'].'%')
-				->orWhere('description','like','%'.$validated['text'].'%');
+		if (isset($validated['text'])){
+			if (isset($company))
+				$company = $company->where('name','like','%'.$validated['text'].'%');
+			else
+				$company = Company::where('name','like','%'.$validated['text'].'%');
 		}
-		if ($company!=null){
-			$company = $company->where('is_active', 1)->get();
-			return response()->json($company);
-		}
-		return response()->json(['error'=>'not found'],404);
+		if (isset($company))
+			$company = $company->where('is_active', 1)->paginate(6);
+		else
+			$company = Company::where('is_active', 1)->paginate(6);
+		return response($company);
     }
 
 
