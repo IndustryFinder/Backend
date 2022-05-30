@@ -75,7 +75,7 @@ class UserController extends Controller
 		$validated=$request->validate([
 				'name' => 'required|min:3|string',
 				'phone' => 'required|min:10|string',
-				'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+				'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 			]
 		);
 		$user=auth()->user();
@@ -90,4 +90,16 @@ class UserController extends Controller
 		$user->save();
 		return response(['user'=>$user]);
 	}
+
+    public  function  TodoUpdate(Request $request){
+        $validated=$request->validate([
+                'todo' => 'required|string',
+            ]
+        );
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        $user->todo=$validated['todo'];
+        $user->save();
+        return response(['message'=>'Updated'],200);
+    }
 }

@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use App\Models\User;
 use App\Models\Company;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Request as RequestModel;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
@@ -30,16 +29,16 @@ class RequestController extends Controller
     }
 
     public function Accept($id) {
-		$instance=RequestModel::find($id);
-		if ($instance) {
-			$otherReqs=RequestModel::all()->where('ad_id',$instance->id);
-			foreach ($otherReqs as $req) {
-				$req->update(['status'=>'rejected']);
-			}
-			$instance->update(['status'=>'accepted']);
-			return response($instance,201);
-		}
-		return response(['message'=>'not found'],404);
+        $instance=RequestModel::find($id);
+        if ($instance) {
+            $otherReqs=RequestModel::all()->where('ad_id',$instance->id);
+            foreach ($otherReqs as $req) {
+                $req->update(['status'=>'rejected']);
+            }
+            $instance->update(['status'=>'accepted']);
+            return response($instance,201);
+        }
+        return response(['message'=>'not found'],404);
     }
 
     public function Reject($id) {
@@ -83,5 +82,5 @@ class RequestController extends Controller
              }
          }
          return response($result,200);
-    }    
+    }
 }

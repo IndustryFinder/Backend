@@ -17,6 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string $role
+ * @property string $todo
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -60,10 +61,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'phone', 'logo', 'is_active'
+        'name', 'email', 'password', 'role', 'phone', 'logo', 'is_active','todo'
     ];
     protected $attributes=[
-        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null
+        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null
     ];
 
     /**

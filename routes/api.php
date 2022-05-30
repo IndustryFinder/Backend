@@ -25,6 +25,9 @@ Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::get('/ad/search', [AdController::class, 'index']);
 Route::post('/company/show/{id}', [CompanyController::class, 'show']);
+Route::get('/phpinfo', function() {
+    return phpinfo();
+});
 
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -33,6 +36,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/user/this',[UserController::class,'loggedInUser']);
 	Route::post('/user/changepass',[UserController::class,'ChangePass']);
 	Route::post('/user/update',[UserController::class,'update']);
+    Route::post('/user/Todoupdate',[UserController::class,'TodoUpdate']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::get('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
