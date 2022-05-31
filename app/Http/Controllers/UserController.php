@@ -78,7 +78,7 @@ class UserController extends Controller
 				'name' => 'min:3|string',
 				'phone' => 'min:10|string',
 				'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-				'email' => 'email:rfc|string',
+				'email' => 'email:rfc|string|unique:users,email',
 
 			]
 		);
