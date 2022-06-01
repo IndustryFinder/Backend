@@ -53,9 +53,9 @@ class AdController extends Controller
 				$ads=Ad::where('title','like','%'.$validated['text'].'%');
 		}
 		if (isset($ads))
-			$ads=$ads->where('is_active',true)->paginate(6);
+			$ads=$ads->where('is_active',true)->paginate(24);
 		else
-			$ads=Ad::where('is_active',true)->paginate(6);
+			$ads=Ad::where('is_active',true)->paginate(24);
 
 		if ($ads!=null){
 			foreach ($ads as $ad){

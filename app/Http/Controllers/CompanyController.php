@@ -35,9 +35,9 @@ class CompanyController extends Controller
 				$company = Company::where('name','like','%'.$validated['text'].'%');
 		}
 		if (isset($company))
-			$company = $company->where('is_active', 1)->paginate(6);
+			$company = $company->where('is_active', 1)->paginate(24);
 		else
-			$company = Company::where('is_active', 1)->paginate(6);
+			$company = Company::where('is_active', 1)->paginate(24);
 		return response($company);
     }
 
@@ -48,7 +48,7 @@ class CompanyController extends Controller
             'name' => 'required|min:5|max:20|alpha_num',
             'category_id' => 'required|exists:categories,id',
             'email' => 'required|email:rfc|unique:companies,email',
-            'phone' => 'required|digits_between:10,10',
+            'phone' => 'required|min:10',
             'description' => 'max:250',
             'website' => 'string|max:50',
 			'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
