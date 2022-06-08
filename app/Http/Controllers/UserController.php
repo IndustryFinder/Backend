@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -114,4 +115,22 @@ class UserController extends Controller
 		return response(['categories'=>$categories]);
 	}
 
+	public function fakeAdder(){
+		for ($i=1; $i<=123; $i++){
+			$user=new User();
+			$user->name='کاربر آزمایشی '. $i;
+			$user->password=bcrypt('12345678');
+			$user->email='testData'.$i.'@gmail.com';
+			$user->role='user';
+			$user->save();
+			echo $i;
+//			$company=new Company();
+//			$company->name='شرکت آزمایشی'.$i;
+//			$company->category_id=rand(9,20);
+//			$company->user_id=$i;
+//			$company->email='sample'.$i.'@outlook.com';
+//			$company->phone='0'.(9123456700+$i);
+//			$company->save();
+		}
+	}
 }

@@ -19,10 +19,11 @@ class CompanyController extends Controller
 	    ]);
 		if (isset($validated['id'])) {
 			$company = Company::find($validated['id']);
+			$company->user_id=$company->User;
 			return response()->json($company);
 		}
 		if (isset($validated['user'])) {
-			$company = Company::find($validated['user']);
+			$company = Company::whereUserId($validated['user']);
 			return response()->json($company);
 		}
 		if (isset($validated['category'])){
@@ -38,6 +39,9 @@ class CompanyController extends Controller
 			$company = $company->where('is_active', 1)->paginate(24);
 		else
 			$company = Company::where('is_active', 1)->paginate(24);
+		foreach ($company as $c){
+			$c->user_id=$c->User;
+		}
 		return response($company);
     }
 

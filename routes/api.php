@@ -19,7 +19,7 @@ use App\Http\Controllers;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/faker',[UserController::class, 'fakeAdder']);
 Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);

@@ -46,6 +46,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Company whereVerificationFile($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $Comment
  * @property-read int|null $comment_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ad[] $Ads
+ * @property-read int|null $ads_count
  */
 class Company extends Model
 {

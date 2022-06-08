@@ -22,6 +22,10 @@ class AdController extends Controller
 			if ($ads==null){
 				return response()->json(['error'=>'Ad not found'],404);
 			}
+			foreach ($ads as $ad){
+				$ad->sender=$ad->Sender;
+				$ad->sender['company']=$ad->sender->Company;
+			}
 			return response()->json($ads);
 		}
 		if (isset($validated['id'])){
@@ -29,6 +33,8 @@ class AdController extends Controller
 			if ($ad==null){
 				return response()->json(['error'=>'Ad not found'],404);
 			}
+			$ad->sender=$ad->Sender;
+			$ad->sender['company']=$ad->sender->Company;
 			return response()->json($ad);
 		}
 		if (isset($validated['category'])){
