@@ -21,6 +21,7 @@ class CreateAdsTable extends Migration
             $table->integer('sender');
             $table->integer('receiver')->nullable();
             $table->string('description');
+            $table->string('photo')->nullable();
             $table->integer('max_budget')->nullable();
             $table->integer('min_budget')->nullable();
 			$table->boolean('is_active')->default(true);

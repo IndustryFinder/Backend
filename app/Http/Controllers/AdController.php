@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class AdController extends Controller
 {
@@ -74,9 +75,17 @@ class AdController extends Controller
             'min_budget' => 'min:0',
             'max_budget' => 'number|min:1',
             'isCompany' => 'required',
-            'description' => 'required|min:10'
+            'description' => 'required|min:10',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 	    $validated['sender']=auth('sanctum')->user()->id;
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
+            $location=public_path('storage/AdPhoto'.$filename);
+            Image::make($image)->resize(300,300)->save($location);
+            $validated['photo']=$filename;
+        }
         $ad = Ad::create($validated);
         return response($ad, $ad ? 201 : 500);
     }
