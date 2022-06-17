@@ -26,6 +26,7 @@ class CreateCompaniesTable extends Migration
             $table->string('website')->nullable();
 			$table->boolean('is_verified')->default(0);
 			$table->boolean('is_active')->default(1);
+            $table->integer('ViewCount')->default(0);
             $table->timestamps();
         });
     }

@@ -25,6 +25,7 @@ class CreateAdsTable extends Migration
             $table->integer('max_budget')->nullable();
             $table->integer('min_budget')->nullable();
 			$table->boolean('is_active')->default(true);
+            $table->integer('ViewCount')->default(0);
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $max_budget
  * @property int $min_budget
  * @property string|null $photo
+ * @property int $ViewCount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Ad newModelQuery()
@@ -49,7 +50,11 @@ class Ad extends Model
 
     protected $fillable = [
         'title', 'sender', 'receiver', 'isCompany', 'description', 'category_id', 'max_budget', 'min_budget', 'is_active',
-        'photo'
+        'photo', 'ViewCount'
+    ];
+
+    protected $attributes=[
+        'ViewCount'=> 0
     ];
 	public function category(){
 		return $this->hasOne('App\Models\Category');
