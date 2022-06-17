@@ -12,13 +12,15 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
 	    $validated= $request->validate([
-		    'id'=>'number',
-		    'user'=>'number',
+		    'id'=>'numeric',
+		    'user'=>'numeric',
 		    'category'=>'numeric',
 		    'text'=>'string|nullable',
 	    ]);
 		if (isset($validated['id'])) {
 			$company = Company::find($validated['id']);
+            $company->ViewCount++;
+            $company->save();
 			$company->user_id=$company->User;
 			return response()->json($company);
 		}
