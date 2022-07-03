@@ -110,6 +110,33 @@ class UserController extends Controller
         return response(['message'=>'Updated'],200);
     }
 
+    public function AddCash(Request $request){
+        $validated=$request->validate([
+                'cash' => 'required|numeric',
+            ]
+        );
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        $user->wallet+=$validated['cash'];
+        $user->save();
+        return response(['message'=>'Updated'],200);
+    }
+
+    public function Withdraw(Request $request){
+        $validated=$request->validate([
+                'cash' => 'required|numeric',
+            ]
+        );
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        if($user->wallet >= $validated['cash']){
+            $user->wallet-=$validated['cash'];
+            $user->save();
+            return response(['message'=>'payment confirmed'],200);}
+        else
+            return response(['message'=>'Not enough money'], 400);
+    }
+
 	public function Categories(){
 		$categories=Category::all();
 		return response(['categories'=>$categories]);
