@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
 			$table->string('avatar')->nullable();
 			$table->boolean('is_active')->default(1);
             $table->enum('role',['user','company','pro','admin'])->default('user');
+            $table->float('wallet')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

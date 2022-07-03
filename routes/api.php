@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::post('/user/changepass',[UserController::class,'ChangePass']);
 	Route::post('/user/update',[UserController::class,'update']);
     Route::post('/user/Todoupdate',[UserController::class,'TodoUpdate']);
+    Route::post('/user/Addcash',[UserController::class,'AddCash']);
+    Route::post('/user/Withdraw',[UserController::class,'Withdraw']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::get('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
