@@ -49,6 +49,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $phone
  * @property string|null $avatar
  * @property int $is_active
+ * @property float $wallet
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
@@ -66,10 +67,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
 
-        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar'
+        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar','wallet'
     ];
     protected $attributes=[
-        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null
+        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null, 'wallet'=>0
 
     ];
 

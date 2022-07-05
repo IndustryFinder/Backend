@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $logo
  * @property string $description
  * @property string $website
+ * @property int $ViewCount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Company newModelQuery()
@@ -55,7 +56,11 @@ class Company extends Model
 
     protected $fillable = [
         'name', 'logo', 'phone', 'category_id', 'description', 'email', 'website', 'user_id', 'is_active', 'is_verified', 'verification_file'
+        ,'ViewCount'
         ];
+    protected $attributes=[
+        'ViewCount'=> 0
+    ];
 	public function User()
 	{
 		return $this->belongsTo(User::class);

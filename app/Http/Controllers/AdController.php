@@ -34,6 +34,8 @@ class AdController extends Controller
 			if ($ad==null){
 				return response()->json(['error'=>'Ad not found'],404);
 			}
+            $ad->ViewCount++;
+            $ad->save();
 			$ad->sender=$ad->Sender;
 			$ad->sender['company']=$ad->sender->Company;
 			return response()->json($ad);
