@@ -46,6 +46,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ad extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     protected $fillable = [
@@ -57,13 +58,13 @@ class Ad extends Model
         'ViewCount'=> 0
     ];
 	public function category(){
-		return $this->hasOne('App\Models\Category');
+		return $this->hasOne(Category::class, 'id', 'category_id');
 	}
 	public function Sender(){
-		return $this->belongsTo(User::class, 'sender');
+        return $this->hasOne(User::class, 'id', 'sender');
 	}
 	public function Receiver(){
-		return $this->hasOne(Company::class, 'receiver');
+		return $this->hasOne(Company::class, 'id', 'receiver');
 	}
 	public function Requests(){
 		return $this->hasMany(Request::class, 'ad_id', 'id');
