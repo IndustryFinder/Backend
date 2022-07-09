@@ -32,7 +32,6 @@ class BookmarkController extends Controller
         return response(['message' => 'success'], 201);
     }
 
-
     public function destroy($id)
     {
         $result = Bookmark::find($id);
@@ -42,4 +41,9 @@ class BookmarkController extends Controller
 		}
 		return response(['message' => 'unauthorised'], 401);
 	}
+
+    public static function IsMarked($id) {
+        return Bookmark::all()->where('user_id', '=', auth('sanctum')->user()->id)
+        ->where('marked_id', '=', $id)->count() > 0;
+    }
 }

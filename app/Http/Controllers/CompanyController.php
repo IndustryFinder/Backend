@@ -41,9 +41,15 @@ class CompanyController extends Controller
 			$company = $company->where('is_active', 1)->paginate(24);
 		else
 			$company = Company::where('is_active', 1)->paginate(24);
-		foreach ($company as $c){
-			$c->user_id=$c->User;
-		}
+        var_dump($company[0]->id);
+        if ($company!=null) {
+            foreach ($company as $c) {
+                var_dump($c->id);
+                $c->user_id = $c->User;
+                if (auth('sanctum')->check())
+                    $c['IsMarked'] = BookmarkController::IsMarked($c->id);
+            }
+        }
 		return response($company);
     }
 

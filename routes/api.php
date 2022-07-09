@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::get('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
+    Route::post('/user/bookmarks/IsMarked/{id}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
 	Route::post('/ad/makead', [AdController::class, 'makeAd']);
 	Route::post('/ad/accept', [AdController::class, 'Accept']);
