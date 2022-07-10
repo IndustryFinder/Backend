@@ -110,6 +110,11 @@ class UserController extends Controller
         return response(['message'=>'Updated'],200);
     }
 
+    public  function GetBalance(){
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        return response(['Balance'=>$user->wallet,'adsUsed'=>$user->Ad->count()],200);
+    }
     public function AddCash(Request $request){
         $validated=$request->validate([
                 'cash' => 'required|numeric',
@@ -119,7 +124,7 @@ class UserController extends Controller
         $user=User::find($id);
         $user->wallet+=$validated['cash'];
         $user->save();
-        return response(['message'=>'Updated'],200);
+        return response(['message'=>'Updated','Balance'=>$user->wallet],200);
     }
 
     public function Withdraw(Request $request){
@@ -132,9 +137,9 @@ class UserController extends Controller
         if($user->wallet >= $validated['cash']){
             $user->wallet-=$validated['cash'];
             $user->save();
-            return response(['message'=>'payment confirmed'],200);}
+            return response(['message'=>'Updated','Balance'=>$user->wallet],200);}
         else
-            return response(['message'=>'Not enough money'], 400);
+            return response(['message'=>'Not enough money','Balance'=>$user->wallet], 400);
     }
 
 	public function Categories(){

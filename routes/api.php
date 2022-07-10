@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/Todoupdate',[UserController::class,'TodoUpdate']);
     Route::post('/user/Addcash',[UserController::class,'AddCash']);
     Route::post('/user/Withdraw',[UserController::class,'Withdraw']);
+    Route::post('/user/GetBalance',[UserController::class,'GetBalance']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::get('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
