@@ -15,10 +15,7 @@ class UserController extends Controller
 {
 
 	public function loggedInUser(){
-        $user=auth()->user()->id;
-        $user=User::find($user);
-        $user['company']=$user->company;
-		return response()->json($user);
+		return response()->json(auth()->user());
 	}
 
 	public function Register(Request $request)
