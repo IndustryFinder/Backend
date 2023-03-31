@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::post('/ad/makead', [AdController::class, 'makeAd']);
 	Route::post('/ad/accept', [AdController::class, 'Accept']);
 	Route::delete('/ad/del/{id}', [AdController::class, 'destroy']);
+    //*** Category ***//
+    Route::post('/Category/makeCategory', [CategoryController::class, 'makeCategory']);
+    Route::delete('/Category/del/{id}', [CategoryController::class, 'delete']);
 	//*** Company ***//
 	Route::post('/company/add', [CompanyController::class, 'store']);
 	Route::post('/company/update/{id}', [CompanyController::class, 'update']);
