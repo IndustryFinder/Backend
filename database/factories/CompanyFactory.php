@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 
+use App\Models\Category;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,17 +27,16 @@ class CompanyFactory extends Factory
     {
         return [
             'name'=> $this->faker->name,
-            'logo'=> $this->faker->string,
-            'phone'=> $this->faker->string,
-            'category_id'=> $this->faker->integer,
+            'logo'=> $this->faker->word,
+            'phone'=> $this->faker->phoneNumber,
+            'category_id'=> Category::factory(),
             'description'=> $this->faker->text(),
             'email' => $this->faker->unique()->safeEmail,
-            'website'=> $this->faker->string,
-            'user_id'=> $this->faker->integer,
+            'website'=> $this->faker->word,
+            'user_id'=> User::factory(),
             'is_active'=> $this->faker->boolean,
             'is_verified'=> $this->faker->boolean,
-            'verification_file'=> $this->faker->string,
-            'ViewCount'=> $this->faker->integer
+            'ViewCount'=> $this->faker->randomNumber()
         ];
     }
 }

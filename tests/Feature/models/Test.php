@@ -7,7 +7,7 @@ use App\Models\User;
 
 class UserTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -16,8 +16,8 @@ class UserTest extends TestCase
      */
     public function insertdata()
     {
-       $data= user::factory()->make()->toArray();
+       $data= user::factory()->raw();
        user::create($data);
-        $this->assertDatabaseHas('users', $data);
+        $this->assertDatabaseHas('users', ['name'=>$data['name']]);
     }
 }

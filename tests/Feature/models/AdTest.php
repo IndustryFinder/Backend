@@ -8,7 +8,7 @@ use App\Models\Ad;
 
 class AdTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class AdTest extends TestCase
     {
         $data= Ad::factory()->make()->toArray();
         Ad::create($data);
-        $this->assertDatabaseHas('Ads', $data);
+        $this->assertDatabaseHas('ads', $data);
     }
 }

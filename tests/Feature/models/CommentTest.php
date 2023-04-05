@@ -8,7 +8,7 @@ use App\Models\Comment;
 
 class CommentTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class CommentTest extends TestCase
     {
         $data= Comment::factory()->make()->toArray();
         Comment::create($data);
-        $this->assertDatabaseHas('Comments', $data);
+        $this->assertDatabaseHas('comments', $data);
     }
 }

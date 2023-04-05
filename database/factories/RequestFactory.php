@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Ad;
+use App\Models\Company;
 use App\Models\Request;
+use Doctrine\DBAL\Schema\Sequence;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,9 +26,8 @@ class RequestFactory extends Factory
     public function definition()
     {
         return [
-            'ad_id'=>  $this->faker->integer,
-            'company_id'=>  $this->faker->integer,
-            'status'=>new sequence('pending','accepted','rejected'),
+            'ad_id'=>  Ad::factory(),
+            'company_id'=>  Company::factory(),
             'message'=>$this->faker->text()
         ];
     }

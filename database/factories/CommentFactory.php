@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 use App\Models\Comment;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,11 +24,11 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'=> $this->faker->integer,
-            'company_id'=> $this->faker->integer,
+            'user_id'=> User::factory(),
+            'company_id'=> Company::factory(),
             'response'=> $this->faker->text(),
             'comment'=> $this->faker->text(),
-            'rating'=> $this->faker->integer
+            'rating'=> 0
         ];
     }
 }

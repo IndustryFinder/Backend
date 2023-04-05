@@ -8,7 +8,7 @@ use App\Models\Category;
 
 class CategoryTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class CategoryTest extends TestCase
     {
         $data= Category::factory()->make()->toArray();
         Category::create($data);
-        $this->assertDatabaseHas('Categories', $data);
+        $this->assertDatabaseHas('categories', $data);
     }
 }

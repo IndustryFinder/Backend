@@ -8,7 +8,7 @@ use App\Models\Company;
 
 class CompanyTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class CompanyTest extends TestCase
     {
         $data= Company::factory()->make()->toArray();
         Company::create($data);
-        $this->assertDatabaseHas('Companies', $data);
+        $this->assertDatabaseHas('companies', $data);
     }
 }

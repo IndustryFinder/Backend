@@ -31,10 +31,7 @@ class CategoryController extends Controller
         if ($Category==null){
             return response()->json(['error'=>'Category not found'],404);
         }
-        if ($Category->sender!=auth('sanctum')->user()->id){
-            return response()->json(['error'=>'Unauthorized'],401);
-        }
-        $Category->update(['is_active'=>0]);
+        $Category->update();
         return response()->json(['success'=>'Category deleted'],200);
     }
 }

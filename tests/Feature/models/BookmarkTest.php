@@ -8,7 +8,7 @@ use App\Models\Bookmark;
 
 class BookmarkTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class BookmarkTest extends TestCase
     {
         $data= Bookmark::factory()->make()->toArray();
         Bookmark::create($data);
-        $this->assertDatabaseHas('Bookmarks', $data);
+        $this->assertDatabaseHas('bookmarks', $data);
     }
 }

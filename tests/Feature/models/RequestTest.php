@@ -8,7 +8,7 @@ use App\Models\Request;
 
 class RequestTest extends TestCase
 {
-    use refreshDarabase;
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -19,6 +19,6 @@ class RequestTest extends TestCase
     {
         $data= Request::factory()->make()->toArray();
         Request::create($data);
-        $this->assertDatabaseHas('Requests', $data);
+        $this->assertDatabaseHas('requests', $data);
     }
 }

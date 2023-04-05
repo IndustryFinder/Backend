@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;

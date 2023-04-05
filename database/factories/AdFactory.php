@@ -3,6 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Ad;
+use App\Models\Category;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -24,16 +27,13 @@ class AdFactory extends Factory
     {
         return [
             'title'=>$this->faker->title,
-            'sender'=>$this->faker->integer,
-            'receiver'=>$this->faker->integer,
+            'sender'=>User::factory(),
+            'receiver'=>Company::factory(),
             'isCompany'=>$this->faker->boolean,
             'description'=>$this->faker->text(),
-            'category_id'=>$this->faker->integer,
-            'max_budget'=>$this->faker->integer,
-            'min_budget'=>$this->faker->integer,
+            'category_id'=>Category::factory(),
             'is_active'=>$this->faker->boolean,
-            'photo'=>$this->faker->string,
-            'ViewCount'=>$this->faker->integer
+            'ViewCount'=>$this->faker->randomNumber()
         ];
     }
 }
