@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->bigInteger('super')->nullable();
             $table->timestamps();
+            $table->string('photo')->nullable();
         });
     }
 
