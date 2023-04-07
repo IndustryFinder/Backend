@@ -85,7 +85,7 @@ class CompanyController extends Controller
     public function show($id)
     {
         $company = Company::find($id);
-		$company=$company->is_active ? $company : null;
+		$company=$company && $company->is_active ? $company : null;
         return response($company?:['message'=>'Not Found'],$company?200:404);
     }
 
