@@ -18,7 +18,7 @@ class UserController extends Controller
         $user=auth()->user()->id;
         $user=User::find($user);
         $user['company']=$user->company;
-		return response()->json($user);
+        return response()->json($user);
 	}
 
 	public function Register(Request $request)
