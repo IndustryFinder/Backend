@@ -9,6 +9,11 @@ use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
+    public function Categories(){
+        $categories=Category::all();
+        return response(['categories'=>$categories]);
+    }
+
     public function makeCategory(Request $request) {
         $validated = $request->validate([
             'name' => 'required|min:5|max:50',

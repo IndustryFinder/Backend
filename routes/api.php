@@ -25,7 +25,7 @@ Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
-Route::get('/categories', [UserController::class, 'categories']);
+Route::get('/categories', [CategoryController::class, 'categories']);
 Route::post('/company/show/{id}', [CompanyController::class, 'show']);
 Route::get('/phpinfo', function() {
     return phpinfo();

@@ -145,10 +145,6 @@ class UserController extends Controller
             return response(['message'=>'Not enough money','Balance'=>$user->wallet], 400);
     }
 
-	public function Categories(){
-		$categories=Category::all();
-		return response(['categories'=>$categories]);
-	}
 
 	public function fakeAdder(){
 		for ($i=1; $i<=123; $i++){
