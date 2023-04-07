@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature\models;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Comment;
@@ -21,4 +22,6 @@ class CommentTest extends TestCase
         Comment::create($data);
         $this->assertDatabaseHas('comments', $data);
     }
+
+
 }

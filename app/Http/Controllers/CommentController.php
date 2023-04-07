@@ -19,6 +19,7 @@ class CommentController extends Controller
         return response($result, $result ? 201 : 100);
     }
 
+
     public function delete($id) {
         $comment = Comment::find($id);
         if ($comment == null){
