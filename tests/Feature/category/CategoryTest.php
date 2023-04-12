@@ -17,8 +17,8 @@ class CategoryTest extends TestCase
      */
     public function getallcategories()
     {
-        Category::factory()->createMany(5)->toArray();
-        $response = $this->getJson('/categories');
+        Category::factory()->count(5)->create();
+        $response = $this->getJson('/api/categories');
         $response->assertStatus(200);
     }
 }
