@@ -19,7 +19,10 @@ class CategoryController extends Controller
             'name' => 'required|min:5|max:50',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        $validated['sender']=auth('sanctum')->user()->id;
+        $validated;
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        if($user->role == 'admin'){
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
@@ -29,14 +32,49 @@ class CategoryController extends Controller
         }
         $category = Category::create($validated);
         return response($category, $category ? 201 : 500);
+        }
+        return response(['message' => 'unauthorised'], 401);
     }
 
     public function delete($id){
         $Category=Category::find($id);
+        $id=auth('sanctum')->user()->id;
+        $user=User::find($id);
+        if($user->role == 'admin'){
         if ($Category==null){
             return response()->json(['error'=>'Category not found'],404);
         }
-        $Category->update();
+        $Category->delete();
         return response()->json(['success'=>'Category deleted'],200);
+        }
+        return response(['message' => 'unauthorised'], 401);
+    }
+
+    public function update(Request $request,$id){
+        $validated = $request->validate([
+            'name' => 'required|min:5|max:50',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+        $validated;
+        $Category=Category::find($id);
+        $iduser=auth('sanctum')->user()->id;
+        $user=User::find($iduser);
+        if($user->role == 'admin'){
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $filename=uniqid() . '.' . $image->getClientOriginalExtension();
+                $location=public_path('storage/AdPhoto'.$filename);
+                Image::make($image)->resize(300,300)->save($location);
+                $validated['photo']=$filename;
+            }
+            $category = Category::find($id);
+            if ($category==null){
+                return response()->json(['error'=>'Category not found'],404);
+            }
+            $Category->update($validated);
+            return response()->json(['success'=>'Category update'],200);
+        }
+
+        return response(['message' => 'unauthorised'], 401);
     }
 }

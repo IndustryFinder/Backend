@@ -19,6 +19,6 @@ class CategoryTest extends TestCase
     {
         Category::factory()->createMany(5)->toArray();
         $response = $this->getJson('/categories');
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 }
