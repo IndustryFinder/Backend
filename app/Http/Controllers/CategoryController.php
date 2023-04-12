@@ -19,7 +19,7 @@ class CategoryController extends Controller
             'name' => 'required|min:5|max:50',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        $validated;
+
         $id=auth('sanctum')->user()->id;
         $user=User::find($id);
         if($user->role == 'admin'){
@@ -55,7 +55,7 @@ class CategoryController extends Controller
             'name' => 'required|min:5|max:50',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        $validated;
+
         $Category=Category::find($id);
         $iduser=auth('sanctum')->user()->id;
         $user=User::find($iduser);
