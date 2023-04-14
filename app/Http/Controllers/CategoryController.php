@@ -14,7 +14,7 @@ class CategoryController extends Controller
         $categories=Category::all();
         return response(['categories'=>$categories]);
     }
-
+    //need admin panel to refactor
     public function makeCategory(\App\Http\Requests\category\category  $request) {
         $validated = $request->validate();
         if ($request->hasFile('photo')) {
@@ -27,14 +27,15 @@ class CategoryController extends Controller
         $category = Category::create($validated);
         return response($category, $category ? 201 : 500);
     }
-
+    // need admin panel to refactor
     public function delete(Category $category){
         $category->delete();
         return response()->json(['success'=>'Category deleted'],200);
     }
 
     // need admin panel to refactor
-    public function update(App\Http\Requests\category\category $request,$category){
+    // ax joda beshe
+    public function update(\App\Http\Requests\category\category $request,$category){
         $validated = $request->validate();
         $iduser=auth('sanctum')->user()->id;
         $user=User::find($iduser);
