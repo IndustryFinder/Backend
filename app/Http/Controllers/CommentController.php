@@ -9,22 +9,14 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function make(Request $request) {
-        $validated = $request->validate([
-            'company_id' => 'required|exists:companies,id',
-            'rating' => 'required|min:0|max:5',
-            'comment' => 'max:250'
-        ]);
+        $validated = $request->validate();
         $validated['user_id'] = auth('sanctum')->user()->id;
         $result = Comment::create($validated);
         return response($result, $result ? 201 : 100);
     }
 
 
-    public function delete($id) {
-        $comment = Comment::find($id);
-        if ($comment == null){
-            return response()->json(['error'=>'comment not found'],404);
-        }
+    public function delete(Comment $comment) {
         if ($comment->User->id != auth('sanctum')->user()->id)
             return response()->json(['error'=>'Unauthorized'],401);
         $result = $comment->delete();
@@ -49,4 +41,18 @@ class CommentController extends Controller
         }
         return response(['avg' => $res / $comments->count()]);
     }
+
+    public  function update(Comment $comment){
+        $validated = $comment->validate();
+        $result = Comment::update($validated);
+        return response($result, $result ? 201 : 100);
+    }
+
+    public  function response(Comment $comment, string $response){
+        $comment->response .="/n"+$response;
+        $result = Comment::update($comment);
+        return response($result, $result ? 201 : 100);
+    }
+
+
 }
