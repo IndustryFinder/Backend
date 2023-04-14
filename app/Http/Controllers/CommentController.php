@@ -10,7 +10,6 @@ class CommentController extends Controller
 {
     public function make(Request $request) {
         $validated = $request->validate();
-        $validated['user_id'] = auth('sanctum')->user()->id;
         $result = Comment::create($validated);
         return response($result, $result ? 201 : 100);
     }
