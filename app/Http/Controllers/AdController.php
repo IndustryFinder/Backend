@@ -10,6 +10,7 @@ use Intervention\Image\Facades\Image;
 class AdController extends Controller
 {
 	public function index(Request $request){
+        //move validate
 		$validated=$request->validate([
 			'id'=>'integer',
 			'category'=>'numeric',
@@ -86,6 +87,7 @@ class AdController extends Controller
             'description' => 'required|min:10',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        //writing a component for saving photo
 	    $validated['sender']=auth('sanctum')->user()->id;
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
@@ -98,6 +100,7 @@ class AdController extends Controller
         return response($ad, $ad ? 201 : 500);
     }
 
+    //using 'with' instead of Ad::find
     public function Accept(Request $request) {
         $validated = $request->validate([
             'ad_id' => 'required|exists:ads,id',

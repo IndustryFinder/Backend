@@ -19,7 +19,7 @@ class CommentController extends Controller
         return response($result, $result ? 201 : 100);
     }
 
-
+    //use Comment instead of id
     public function delete($id) {
         $comment = Comment::find($id);
         if ($comment == null){
@@ -31,6 +31,7 @@ class CommentController extends Controller
         return response(['message' => $result ? 'success' : 'failed', $result ? 200 : 404]);
     }
 
+    //use Comment instead of id
     public function getByCompany($id) {
         $comments = Comment::where('company_id', '=', $id);
         return response($comments->get(), 200);
@@ -41,6 +42,7 @@ class CommentController extends Controller
         return response($comments->get(), 200);
     }
 
+    //using sql command
     public function avgRating($id) {
         $comments = Comment::all()->where('company_id', '=', $id);
         $res = 0;
