@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use App\Models\Category;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -10,40 +12,7 @@ use Intervention\Image\Facades\Image;
 class AdController extends Controller
 {
 	public function index(Request $request){
-        //move validate
-		$validated=$request->validate([
-			'id'=>'integer',
-			'category'=>'numeric',
-			'isCompany'=>'boolean',
-			'sender'=>'integer',
-			'receiver'=>'integer',
-			'text'=>'string|nullable',
-		]);
-		if (isset($validated['receiver'])){
-			$ads=Ad::where('receiver',$validated['receiver'])->get();
-			if ($ads==null){
-				return response()->json(['error'=>'Ad not found'],404);
-			}
-			foreach ($ads as $ad){
-				$ad->sender=$ad->Sender;
-				$ad->sender['company']=$ad->sender->Company;
-			}
-			return response()->json($ads);
-		}
-		if (isset($validated['id'])){
-			$ad=Ad::find($validated['id']);
-			if ($ad==null){
-				return response()->json(['error'=>'Ad not found'],404);
-			}
-            $ad->ViewCount++;
-            $ad->save();
-			$ad->sender=$ad->Sender;
-			$ad->sender['company']=$ad->sender->Company;
-			return response()->json($ad);
-		}
-		if (isset($validated['category'])){
-			$ads=Ad::where('category_id',$validated['category']);
-		}
+		$validated=$request->validate();
 		if (isset($validated['isCompany'])){
 			if (isset($ads))
 				$ads=$ads->where('isCompany',$validated['isCompany']);
@@ -76,6 +45,36 @@ class AdController extends Controller
 		}
 		return response()->json(['error'=>'Ad not found'],404);
 	}
+
+    public function a(Request $request){
+        $validated=$request->validate();
+        if (isset($validated['receiver'])){
+            $ads=Ad::where('receiver',$validated['receiver'])->get();
+            if ($ads==null){
+                return response()->json(['error'=>'Ad not found'],404);
+            }
+            $ads = Ad::with('company')->get();
+
+            return response()->json($ads);
+        }
+    }
+
+    public function addview(Ad $ad){
+            if ($ad==null){
+                return response()->json(['error'=>'Ad not found'],404);
+            }
+            $ad->ViewCount++;
+            $ad->save();
+            $ad->sender=$ad->Sender;
+            $ad->sender['company']=$ad->sender->Company;
+            return response()->json($ad);
+    }
+
+    public function findbycategory(string $category){
+      $val=Category::whereName($category);
+      $ads=Ad::where('category_id',$val['id'])->array();
+        return response()->json($ads);
+    }
 
     public function makeAd(Request $request) {
         $validated = $request->validate([
@@ -113,8 +112,8 @@ class AdController extends Controller
     }
 
 
-	public function destroy($id){
-		$ad=Ad::find($id);
+	public function destroy(Ad $ad){
+
 		if ($ad==null){
 			return response()->json(['error'=>'Ad not found'],404);
 		}
