@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Company\IndexRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -9,14 +10,10 @@ use Intervention\Image\Facades\Image;
 class CompanyController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-	    $validated= $request->validate([
-		    'id'=>'numeric',
-		    'user'=>'numeric',
-		    'category'=>'numeric',
-		    'text'=>'string|nullable',
-	    ]);
+	    $validated= $request->validated();
+        //api
 		if (isset($validated['id'])) {
 			$company = Company::find($validated['id']);
             $company->ViewCount++;
@@ -24,10 +21,12 @@ class CompanyController extends Controller
 			$company->user_id=$company->User;
 			return response()->json($company);
 		}
+        //api
 		if (isset($validated['user'])) {
 			$company = Company::whereUserId($validated['user']);
 			return response()->json($company);
 		}
+        //api
 		if (isset($validated['category'])){
 			$company = Company::where('category_id',$validated['category']);
 		}
@@ -41,10 +40,10 @@ class CompanyController extends Controller
 			$company = $company->where('is_active', 1)->paginate(24);
 		else
 			$company = Company::where('is_active', 1)->paginate(24);
-        var_dump($company[0]->id);
+
+        //using 'with' to fetch user that define bookmark
         if ($company!=null) {
             foreach ($company as $c) {
-                var_dump($c->id);
                 $c->user_id = $c->User;
                 if (auth('sanctum')->check())
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
@@ -81,7 +80,7 @@ class CompanyController extends Controller
 		return response(['error'=>'Unauthorized'],401);
 	}
 
-
+    //do view count++
     public function show($id)
     {
         $company = Company::find($id);
