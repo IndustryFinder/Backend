@@ -48,7 +48,7 @@ class CommentController extends Controller
     }
 
     public  function response(Comment $comment, string $response){
-        $comment->response .="/n"+$response;
+        $comment->response .="/n".$response;
         $result = Comment::update($comment);
         return response($result, $result ? 201 : 100);
     }

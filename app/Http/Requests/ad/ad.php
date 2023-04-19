@@ -33,6 +33,12 @@ class ad extends FormRequest
             'sender'=>'integer',
             'receiver'=>'integer',
             'text'=>'string|nullable',
+            'title' => 'required|min:5|max:50',
+            'category_id' => 'required|exists:categories,id',
+            'min_budget' => 'min:0',
+            'max_budget' => 'number|min:1',
+            'description' => 'required|min:10',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 }
