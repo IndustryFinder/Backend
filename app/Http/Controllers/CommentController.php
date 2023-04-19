@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function make(Request $request) {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $result = Comment::create($validated);
         return response($result, $result ? 201 : 100);
     }
