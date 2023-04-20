@@ -14,8 +14,6 @@ class IndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'=>'numeric',
-            'user'=>'numeric',
             'category'=>'numeric',
             'text'=>'string|nullable',
         ];
