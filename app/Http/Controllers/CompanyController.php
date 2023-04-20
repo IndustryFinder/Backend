@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Company\IndexRequest;
+use App\Http\Requests\Company\StoreRequest;
+use App\Http\Requests\Company\UpdateRequest;
+use App\Http\Requests\Company\UserRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
