@@ -28,8 +28,8 @@ class CompanyController extends Controller
 			$company = Company::query();
 
         if ($company!=null) {
+            $company->with('user');
             foreach ($company as $c) {
-                $c->user_id = $c->User;
                 if (auth('sanctum')->check())
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
             }
