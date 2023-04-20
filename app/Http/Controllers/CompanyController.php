@@ -25,9 +25,7 @@ class CompanyController extends Controller
 				$company = Company::where('name','like','%'.$validated['text'].'%');
 		}
 		if (!isset($company))
-			$company = Company::all();
-
-        $company = $company->paginate(24);
+			$company = Company::query();
 
         if ($company!=null) {
             foreach ($company as $c) {
@@ -36,6 +34,7 @@ class CompanyController extends Controller
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
             }
         }
+        $company = $company->paginate(24);
 		return response($company);
     }
 
