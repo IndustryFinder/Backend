@@ -20,7 +20,7 @@ class CompanyShowTest extends TestCase
     public function GetCompanyDetailsSuccessfully()
     {
         $company = Company::factory(['is_active' => true])->create()->toArray();
-        $response = $this->postJson("/api/company/show/${company['id']}");
+        $response = $this->getJson("/api/company/show/${company['id']}");
         $response
             ->assertStatus(200)
             ->assertJsonPath('name',$company['name']);
@@ -30,14 +30,14 @@ class CompanyShowTest extends TestCase
     public function UserCantGetDetailsOfInActiveCompany()
     {
         $company = Company::factory(['is_active' => false])->create()->toArray();
-        $response = $this->postJson("/api/company/show/${company['id']}");
+        $response = $this->getJson("/api/company/show/${company['id']}");
         $response->assertStatus(404);
     }
 
     /** @test */
     public function UserCantGetDetailsOfCompanyWithWrongId()
     {
-        $response = $this->postJson("/api/company/show/0");
+        $response = $this->getJson("/api/company/show/0");
         $response->assertStatus(404);
     }
 }

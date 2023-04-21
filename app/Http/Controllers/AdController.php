@@ -89,6 +89,7 @@ class AdController extends Controller
         return response($ad, $ad ? 201 : 500);
     }
 
+    //using 'with' instead of Ad::find
     public function Accept(Request $request) {
         $validated = $request->validate([
             'ad_id' => 'required|exists:ads,id',

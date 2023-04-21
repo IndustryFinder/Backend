@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RequestController;
@@ -21,21 +22,23 @@ use App\Http\Controllers;
 |
 */
 Route::get('/faker',[UserController::class, 'fakeAdder']);
-Route::post('/user/signup', [UserController::class,'Register']);
-Route::post('/user/login',[UserController::class,'Login']);
+Route::post('/authentication/signup', [AuthController::class,'Register']);
+Route::post('/authentication/login',[AuthController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'categories']);
-Route::post('/company/show/{id}', [CompanyController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/company/show/{company}', [CompanyController::class, 'show']);
+Route::post('/company/user/{userID}', [CompanyController::class, 'user']);
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
 
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    //*** Authentication ***//
+    Route::get('/authentication/this', [AuthController::class, 'loggedInUser']);
+    Route::get('/authentication/logout',[AuthController::class,'Logout']);
 	//*** User ***//
-	Route::get('/user/logout',[UserController::class,'Logout']);
-	Route::get('/user/this',[UserController::class,'loggedInUser']);
 	Route::post('/user/changepass',[UserController::class,'ChangePass']);
 	Route::post('/user/update',[UserController::class,'update']);
     Route::post('/user/Todoupdate',[UserController::class,'TodoUpdate']);
@@ -61,11 +64,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::delete('/company/delete/{id}', [CompanyController::class, 'destroy']);
 	//*** Request ***//
     Route::post('/request/add', [RequestController::class, 'makeRequest']);
-    Route::get('/request/accept/{id}', [RequestController::class, 'Accept']);
-    Route::get('/request/reject/{id}', [RequestController::class, 'Reject']);
-    Route::get('/Request/GetByUser/{User_id}', [RequestController::class, 'RequestsByUser']);
-    Route::get('/Request/GetByAd/{Ad_id}', [RequestController::class, 'RequestsByAd']);
-    Route::delete('/request/del/{id}', [RequestController::class, 'Destroy']);
+    Route::get('/request/accept/{request}', [RequestController::class, 'Accept']);
+    Route::get('/request/reject/{request}', [RequestController::class, 'Reject']);
+    Route::get('/Request/GetByUser/{user}', [RequestController::class, 'RequestsByUser']);
+    Route::get('/Request/GetByAd/{ad}', [RequestController::class, 'RequestsByAd']);
+    Route::delete('/request/del/{request}', [RequestController::class, 'Destroy']);
   // Commit_&_rating
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
