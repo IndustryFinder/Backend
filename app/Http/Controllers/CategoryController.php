@@ -53,6 +53,7 @@ class CategoryController extends Controller
                 return response()->json(['error'=>'Category not found'],404);
             }
             $category->update($validated);
+            $category->save();
             return response()->json(['success'=>'Category update'],200);
         }
         return response(['message' => 'unauthorised'], 401);

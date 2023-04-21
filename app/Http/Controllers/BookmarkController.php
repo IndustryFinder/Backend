@@ -23,13 +23,18 @@ class BookmarkController extends Controller
     public function store($id)
     {
 		$b=Bookmark::where('user_id',auth('sanctum')->user()->id)->where('marked_id',$id);
-        if ($b->count()==0) {
+        $c=Bookmark::where('marked_id',$id);
+        if ($b->count()==0 and $c->count()!=0) {
 	        $mark           =new Bookmark();
 	        $mark->user_id  =auth('sanctum')->user()->id;
 	        $mark->marked_id=$id;
 	        $mark->save();
+            return response(['message' => 'success'], 201);
         }
-        return response(['message' => 'success'], 201);
+        elseif ($b->count()==0 and $c->count()==0){
+            return response(404);
+        }
+        return response(['message' => 'already exist'], 201);
     }
 
     public function destroy($id)
