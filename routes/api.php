@@ -25,7 +25,7 @@ Route::post('/user/signup', [UserController::class,'Register']);
 Route::post('/user/login',[UserController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'categories']);
+Route::get('/Category', [CategoryController::class, 'index']);
 Route::post('/company/show/{id}', [CompanyController::class, 'show']);
 Route::get('/phpinfo', function() {
     return phpinfo();
@@ -70,8 +70,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
     Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
-    Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
+   // Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
-    Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);
+    //Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);
     Route::get('/Comment/getAvgRate/{id}', [\App\Http\Controllers\CommentController::class, 'avgRating']);
 });

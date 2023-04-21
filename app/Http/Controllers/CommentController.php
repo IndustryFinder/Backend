@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Comment\MakeRequest;
 use App\Models\Comment;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function make(Request $request) {
+    public function make(MakeRequest $request) {
         $validated = $request->validated();
+        $validated['user_id'] = auth('sanctum')->user()->id;
         $result = Comment::create($validated);
         return response($result, $result ? 201 : 100);
     }
@@ -41,17 +43,17 @@ class CommentController extends Controller
         return response(['avg' => $res / $comments->count()]);
     }
 
-    public  function update(Comment $comment){
-        $validated = $comment->validate();
-        $result = Comment::update($validated);
-        return response($result, $result ? 201 : 100);
-    }
-
-    public  function response(Comment $comment, string $response){
-        $comment->response .="/n".$response;
-        $result = Comment::update($comment);
-        return response($result, $result ? 201 : 100);
-    }
+//    public  function update(Comment $comment){
+//        $validated = $comment->validate();
+//        $result = Comment::update($validated);
+//        return response($result, $result ? 201 : 100);
+//    }
+//
+//    public  function response(Comment $comment, string $response){
+//        $comment->response .="/n".$response;
+//        $result = Comment::update($comment);
+//        return response($result, $result ? 201 : 100);
+//    }
 
 
 }
