@@ -13,7 +13,7 @@ class ad extends FormRequest
      */
     public function authorize()
     {
-        if(!(this['sender']==auth('sanctum')->user()->id)){
+        if(!($this['sender']==auth('sanctum')->user()->id)){
             return true;
         }
         return false;
