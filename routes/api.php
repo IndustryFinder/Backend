@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RequestController;
@@ -21,8 +22,8 @@ use App\Http\Controllers;
 |
 */
 Route::get('/faker',[UserController::class, 'fakeAdder']);
-Route::post('/user/signup', [UserController::class,'Register']);
-Route::post('/user/login',[UserController::class,'Login']);
+Route::post('/authentication/signup', [AuthController::class,'Register']);
+Route::post('/authentication/login',[AuthController::class,'Login']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'categories']);
@@ -34,9 +35,10 @@ Route::get('/phpinfo', function() {
 
 //protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    //*** Authentication ***//
+    Route::get('/authentication/this', [AuthController::class, 'loggedInUser']);
+    Route::get('/authentication/logout',[AuthController::class,'Logout']);
 	//*** User ***//
-	Route::get('/user/logout',[UserController::class,'Logout']);
-	Route::get('/user/this',[UserController::class,'loggedInUser']);
 	Route::post('/user/changepass',[UserController::class,'ChangePass']);
 	Route::post('/user/update',[UserController::class,'update']);
     Route::post('/user/Todoupdate',[UserController::class,'TodoUpdate']);
