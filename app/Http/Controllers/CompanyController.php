@@ -66,6 +66,8 @@ class CompanyController extends Controller
     //do view count++
     public function show(Company $company)
     {
+        if (!$company->is_active)
+            return response(['message'=>'Not Found'],404);
         $company->ViewCount++;
         $company->save();
         $company->user_id=$company->User;
