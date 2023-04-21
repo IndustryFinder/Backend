@@ -62,11 +62,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::delete('/company/delete/{id}', [CompanyController::class, 'destroy']);
 	//*** Request ***//
     Route::post('/request/add', [RequestController::class, 'makeRequest']);
-    Route::get('/request/accept/{id}', [RequestController::class, 'Accept']);
-    Route::get('/request/reject/{id}', [RequestController::class, 'Reject']);
-    Route::get('/Request/GetByUser/{User_id}', [RequestController::class, 'RequestsByUser']);
-    Route::get('/Request/GetByAd/{Ad_id}', [RequestController::class, 'RequestsByAd']);
-    Route::delete('/request/del/{id}', [RequestController::class, 'Destroy']);
+    Route::get('/request/accept/{request}', [RequestController::class, 'Accept']);
+    Route::get('/request/reject/{request}', [RequestController::class, 'Reject']);
+    Route::get('/Request/GetByUser/{user}', [RequestController::class, 'RequestsByUser']);
+    Route::get('/Request/GetByAd/{ad}', [RequestController::class, 'RequestsByAd']);
+    Route::delete('/request/del/{request}', [RequestController::class, 'Destroy']);
   // Commit_&_rating
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
