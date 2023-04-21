@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\makeCategoryRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Comment;
@@ -15,8 +17,8 @@ class CategoryController extends Controller
         return response(['categories'=>$categories]);
     }
     //need admin panel to refactor
-    public function makeCategory(\App\Http\Requests\category\category  $request) {
-        $validated = $request->validate();
+    public function makeCategory(makeCategoryRequest $request) {
+        $validated = $request->validated();
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
@@ -35,8 +37,8 @@ class CategoryController extends Controller
 
     // need admin panel to refactor
     // ax joda beshe
-    public function update(\App\Http\Requests\category\category $request,$category){
-        $validated = $request->validate();
+    public function update(UpdateRequest $request,Category $category){
+        $validated = $request->validated();
         $iduser=auth('sanctum')->user()->id;
         $user=User::find($iduser);
         if($user->role == 'admin'){

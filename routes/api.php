@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //*** Category ***//
     Route::post('/Category/makeCategory', [CategoryController::class, 'makeCategory']);
     Route::delete('/Category/del/{category}', [CategoryController::class, 'delete']);
-    Route::post('/Category/update/{id}', [CategoryController::class, 'update']);
+    Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
 	//*** Company ***//
 	Route::post('/company/add', [CompanyController::class, 'store']);
 	Route::post('/company/update/{id}', [CompanyController::class, 'update']);

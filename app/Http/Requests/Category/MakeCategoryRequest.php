@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\category;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class category extends FormRequest
+class makeCategoryRequest extends FormRequest
 {
 
     /**
