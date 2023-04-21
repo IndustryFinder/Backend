@@ -77,17 +77,7 @@ class AdController extends Controller
     }
 
     public function makeAd(Request $request) {
-        $validated = $request->validate([
-            'title' => 'required|min:5|max:50',
-            'category_id' => 'required|exists:categories,id',
-            'min_budget' => 'min:0',
-            'max_budget' => 'number|min:1',
-            'isCompany' => 'required',
-            'description' => 'required|min:10',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
-        //writing a component for saving photo
-	    $validated['sender']=auth('sanctum')->user()->id;
+        $validated = $request->validate();
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
