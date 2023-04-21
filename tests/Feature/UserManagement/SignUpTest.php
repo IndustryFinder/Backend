@@ -21,7 +21,7 @@ class SignUpTest extends TestCase
     {
         $user = User::factory()->make()->toArray();
         $user['password_confirmation'] = $user['password'] = '12345678';
-        $response = $this->postJson('/api/user/signup', $user);
+        $response = $this->postJson('/api/authentication/signup', $user);
 
         $response->assertCreated();
         $this->assertDatabaseHas('users',['name' => $user['name'] , 'email' => $user['email']]);
@@ -33,7 +33,7 @@ class SignUpTest extends TestCase
         $user2 = User::factory()->create();
         $user1 = User::factory(['email'=> $user2->email ])->make()->toArray();
         $user1['password_confirmation'] = $user1['password'] = '12345678';
-        $response = $this->postJson('/api/user/signup', $user1);
+        $response = $this->postJson('/api/authentication/signup', $user1);
 
         $response->assertStatus(422);
         $this->assertDatabaseMissing('users',['name' => $user1['name'] , 'email' => $user1['email']]);
