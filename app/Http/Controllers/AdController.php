@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Ad\AcceptRequest;
 use App\Http\Requests\Ad\IndexByReceiverRequest;
+use App\Http\Requests\Ad\IndexBySenderRequest;
 use App\Http\Requests\Ad\indexRequest;
+use App\Http\Requests\Ad\MakeAdRequest;
+use App\Http\Requests\Ad\UpdateRequest;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Comment;
@@ -52,7 +55,7 @@ class AdController extends Controller
         return response()->json(['error'=>'Receiver was not corrrect'],404);
     }
 
-    public function IndexBySender($request){
+    public function IndexBySender(IndexBySenderRequest $request){
         $validated=$request->validated();
         if (isset($validated['sender'])){
             $ads=Ad::where('sender',$validated['sender'])->get();
@@ -75,7 +78,7 @@ class AdController extends Controller
     }
 
 
-    public function makeAd(Request $request) {
+    public function makeAd(MakeAdRequest $request) {
         $validated = $request->validated();
         $validated['sender']=auth('sanctum')->user()->id;
         if ($request->hasFile('photo')) {
@@ -86,6 +89,27 @@ class AdController extends Controller
             $validated['photo']=$filename;
         }
         $ad = Ad::create($validated);
+        return response($ad, $ad ? 201 : 500);
+    }
+
+    public function update(UpdateRequest $request,Ad $ad) {
+        $validated = $request->validated();
+        if ($ad==null){
+            return response()->json(['error'=>'Ad not found'],404);
+        }
+        if(!($ad['sender']==auth('sanctum')->user()->id)){
+            return response()->json(['error'=>'Unauthorized'],401);
+        }
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
+            $location=public_path('storage/AdPhoto'.$filename);
+            Image::make($image)->resize(300,300)->save($location);
+            $validated['photo']=$filename;
+        }
+        $validated['sender']=auth('sanctum')->user()->id;
+        $ad=$ad->update($validated);
+        $ad->save();
         return response($ad, $ad ? 201 : 500);
     }
 

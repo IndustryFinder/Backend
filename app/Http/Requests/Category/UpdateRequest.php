@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Ad;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
 
     /**
@@ -15,10 +15,8 @@ class IndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'category'=>'numeric',
-            'isCompany'=>'boolean',
-            'text'=>'string|nullable',
-
+            'name' => 'required|min:5|max:50',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 }
