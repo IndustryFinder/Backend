@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class delete extends TestCase
+class deleteTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -20,7 +20,7 @@ class delete extends TestCase
 
         $data= Comment::factory()->make()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response=$this->deleteJson('/Comment/Add',$data);
+        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
         $response->assertStatus(200);
 
     }
@@ -28,7 +28,7 @@ class delete extends TestCase
     public function guestcantdeletecomment(){
 
         $data= Comment::factory()->make()->toArray();
-        $response=$this->deleteJson('/Comment/Add',$data);
+        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
         $response->assertStatus(401);
 
     }
@@ -37,7 +37,7 @@ class delete extends TestCase
 
         $data= Comment::factory(['company_id'=>0])->make()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response=$this->deleteJson('/Comment/Add',$data);
+        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
         $response->assertStatus(422);
 
     }
