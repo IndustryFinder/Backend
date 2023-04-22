@@ -10,6 +10,7 @@ use App\Http\Requests\User\WithdrawRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -77,6 +78,56 @@ class UserController extends Controller
             return response(['message'=>'Updated','Balance'=>$user->wallet],200);}
         else
             return response(['message'=>'Not enough money','Balance'=>$user->wallet], 400);
+    }
+
+    public function BuyPlan($id){
+        $userId=auth('sanctum')->user()->id;
+        $user=User::find($userId);
+        switch ($id) {
+            case 1:
+                if($user->wallet >= 25000){
+                    $user->wallet -= 25000;
+                    $user->AdsRemaining += 10;
+                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->activePlan = 'classic';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 2:
+                if($user->wallet >= 50000){
+                    $user->wallet -= 50000;
+                    $user->AdsRemaining += 15;
+                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->activePlan = 'pro';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 3:
+                if($user->wallet >= 75000){
+                    $user->wallet -= 75000;
+                    $user->AdsRemaining += 30;
+                    $user->PlanExpireDate = Carbon::now()->addDays(90);
+                    $user->activePlan = 'deluxe';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 4:
+                if($user->wallet >= 100000){
+                    $user->wallet -= 100000;
+                    $user->AdsRemaining += 45;
+                    $user->PlanExpireDate = Carbon::now()->addDays(120);
+                    $user->activePlan = 'max';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            default:
+                return response(['message'=>'request for valid plan','Balance'=>$user->wallet], 400);
+        }
+        return response(['message'=>'operation failed','Balance'=>$user->wallet], 400);
     }
 
 

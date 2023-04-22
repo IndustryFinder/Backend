@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/Addcash',[UserController::class,'AddCash']);
     Route::post('/user/Withdraw',[UserController::class,'Withdraw']);
     Route::post('/user/GetBalance',[UserController::class,'GetBalance']);
+    Route::get('/user/BuyPlan/{id}',[UserController::class,'BuyPlan']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
