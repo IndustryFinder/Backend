@@ -68,11 +68,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
 
-        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar','wallet'
+        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar','wallet','activePlan','AdsRemaining','PlanExpireDate'
     ];
     protected $attributes=[
-        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null, 'wallet'=>0
-
+        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null, 'wallet'=>0, 'activePlan'=> 'noPlan',
+        'AdsRemaining'=>0, 'PlanExpireDate'=>null
     ];
 
     /**
@@ -91,6 +91,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'PlanExpireDate' => 'datetime'
     ];
 
     public function Company(){
