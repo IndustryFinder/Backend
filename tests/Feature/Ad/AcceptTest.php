@@ -18,7 +18,7 @@ class AcceptTest extends TestCase
     public function AssignReceiverForAd()
     {
         $data= Ad::factory()->make()->toArray();
-        $response = $this->getJson('/ad/show',$data);
+        $response = $this->postJson('/ad/show',$data);
         $response->assertStatus(200);
     }
 }

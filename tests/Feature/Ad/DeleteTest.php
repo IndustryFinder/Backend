@@ -20,7 +20,18 @@ class DeleteTest extends TestCase
     {
         $data= Ad::factory()->make()->toArray();
         $this->actingAs(User::find($data['sender']));
-        $response=$this->deleteJson('/ad/Update/{ad}',$data);
+        $response=$this->deleteJson('/ad/del/{ad}',$data);
         $response->assertStatus(200);
     }
+
+    /**@test*/
+    public function guestcantdelete(){
+
+        $data= Ad::factory()->make()->toArray();
+        $response=$this->deleteJson('/ad/del/{ad}',$data);
+
+        $response->assertStatus(401);
+
+    }
+
 }

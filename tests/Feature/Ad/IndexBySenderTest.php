@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class indexBySenderTest extends TestCase
+class IndexBySenderTest extends TestCase
 {
     /**
      * A basic feature test example.
