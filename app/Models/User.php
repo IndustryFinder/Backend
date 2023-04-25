@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $PlanExpireDate
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
@@ -68,11 +69,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
 
-        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar','wallet'
+        'name', 'email', 'password', 'role', 'phone', 'is_active','todo','avatar','wallet','activePlan','AdsRemaining','PlanExpireDate'
     ];
     protected $attributes=[
-        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null, 'wallet'=>0
-
+        'name'=>null , 'email'=>null, 'password'=>null, 'role'=>null, 'todo'=>null, 'avatar'=>null, 'wallet'=>0, 'activePlan'=> 'noPlan',
+        'AdsRemaining'=>0, 'PlanExpireDate'=>null
     ];
 
     /**
@@ -91,6 +92,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'PlanExpireDate' => 'datetime'
     ];
 
     public function Company(){

@@ -24,6 +24,7 @@ class CommentController extends Controller
         return response(['message' => $result ? 'success' : 'failed', $result ? 200 : 404]);
     }
 
+    //use Comment instead of id
     public function getByCompany($id) {
         $comments = Comment::where('company_id', '=', $id);
         return response($comments->get(), 200);
@@ -34,6 +35,7 @@ class CommentController extends Controller
         return response($comments->get(), 200);
     }
 
+    //using sql command
     public function avgRating($id) {
         $comments = Comment::all()->where('company_id', '=', $id);
         $res = 0;

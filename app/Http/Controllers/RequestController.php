@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\Request\AddRequest;
 use App\Models\Ad;
 use App\Models\User;
 use App\Models\Company;
@@ -12,67 +13,48 @@ use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class RequestController extends Controller
 {
-
-     public function makeRequest(Request $request) {
-        $validated = $request->validate([
-            'ad_id' => 'required|exists:ads,id',
-            'company_id' => 'required|exists:companies,id',
-	        'message' => 'required|string',
-        ]);
-		$user=User::find(auth('sanctum')->user()->id);
-		if ($validated['company_id'] == $user->Company->id) {
-			$instance=RequestModel::create($validated);
-			return response($instance, $instance ? 201 : 500);
-		}
-		return response(['message' => 'unauthorized'], 401);
-
+     public function makeRequest(AddRequest $request) {
+        $validated = $request->validated();
+        $instance=RequestModel::create($validated);
+        return response($instance, $instance ? 201 : 500);
     }
 
-    public function Accept($id) {
-        $instance=RequestModel::find($id);
-        if ($instance) {
-            $otherReqs=RequestModel::all()->where('ad_id',$instance->id);
-            foreach ($otherReqs as $req) {
-                $req->update(['status'=>'rejected']);
-            }
-            $instance->update(['status'=>'accepted']);
-            return response($instance,201);
+    public function Accept(RequestModel $request) {
+        if ($request->ad->Sender->id == auth('sanctum')->user()->id) {
+            RequestModel::query()->where('ad_id',$request->ad->id)->update(['status'=>'rejected']);
+            $request->update(['status'=>'accepted']);
+            return response($request,201);
         }
-        return response(['message'=>'not found'],404);
+        return response(['message' => 'unauthorized'], 401);
     }
 
-    public function Reject($id) {
-		$instance=RequestModel::find($id);
-        if ($instance) {
-	        $instance->status='rejected';
-	        $instance->save();
-	        return response($instance,201);
+    public function Reject(RequestModel $request) {
+        if ($request->ad->Sender->id == auth('sanctum')->user()->id) {
+            $request->status = 'rejected';
+            $request->save();
+            return response($request, 201);
         }
-		return response(['message'=>'not found'],404);
+        return response(['message' => 'unauthorized'], 401);
     }
 
-	public function Destroy($id) {
-		$req = RequestModel::find($id);
-		if ($req) {
-			if ($req->company->User->id == auth('sanctum')->user()->id) {
-				$req->delete();
-				return response($req,201);
-			}
-			return response('unauthorized',401);
-		}
-		return response('not found',404);
+	public function Destroy(RequestModel $request) {
+        if ($request->company->User->id == auth('sanctum')->user()->id) {
+            $request->delete();
+            return response($request,201);
+        }
+        return response(['message' => 'unauthorized'], 401);
 	}
 
-    public function RequestsByAd($id){
-        $result = Ad::find($id)->Requests;
+    public function RequestsByAd(Ad $ad){
+        $result = $ad->Requests;
         foreach ($result as $res){
             $res['company'] = Company::find($res->company_id);
         }
         return response($result, 200);
     }
 
-    public  function RequestsByUser($id){
-         $result= User::find($id)->Ad;
+    public  function RequestsByUser(User $user){
+         $result= $user->Ad;
          foreach ($result as $r){
              $r['requests']=$r->Requests;
          }

@@ -2,32 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Company\IndexRequest;
+use App\Http\Requests\Company\StoreRequest;
+use App\Http\Requests\Company\UpdateRequest;
+use App\Http\Requests\Company\UserRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
-
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-	    $validated= $request->validate([
-		    'id'=>'numeric',
-		    'user'=>'numeric',
-		    'category'=>'numeric',
-		    'text'=>'string|nullable',
-	    ]);
-		if (isset($validated['id'])) {
-			$company = Company::find($validated['id']);
-            $company->ViewCount++;
-            $company->save();
-			$company->user_id=$company->User;
-			return response()->json($company);
-		}
-		if (isset($validated['user'])) {
-			$company = Company::whereUserId($validated['user']);
-			return response()->json($company);
-		}
+	    $validated= $request->validated();
 		if (isset($validated['category'])){
 			$company = Company::where('category_id',$validated['category']);
 		}
@@ -37,34 +24,29 @@ class CompanyController extends Controller
 			else
 				$company = Company::where('name','like','%'.$validated['text'].'%');
 		}
-		if (isset($company))
-			$company = $company->where('is_active', 1)->paginate(24);
-		else
-			$company = Company::where('is_active', 1)->paginate(24);
-        var_dump($company[0]->id);
+		if (!isset($company))
+			$company = Company::query();
+
         if ($company!=null) {
+            $company->with('user');
             foreach ($company as $c) {
-                var_dump($c->id);
-                $c->user_id = $c->User;
                 if (auth('sanctum')->check())
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
             }
         }
+        $company = $company->paginate(24);
 		return response($company);
     }
 
+    public function user(UserRequest $request) {
+        $validated= $request->validated();
+        $company = Company::whereUserId($validated['userID']);
+        return response()->json($company);
+    }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|min:5|max:20|alpha_num',
-            'category_id' => 'required|exists:categories,id',
-            'email' => 'required|email:rfc|unique:companies,email',
-            'phone' => 'required|min:10',
-            'description' => 'max:250',
-            'website' => 'string|max:50',
-			'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $validated = $request->validated();
 		$user= auth('sanctum')->user();
 		if ($user->role=='company' || $user->role=='pro') {
 			$validated['user_id']=$user->id;
@@ -81,26 +63,21 @@ class CompanyController extends Controller
 		return response(['error'=>'Unauthorized'],401);
 	}
 
-
-    public function show($id)
+    //do view count++
+    public function show(Company $company)
     {
-        $company = Company::find($id);
-		$company=$company && $company->is_active ? $company : null;
-        return response($company?:['message'=>'Not Found'],$company?200:404);
+        if (!$company->is_active)
+            return response(['message'=>'Not Found'],404);
+        $company->ViewCount++;
+        $company->save();
+        $company->user_id=$company->User;
+        return response()->json($company);
     }
 
 
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $validated = $request->validate([
-	        'name' => 'required|min:5|max:20|alpha_num',
-	        'category_id' => 'required|exists:categories,id',
-	        'email' => 'required|email:rfc|unique:companies,email',
-	        'phone' => 'required|digits_between:10,10',
-	        'description' => 'max:250',
-	        'website' => 'url',
-	        'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $validated = $request->validated();
 	    if ($request->hasFile('logo')) {
 		    $image = $request->file('logo');
 		    $filename = uniqid() . '.' . $image->getClientOriginalExtension();

@@ -19,14 +19,14 @@ class LoginTest extends TestCase
     public function UserCanLoginSuccessfully()
     {
         $user = User::factory()->create()->toArray();
-        $response = $this->postJson('/api/user/login',['email' => $user['email'], 'password' => 'password']);
+        $response = $this->postJson('/api/authentication/login',['email' => $user['email'], 'password' => 'password']);
         $response->assertStatus(200);
     }
 
     /** @test*/
     public function UserCantLoginWithWrongPass()
     {
-        $response = $this->postJson('/api/user/login',['email' => 'a@b.c', 'password' => 'password']);
+        $response = $this->postJson('/api/authentication/login',['email' => 'a@b.c', 'password' => 'password']);
         $response->assertStatus(401);
     }
 }
