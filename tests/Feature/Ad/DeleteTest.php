@@ -14,9 +14,9 @@ class DeleteTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * @test
      */
-    public function Delete()
+    /** @test */
+    public function DeleteAd()
     {
         $data= Ad::factory()->make()->toArray();
         $this->actingAs(User::find($data['sender']));
