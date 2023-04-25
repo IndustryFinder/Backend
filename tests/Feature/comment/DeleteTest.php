@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class deleteTest extends TestCase
+class DeleteTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -18,26 +18,26 @@ class deleteTest extends TestCase
      */
     public function deletecomment(){
 
-        $data= Comment::factory()->make()->toArray();
+        $data= Comment::factory()->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
+        $response=$this->deleteJson("/api/Comment/Delete/${data['id']}");
         $response->assertStatus(200);
 
     }
     /**@test*/
     public function guestcantdeletecomment(){
 
-        $data= Comment::factory()->make()->toArray();
-        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
+        $data= Comment::factory()->create()->toArray();
+        $response=$this->deleteJson("/api/Comment/Delete/${data['id']}");
         $response->assertStatus(401);
 
     }
     /**@test*/
     public function cantdeletecommentformissingcompany(){
 
-        $data= Comment::factory(['company_id'=>0])->make()->toArray();
+        $data= Comment::factory(['company_id'=>0])->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response=$this->deleteJson('/Comment/Delete/{comment}',$data);
+        $response=$this->deleteJson("/api/Comment/Delete/${data['id']}");
         $response->assertStatus(422);
 
     }

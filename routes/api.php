@@ -21,6 +21,7 @@ use App\Http\Controllers;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/ad/show/{ad}', [AdController::class, 'show']);
 Route::get('/faker',[UserController::class, 'fakeAdder']);
 Route::post('/authentication/signup', [AuthController::class,'Register']);
 Route::post('/authentication/login',[AuthController::class,'Login']);
@@ -54,7 +55,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	//*** Ad ***//
     Route::get('/ad/searchByReceiver', [AdController::class, 'IndexByReceiver']);
     Route::get('/ad/searchBySender', [AdController::class, 'IndexBySender']);
-    Route::get('/ad/show/{ad}', [AdController::class, 'show']);
 	Route::post('/ad/makeAd', [AdController::class, 'makeAd']);
     Route::post('/ad/Update/{ad}', [AdController::class, 'update']);
 	Route::post('/ad/accept', [AdController::class, 'Accept']);

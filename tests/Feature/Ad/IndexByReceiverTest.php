@@ -3,6 +3,7 @@
 namespace Tests\Feature\Ad;
 
 use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,8 +18,9 @@ class IndexByReceiverTest extends TestCase
      */
     public function ShowReceiversAd()
     {
-        $data= Ad::factory()->make()->toArray();
-        $response = $this->getJson('/ad/searchByReceiver',$data['receiver']);
+        $data= Ad::factory()->create()->toArray();
+        $this->actingAs(User::find($data['sender']));
+        $response = $this->getJson('/api/ad/searchByReceiver');
         $response->assertStatus(200);
     }
 }

@@ -20,7 +20,7 @@ class IndexTest extends TestCase
     {
         $data= Bookmark::factory()->make()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response = $this->getJson('/user/bookmarks');
+        $response = $this->getJson('/api/user/bookmarks');
         $response->assertStatus(200);
     }
 
@@ -28,7 +28,7 @@ class IndexTest extends TestCase
     public function guestdonthavebookmark(){
 
         $data= Bookmark::factory()->make()->toArray();
-        $response=$this->postJson('/user/bookmarks');
+        $response=$this->postJson('/api/user/bookmarks');
 
         $response->assertStatus(401);
 

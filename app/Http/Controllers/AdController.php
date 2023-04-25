@@ -43,29 +43,18 @@ class AdController extends Controller
         return response($ads);
 	}
 
-    public function IndexByReceiver(IndexByReceiverRequest $request){
-        $validated=$request->validated();
-        if (isset($validated['receiver'])){
-            $ads=Ad::where('receiver',$validated['receiver'])->get();
-            if ($ads==null){
-                return response()->json(['error'=>'Ad not found'],404);
-            }
-            return response()->json($ads);
-        }
-        return response()->json(['error'=>'Receiver was not correct'],404);
+    public function IndexByReceiver(){
+
+        $user= auth()->user()->id;
+        $ads=Ad::where('receiver',$user)->get();
+        return response()->json($ads);
     }
 
-    public function IndexBySender(IndexBySenderRequest $request){
-        $validated=$request->validated();
-        if (isset($validated['sender'])){
-            $ads=Ad::where('sender',$validated['sender'])->get();
-            if (isset($ads))
-                $ads=$ads->where('sender',$validated['sender']);
-            else
-                $ads=Ad::where('sender',$validated['sender']);
+    public function IndexBySender(){
+
+        $user= auth()->user()->id;
+            $ads=Ad::where('sender',$user)->get();
             return response()->json($ads);
-        }
-        return response()->json(['error'=>'sender was not corrrect'],404);
     }
 
     public function show(Ad $ad){

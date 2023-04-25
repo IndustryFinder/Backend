@@ -3,6 +3,7 @@
 namespace Tests\Feature\Ad;
 
 use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,8 +18,11 @@ class AcceptTest extends TestCase
      */
     public function AssignReceiverForAd()
     {
-        $data= Ad::factory()->make()->toArray();
-        $response = $this->postJson('/ad/show',$data);
-        $response->assertStatus(200);
+        $data= Ad::factory()->create()->toArray();
+        $user= User::factory()->create();
+        $this->actingAs(User::find($data['sender']));
+        $response = $this->postJson('/api/ad/accept',['user_id'=>$user->id ,'ad_id' =>$data['id']]);
+        $response->assertStatus(201);
     }
+    //
 }

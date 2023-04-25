@@ -17,8 +17,8 @@ class ShowTest extends TestCase
      */
     public function ShowOneAdAndAddViewCount()
     {
-        $data= Ad::factory()->make()->toArray();
-        $response = $this->getJson('/ad/show',$data);
+        $data= Ad::factory()->create()->toArray();
+        $response = $this->getJson("/api/ad/show/${data['id']}");
         $response->assertStatus(200);
     }
 }

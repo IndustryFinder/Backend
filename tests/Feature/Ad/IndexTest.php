@@ -15,10 +15,10 @@ class IndexTest extends TestCase
      * @return void
      * @test
      */
-    public function ShowAds()
+    public function Index()
     {
-        $data= Ad::factory()->make()->toArray();
-        $response = $this->getJson('/ad/search',$data);
+        $data= Ad::factory()->create()->toArray();
+        $response = $this->postJson('/api/ad/search',$data);
         $response->assertStatus(200);
     }
 }
