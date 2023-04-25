@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Ad\AcceptRequest;
-use App\Http\Requests\Ad\IndexByReceiverRequest;
-use App\Http\Requests\Ad\IndexBySenderRequest;
 use App\Http\Requests\Ad\indexRequest;
 use App\Http\Requests\Ad\MakeAdRequest;
 use App\Http\Requests\Ad\UpdateRequest;
@@ -98,7 +96,6 @@ class AdController extends Controller
         }
         $validated['sender']=auth('sanctum')->user()->id;
         $ad=$ad->update($validated);
-        $ad->save();
         return response($ad, $ad ? 201 : 500);
     }
 
