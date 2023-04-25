@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\category;
+namespace App\Http\Requests\Ad;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class category extends FormRequest
+class AcceptRequest extends FormRequest
 {
 
     /**
@@ -15,8 +15,8 @@ class category extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:50',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'ad_id' => 'required|exists:ads,id',
+            'user_id' => 'required|exists:users,id'
         ];
     }
 }

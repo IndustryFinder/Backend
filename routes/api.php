@@ -21,6 +21,7 @@ use App\Http\Controllers;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/ad/show/{ad}', [AdController::class, 'show']);
 Route::get('/faker',[UserController::class, 'fakeAdder']);
 Route::post('/authentication/signup', [AuthController::class,'Register']);
 Route::post('/authentication/login',[AuthController::class,'Login']);
@@ -52,13 +53,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
     Route::get('/user/bookmarks/IsMarked/{id}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
-	Route::post('/ad/makead', [AdController::class, 'makeAd']);
+    Route::get('/ad/searchByReceiver', [AdController::class, 'IndexByReceiver']);
+    Route::get('/ad/searchBySender', [AdController::class, 'IndexBySender']);
+	Route::post('/ad/makeAd', [AdController::class, 'makeAd']);
+    Route::post('/ad/Update/{ad}', [AdController::class, 'update']);
 	Route::post('/ad/accept', [AdController::class, 'Accept']);
-	Route::delete('/ad/del/{id}', [AdController::class, 'destroy']);
+	Route::delete('/ad/del/{ad}', [AdController::class, 'destroy']);
     //*** Category ***//
     Route::post('/Category/makeCategory', [CategoryController::class, 'makeCategory']);
     Route::delete('/Category/del/{category}', [CategoryController::class, 'delete']);
-    Route::post('/Category/update/{id}', [CategoryController::class, 'update']);
+    Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
 	//*** Company ***//
 	Route::post('/company/add', [CompanyController::class, 'store']);
 	Route::post('/company/update/{id}', [CompanyController::class, 'update']);
@@ -74,8 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
     Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
-    Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
+   // Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
-    Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);
+    //Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);
     Route::get('/Comment/getAvgRate/{id}', [\App\Http\Controllers\CommentController::class, 'avgRating']);
 });

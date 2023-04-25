@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\category;
+namespace Tests\Feature\Ad;
 
-use App\Models\Category;
+use App\Models\Ad;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class IndexTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -16,10 +16,10 @@ class CategoryTest extends TestCase
      * @return void
      * @test
      */
-    public function getallcategories()
+    public function Index()
     {
-        Category::factory()->count(5)->create();
-        $response = $this->getJson('/api/categories');
+        $data= Ad::factory()->create()->toArray();
+        $response = $this->postJson('/api/ad/search',$data);
         $response->assertStatus(200);
     }
 }
