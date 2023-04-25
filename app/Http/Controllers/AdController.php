@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Ad\AcceptRequest;
-use App\Http\Requests\Ad\indexRequest;
+use App\Http\Requests\Ad\IndexRequest;
 use App\Http\Requests\Ad\MakeAdRequest;
 use App\Http\Requests\Ad\UpdateRequest;
 use App\Models\Ad;
-use App\Models\Category;
-use App\Models\Comment;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 class AdController extends Controller
