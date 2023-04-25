@@ -52,7 +52,7 @@ class AdController extends Controller
             }
             return response()->json($ads);
         }
-        return response()->json(['error'=>'Receiver was not corrrect'],404);
+        return response()->json(['error'=>'Receiver was not correct'],404);
     }
 
     public function IndexBySender(IndexBySenderRequest $request){
