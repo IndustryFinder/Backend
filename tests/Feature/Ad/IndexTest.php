@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

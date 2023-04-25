@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class IndexBySenderTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
