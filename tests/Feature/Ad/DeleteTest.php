@@ -14,7 +14,7 @@ class DeleteTest extends TestCase
      * A basic feature test example.
      *
      * @return void
-     * $test
+     * @test
      */
     public function Delete()
     {
