@@ -5,7 +5,7 @@ on:
       - main
       - develope
   workflow_dispatch:
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,5 +19,6 @@ jobs:
         env:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
+          npm install vue-template-compiler --save-dev
           npm i -g @liara/cli@3
           liara deploy --app="industries" --api-token="$LIARA_TOKEN" --detach
