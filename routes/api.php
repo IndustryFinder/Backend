@@ -29,7 +29,7 @@ Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/company/show/{company}', [CompanyController::class, 'show']);
-Route::post('/company/user/{userID}', [CompanyController::class, 'user']);
+Route::post('/company/user', [CompanyController::class, 'user']);
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //*** Category ***//
     Route::post('/Category/makeCategory', [CategoryController::class, 'makeCategory']);
     Route::delete('/Category/del/{category}', [CategoryController::class, 'delete']);
-    Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
+   // Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
 	//*** Company ***//
 	Route::post('/company/add', [CompanyController::class, 'store']);
 	Route::post('/company/update/{id}', [CompanyController::class, 'update']);

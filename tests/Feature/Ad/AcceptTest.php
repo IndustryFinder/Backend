@@ -25,7 +25,7 @@ class AcceptTest extends TestCase
         $response = $this->postJson('/api/ad/accept',['user_id'=>$user->id ,'ad_id' =>$data['id']]);
         $response->assertStatus(201);
     }
-    /**@test*/
+    /** @test */
     public function OnlySenderOfAdCanAccept()
     {
         $data= Ad::factory()->create()->toArray();

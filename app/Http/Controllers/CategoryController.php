@@ -39,9 +39,6 @@ class CategoryController extends Controller
     // ax joda beshe
     public function update(UpdateRequest $request,Category $category){
         $validated = $request->validated();
-        $iduser=auth('sanctum')->user()->id;
-        $user=User::find($iduser);
-        if($user->role == 'admin'){
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $filename=uniqid() . '.' . $image->getClientOriginalExtension();
@@ -55,7 +52,5 @@ class CategoryController extends Controller
             $category->update($validated);
             $category->save();
             return response()->json(['success'=>'Category update'],200);
-        }
-        return response(['message' => 'unauthorised'], 401);
     }
 }

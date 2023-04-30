@@ -25,7 +25,7 @@ class DeleteTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**@test*/
+    /** @test */
     public function GuestCantDelete(){
 
         $data= Ad::factory()->create()->toArray();
