@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
-    Route::get('/user/bookmarks/IsMarked/{id}', [BookmarkController::class, 'IsMarked']);
+    Route::get('/user/bookmarks/IsMarked/{campany}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
     Route::get('/ad/searchByReceiver', [AdController::class, 'IndexByReceiver']);
     Route::get('/ad/searchBySender', [AdController::class, 'IndexBySender']);

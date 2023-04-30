@@ -35,7 +35,6 @@ class storeTest extends TestCase
     }
     /** @test */
     public function cantAddBookmarkformissingcompany(){
-
         $data= Bookmark::factory(['marked_id'=>0])->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
         $response=$this->postJson("/api/user/bookmarks/add/${data['marked_id']}");
