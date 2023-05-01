@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/BuyPlan/{id}',[UserController::class,'BuyPlan']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
-	Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
+	Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
     Route::get('/user/bookmarks/IsMarked/{campany}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   // Commit_&_rating
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
-    Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
+    Route::get('/Comment/GetByCompany/{company}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
    // Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
     //Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);

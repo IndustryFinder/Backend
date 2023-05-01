@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class DeleteTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

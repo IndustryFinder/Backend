@@ -4,7 +4,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class makeCategoryRequest extends FormRequest
+class MakeCategoryRequest extends FormRequest
 {
 
     /**

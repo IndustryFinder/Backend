@@ -28,7 +28,7 @@ class IndexTest extends TestCase
     /** @test */
     public function GuestDontHaveBookmark(){
         $data= Bookmark::factory()->create()->toArray();
-        $response=$this->postJson('/api/user/bookmarks');
+        $response=$this->getJson('/api/user/bookmarks');
         $response->assertStatus(401);
 
     }

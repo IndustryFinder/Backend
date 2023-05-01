@@ -37,20 +37,20 @@ class CategoryController extends Controller
 
     // need admin panel to refactor
     // ax joda beshe
-    public function update(UpdateRequest $request,Category $category){
-        $validated = $request->validated();
-            if ($request->hasFile('photo')) {
-                $image = $request->file('photo');
-                $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-                $location=public_path('storage/AdPhoto'.$filename);
-                Image::make($image)->resize(300,300)->save($location);
-                $validated['photo']=$filename;
-            }
-            if ($category==null){
-                return response()->json(['error'=>'Category not found'],404);
-            }
-            $category->update($validated);
-            $category->save();
-            return response()->json(['success'=>'Category update'],200);
-    }
+//    public function update(UpdateRequest $request,Category $category){
+//        $validated = $request->validated();
+//            if ($request->hasFile('photo')) {
+//                $image = $request->file('photo');
+//                $filename=uniqid() . '.' . $image->getClientOriginalExtension();
+//                $location=public_path('storage/AdPhoto'.$filename);
+//                Image::make($image)->resize(300,300)->save($location);
+//                $validated['photo']=$filename;
+//            }
+//            if ($category==null){
+//                return response()->json(['error'=>'Category not found'],404);
+//            }
+//            $category->update($validated);
+//            $category->save();
+//            return response()->json(['success'=>'Category update'],200);
+//    }
 }
