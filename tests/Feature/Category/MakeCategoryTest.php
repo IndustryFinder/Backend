@@ -25,8 +25,6 @@ class MakeCategoryTest extends TestCase
         $file = \Illuminate\Http\UploadedFile::fake()->image('644fffada0270.png');
         $data=Category::factory(['photo'=>$file])->create()->toArray();
         $user=User::factory()->create()->toArray();
-        Storage::fake('photo');
-        $file = \Illuminate\Http\UploadedFile::fake()->image('644fffada0270.png');
         $this->actingAs(User::find($user['id']));
         $response = $this->postJson("/api/Category/makeCategory",$data);
         $response->assertStatus(201);
