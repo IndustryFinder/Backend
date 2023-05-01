@@ -19,10 +19,11 @@ class MakeAdTest extends TestCase
      */
     public function MakeNewAd()
     {
-        $data= Ad::factory()->create()->toArray();
+        $data= Ad::factory(['title'=>'NewAd'])->create()->toArray();
         $this->actingAs(User::find($data['sender']));
         $response=$this->postJson('/api/ad/makeAd',$data);
         $response->assertStatus(201);
+
     }
     /** @test  */
    public function GuestCantMakeNewAd(){
