@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Category\makeCategoryRequest;
+use App\Http\Requests\Category\MakeCategoryRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Ad;
 use App\Models\Category;
@@ -17,7 +17,7 @@ class CategoryController extends Controller
         return response(['categories'=>$categories]);
     }
     //need admin panel to refactor
-    public function makeCategory(makeCategoryRequest $request) {
+    public function makeCategory(MakeCategoryRequest $request) {
         $validated = $request->validated();
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
