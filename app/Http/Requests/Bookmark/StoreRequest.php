@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Bookmark;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MakeCategoryRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
 
     /**
@@ -15,8 +15,7 @@ class MakeCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:50',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'marked_id' => 'required|exists:companies,id'
         ];
     }
 }

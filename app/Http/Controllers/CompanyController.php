@@ -40,7 +40,7 @@ class CompanyController extends Controller
 
     public function user(UserRequest $request) {
         $validated= $request->validated();
-        $company = Company::whereUserId($validated['userID']);
+        $company = Company::where('user_id',$validated['user_id'])->get();
         return response()->json($company);
     }
 
@@ -49,18 +49,19 @@ class CompanyController extends Controller
         $validated = $request->validated();
 		$user= auth('sanctum')->user();
 		if ($user->role=='company' || $user->role=='pro') {
-			$validated['user_id']=$user->id;
-			if ($request->hasFile('logo')) {
-				$image   =$request->file('logo');
-				$filename=uniqid() . '.' . $image->getClientOriginalExtension();
-				$location=public_path('storage/logos' . $filename);
-				Image::make($image)->resize(300,300)->save($location);
-				$validated['logo']=$filename;
-			}
-			$company=Company::create($validated);
-			return response($company,201);
-		}
-		return response(['error'=>'Unauthorized'],401);
+
+            return response(['error'=>'already own company'],401);
+        }
+        $validated['user_id']=$user->id;
+        if ($request->hasFile('logo')) {
+            $image   =$request->file('logo');
+            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
+            $location=public_path('storage/logos' . $filename);
+            Image::make($image)->resize(300,300)->save($location);
+            $validated['logo']=$filename;
+        }
+        $company=Company::create($validated);
+        return response($company,201);
 	}
 
     //do view count++

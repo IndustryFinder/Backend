@@ -2,16 +2,14 @@ name: Laravel CI
 
 on:
   push:
-    branches: 
+    branches:
     - main
     - develope
   pull_request:
-
-    branches: 
+    branches:
     - main
     - develope
   workflow_dispatch:
-
 
 jobs:
   laravel-tests:
@@ -21,9 +19,7 @@ jobs:
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
-
-        php-version: '7.4'
-
+        php-version: '8.0'
     - uses: actions/checkout@v3
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"

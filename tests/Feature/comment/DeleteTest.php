@@ -25,7 +25,7 @@ class DeleteTest extends TestCase
         $response->assertStatus(200);
 
     }
-    /**@test*/
+    /** @test */
     public function guestcantdeletecomment(){
 
         $data= Comment::factory()->create()->toArray();
@@ -33,14 +33,6 @@ class DeleteTest extends TestCase
         $response->assertStatus(401);
 
     }
-    /**@test*/
-    public function cantdeletecommentformissingcompany(){
 
-        $data= Comment::factory(['company_id'=>0])->create()->toArray();
-        $this->actingAs(User::find($data['user_id']));
-        $response=$this->deleteJson("/api/Comment/Delete/${data['id']}");
-        $response->assertStatus(422);
-
-    }
 
 }

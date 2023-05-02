@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\category;
+namespace Tests\Feature\Category;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;

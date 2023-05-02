@@ -21,24 +21,23 @@ class storeTest extends TestCase
     {
         $data= Bookmark::factory()->make()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response = $this->postJson("/api/user/bookmarks/add/${data['marked_id']}");
-        $response->assertStatus(200);
+        $response = $this->postJson("/api/user/bookmarks/add",$data);
+        $response->assertStatus(201);
     }
 
-    /**@test*/
+    /** @test */
     public function guestcantdaddbookmark(){
 
         $data= Bookmark::factory()->make()->toArray();
-        $response=$this->postJson("/api/user/bookmarks/add/${data['marked_id']}");
+        $response=$this->postJson("/api/user/bookmarks/add",$data);
         $response->assertStatus(401);
 
     }
-    /**@test*/
+    /** @test */
     public function cantAddBookmarkformissingcompany(){
-
-        $data= Bookmark::factory(['company_id'=>0])->make()->toArray();
+        $data= Bookmark::factory(['marked_id'=>0])->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response=$this->postJson("/api/user/bookmarks/add/${data['marked_id']}");
+        $response=$this->postJson("/api/user/bookmarks/add",$data);
         $response->assertStatus(422);
 
     }
