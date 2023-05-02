@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+class IsmarkedTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -17,19 +17,17 @@ class IndexTest extends TestCase
      * @return void
      * @test
      */
-    public function test_example()
+    public function HasTheUserMarkedThisCampony()
     {
         $data= Bookmark::factory()->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response = $this->getJson('/api/user/bookmarks');
+        $response = $this->getJson("/api/user/bookmarks/IsMarked/${data['id']}");
         $response->assertStatus(200);
     }
-
     /** @test */
-    public function GuestDontHaveBookmark(){
+    public function GuestCantSeeIfTheyMarkedThisCompany(){
         $data= Bookmark::factory()->create()->toArray();
-        $response=$this->getJson('/api/user/bookmarks');
+        $response = $this->getJson("/api/user/bookmarks/IsMarked/${data['id']}");
         $response->assertStatus(401);
-
     }
 }

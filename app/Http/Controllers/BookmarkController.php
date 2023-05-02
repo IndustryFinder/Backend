@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Bookmark\StoreRequest;
 use App\Models\Bookmark;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,19 +22,16 @@ class BookmarkController extends Controller
         return response($result, 200);
     }
 
-    public function store($id)
+    public function store(StoreRequest $request)
     {
-		$b=Bookmark::where('user_id',auth('sanctum')->user()->id)->where('marked_id',$id);
-        $c=Bookmark::where('marked_id',$id);
-        if ($b->count()==0 and $c->count()!=0) {
+        $validated = $request->validated();
+		$b=Bookmark::where('user_id',auth('sanctum')->user()->id)->where('marked_id',$validated['marked_id'])->get();
+        if ($b->count()==0 ) {
 	        $mark           =new Bookmark();
 	        $mark->user_id  =auth('sanctum')->user()->id;
-	        $mark->marked_id=$id;
+	        $mark->marked_id=$validated['marked_id'];
 	        $mark->save();
             return response(['message' => 'success'], 201);
-        }
-        elseif ($b->count()==0 and $c->count()==0){
-            return response(404);
         }
         return response(['message' => 'already exist'], 201);
     }
@@ -47,9 +46,8 @@ class BookmarkController extends Controller
 		return response(['message' => 'unauthorised'], 401);
 	}
 
-    //check if is necessary
-    public static function IsMarked($id) {
+    public static function IsMarked(Company $company) {
         return Bookmark::all()->where('user_id', '=', auth('sanctum')->user()->id)
-        ->where('marked_id', '=', $id)->count() > 0;
+        ->where('marked_id', '=', $company['id'])->count() > 0;
     }
 }

@@ -2,11 +2,11 @@ name: Laravel CI
 
 on:
   push:
-    branches: 
+    branches:
     - main
     - develope
   pull_request:
-    branches: 
+    branches:
     - main
     - develope
   workflow_dispatch:

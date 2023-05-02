@@ -29,7 +29,7 @@ Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/company/show/{company}', [CompanyController::class, 'show']);
-Route::post('/company/user/{userID}', [CompanyController::class, 'user']);
+Route::post('/company/user', [CompanyController::class, 'user']);
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
@@ -49,9 +49,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/BuyPlan/{id}',[UserController::class,'BuyPlan']);
 	//*** Bookmark ***//
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
-	Route::post('/user/bookmarks/add/{id}',[BookmarkController::class,'store']);
+	Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
-    Route::get('/user/bookmarks/IsMarked/{id}', [BookmarkController::class, 'IsMarked']);
+    Route::get('/user/bookmarks/IsMarked/{campany}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
     Route::get('/ad/searchByReceiver', [AdController::class, 'IndexByReceiver']);
     Route::get('/ad/searchBySender', [AdController::class, 'IndexBySender']);
@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //*** Category ***//
     Route::post('/Category/makeCategory', [CategoryController::class, 'makeCategory']);
     Route::delete('/Category/del/{category}', [CategoryController::class, 'delete']);
-    Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
+   // Route::post('/Category/update/{category}', [CategoryController::class, 'update']);
 	//*** Company ***//
 	Route::post('/company/add', [CompanyController::class, 'store']);
 	Route::post('/company/update/{id}', [CompanyController::class, 'update']);
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   // Commit_&_rating
     Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
     Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
-    Route::get('/Comment/GetByCompany/{id}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
+    Route::get('/Comment/GetByCompany/{company}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
    // Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
     Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
     //Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);

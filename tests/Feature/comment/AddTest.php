@@ -26,7 +26,7 @@ class AddTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseHas('comments',['comment'=>$data['comment']]);
     }
-    /**@test*/
+    /** @test */
     public function guestcantaddcommment(){
 
         $data= Comment::factory()->make()->toArray();
@@ -35,7 +35,7 @@ class AddTest extends TestCase
         $response->assertStatus(401);
 
     }
-    /**@test*/
+    /** @test */
     public function cantaddcommmentformissingcompany(){
 
         $data= Comment::factory(['company_id'=>0])->make()->toArray();

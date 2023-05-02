@@ -24,4 +24,11 @@ class IndexBySenderTest extends TestCase
         $response = $this->getJson('/api/ad/searchBySender');
         $response->assertStatus(200);
     }
+    /** @test */
+    public function GuestCantSeeTheirAds()
+    {
+        $data= Ad::factory()->create()->toArray();
+        $response = $this->getJson('/api/ad/searchBySender');
+        $response->assertStatus(401);
+    }
 }

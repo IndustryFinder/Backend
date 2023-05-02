@@ -24,9 +24,9 @@ class CommentController extends Controller
         return response(['message' => $result ? 'success' : 'failed', $result ? 200 : 404]);
     }
 
-    //use Comment instead of id
-    public function getByCompany($id) {
-        $comments = Comment::where('company_id', '=', $id);
+
+    public function getByCompany(Company $company) {
+        $comments = Comment::where('company_id', '=', $company['id']);
         return response($comments->get(), 200);
     }
 
