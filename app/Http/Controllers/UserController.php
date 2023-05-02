@@ -2,69 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Http\Requests\User\AddCashRequest;
+use App\Http\Requests\User\ChangePasswordRequest;
+use App\Http\Requests\User\TodoUpdateRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Http\Requests\User\WithdrawRequest;
 use App\Models\User;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\facades;
 use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
 {
-
-	public function loggedInUser(){
-        $user=auth()->user()->id;
-        $user=User::find($user);
-        $user['company']=$user->company;
-        return response()->json($user);
-	}
-
-	public function Register(Request $request)
-	{
-		$validated=$request->validate([
-				'name'=>'required|min:3|string',
-				'email'=>'required|email:rfc|unique:users,email|string',
-				'password'=>'required|min:8|confirmed',
-			]
-		);
-
-		$validated['password']=bcrypt($validated['password']);
-		$validated['role']    ='user';
-		$user                 =User::create($validated);
-		$token                =$user->createToken('token')->plainTextToken;
-		return response(['user'=>$user,'token'=>$token],201);
-	}
-
-
-    public function Login(Request $request){
-        $validated=$request->validate([
-                'email' => 'required|email:rfc|string',
-                'password' => 'required|min:8|',
-            ]
-        );
-        $user=User::where('email', $validated['email'])->first();
-        if ($user && Hash::check($validated['password'],$user->password)) {
-            $token =$user->createToken('theToken')->plainTextToken;
-            return response(['user' => $user, 'token' => $token]);
-        }
-        else{
-            return response(['message'=>'Unauthorized'], 401);
-        }
-    }
-
-    public function Logout(){
-        auth()->user()->tokens()->delete();
-        return response(['message'=>'Logged Out']);
-    }
-
-	public function ChangePass(Request $request){
-		$validated=$request->validate([
-			'password' => 'required',
-			'new_password' => 'required|min:8|confirmed',
-			]
-		);
+	public function ChangePass(ChangePasswordRequest $request){
+		$validated=$request->validated();
 		$user=auth()->user();
 		if (Hash::check($validated['password'],$user->password)) {
 			$user->password=bcrypt($validated['new_password']);
@@ -76,16 +28,8 @@ class UserController extends Controller
 		}
 	}
 
-	public function update(Request $request){
-		$validated=$request->validate([
-
-				'name' => 'min:3|string',
-				'phone' => 'min:10|string',
-				'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-				'email' => 'email:rfc|string|unique:users,email',
-
-			]
-		);
+	public function update(UpdateRequest $request){
+		$validated=$request->validated();
 		$user=auth()->user();
 		if (isset($validated['name'])) $user->name=$validated['name'];
 		if (isset($validated['phone'])) $user->phone=$validated['phone'];
@@ -101,11 +45,8 @@ class UserController extends Controller
 	}
 
 
-    public  function  TodoUpdate(Request $request){
-        $validated=$request->validate([
-                'todo' => 'required|string',
-            ]
-        );
+    public function TodoUpdate(TodoUpdateRequest $request){
+        $validated=$request->validated();
         $id=auth('sanctum')->user()->id;
         $user=User::find($id);
         $user->todo=$validated['todo'];
@@ -118,11 +59,8 @@ class UserController extends Controller
         $user=User::find($id);
         return response(['Balance'=>$user->wallet,'adsUsed'=>$user->Ad->count()],200);
     }
-    public function AddCash(Request $request){
-        $validated=$request->validate([
-                'cash' => 'required|numeric',
-            ]
-        );
+    public function AddCash(AddCashRequest $request){
+        $validated=$request->validated();
         $id=auth('sanctum')->user()->id;
         $user=User::find($id);
         $user->wallet+=$validated['cash'];
@@ -130,11 +68,8 @@ class UserController extends Controller
         return response(['message'=>'Updated','Balance'=>$user->wallet],200);
     }
 
-    public function Withdraw(Request $request){
-        $validated=$request->validate([
-                'cash' => 'required|numeric',
-            ]
-        );
+    public function Withdraw(WithdrawRequest $request){
+        $validated=$request->validated();
         $id=auth('sanctum')->user()->id;
         $user=User::find($id);
         if($user->wallet >= $validated['cash']){
@@ -143,6 +78,56 @@ class UserController extends Controller
             return response(['message'=>'Updated','Balance'=>$user->wallet],200);}
         else
             return response(['message'=>'Not enough money','Balance'=>$user->wallet], 400);
+    }
+
+    public function BuyPlan($id){
+        $userId=auth('sanctum')->user()->id;
+        $user=User::find($userId);
+        switch ($id) {
+            case 1:
+                if($user->wallet >= 25000){
+                    $user->wallet -= 25000;
+                    $user->AdsRemaining += 10;
+                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->activePlan = 'classic';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 2:
+                if($user->wallet >= 50000){
+                    $user->wallet -= 50000;
+                    $user->AdsRemaining += 15;
+                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->activePlan = 'pro';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 3:
+                if($user->wallet >= 75000){
+                    $user->wallet -= 75000;
+                    $user->AdsRemaining += 30;
+                    $user->PlanExpireDate = Carbon::now()->addDays(90);
+                    $user->activePlan = 'deluxe';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            case 4:
+                if($user->wallet >= 100000){
+                    $user->wallet -= 100000;
+                    $user->AdsRemaining += 45;
+                    $user->PlanExpireDate = Carbon::now()->addDays(120);
+                    $user->activePlan = 'max';
+                    $user->save();
+                    return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
+                }
+                break;
+            default:
+                return response(['message'=>'request for valid plan','Balance'=>$user->wallet], 400);
+        }
+        return response(['message'=>'operation failed','Balance'=>$user->wallet], 400);
     }
 
 

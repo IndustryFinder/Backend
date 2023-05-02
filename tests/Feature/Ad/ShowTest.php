@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\category;
+namespace Tests\Feature\Ad;
 
-use App\Models\Category;
+use App\Models\Ad;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class ShowTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -16,12 +16,10 @@ class CategoryTest extends TestCase
      * @return void
      * @test
      */
-    public function getallcategories()
+    public function ShowOneAdAndAddViewCount()
     {
-
-        Category::factory()->count(5)->create();
-        $response = $this->getJson('/api/categories');
+        $data= Ad::factory()->create()->toArray();
+        $response = $this->getJson("/api/ad/show/${data['id']}");
         $response->assertStatus(200);
-
     }
 }

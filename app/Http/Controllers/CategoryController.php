@@ -1,28 +1,26 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\makeCategoryRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Ad;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
-    public function Categories(){
+    public function index(){
         $categories=Category::all();
         return response(['categories'=>$categories]);
     }
 
-    public function makeCategory(Request $request) {
-        $validated = $request->validate([
-            'name' => 'required|min:5|max:50',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+    //need admin panel to refactor
+    public function makeCategory(makeCategoryRequest $request) {
+        $validated = $request->validated();
 
-        $id=auth('sanctum')->user()->id;
-        $user=User::find($id);
-        if($user->role == 'admin'){
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
@@ -35,28 +33,15 @@ class CategoryController extends Controller
         }
         return response(['message' => 'unauthorised'], 401);
     }
-
-    public function delete($id){
-        $Category=Category::find($id);
-        $id=auth('sanctum')->user()->id;
-        $user=User::find($id);
-        if($user->role == 'admin'){
-        if ($Category==null){
-            return response()->json(['error'=>'Category not found'],404);
-        }
-        $Category->delete();
+    // need admin panel to refactor
+    public function delete(Category $category){
+        $category->delete();
         return response()->json(['success'=>'Category deleted'],200);
-        }
-        return response(['message' => 'unauthorised'], 401);
     }
 
-    public function update(Request $request,$id){
-        $validated = $request->validate([
-            'name' => 'required|min:5|max:50',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
 
-        $Category=Category::find($id);
+    public function update(UpdateRequest $request,Category $category){
+        $validated = $request->validated();
         $iduser=auth('sanctum')->user()->id;
         $user=User::find($iduser);
         if($user->role == 'admin'){
@@ -67,11 +52,11 @@ class CategoryController extends Controller
                 Image::make($image)->resize(300,300)->save($location);
                 $validated['photo']=$filename;
             }
-            $category = Category::find($id);
             if ($category==null){
                 return response()->json(['error'=>'Category not found'],404);
             }
-            $Category->update($validated);
+            $category->update($validated);
+            $category->save();
             return response()->json(['success'=>'Category update'],200);
         }
 
