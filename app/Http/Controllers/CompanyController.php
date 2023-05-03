@@ -28,7 +28,7 @@ class CompanyController extends Controller
 			$company = Company::query();
 
         if ($company!=null) {
-            $company->with('user');
+            $company->with('user_id')->get();
             foreach ($company as $c) {
                 if (auth('sanctum')->check())
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
@@ -40,7 +40,8 @@ class CompanyController extends Controller
 
     public function user(UserRequest $request) {
         $validated= $request->validated();
-        $company = Company::where('user_id',$validated['user_id'])->get();
+        $company = Company::all()->where('id',$validated['id'])->select('user_id')->get();
+        $company->with('user_id')->get();
         return response()->json($company);
     }
 

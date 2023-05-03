@@ -98,7 +98,10 @@ class AdController extends Controller
     public function Accept(AcceptRequest $request) {
         $validated = $request->validated();
         $ad = Ad::find($validated['ad_id']);
-        $ad->receiver = $validated['user_id'];
+        if($ad['sender']!=auth('sanctum')->user()->id){
+            return response()->json(['error'=>'you can not assign someone to ad that you dont own'],401);
+        }
+        $ad->receiver = $validated['receiver'];
         $ad->save();
         return response($ad, 201);
     }

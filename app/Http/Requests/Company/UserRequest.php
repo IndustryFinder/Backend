@@ -14,7 +14,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=>'numeric',
+            'id' => 'required|exists:companies,id',
         ];
     }
 }
