@@ -26,13 +26,12 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'name'=> $this->faker->name,
-            'logo'=> $this->faker->word,
+            'name'=> $this->faker->word,
             'phone'=> $this->faker->phoneNumber,
             'category_id'=> Category::factory(),
             'description'=> $this->faker->text(),
-            'email' => $this->faker->unique()->safeEmail,
-            'website'=> $this->faker->word,
+            'email' => $this->faker->unique()->email,
+            'website'=> $this->faker->url,
             'user_id'=> User::factory(),
             'is_active'=> $this->faker->boolean,
             'is_verified'=> $this->faker->boolean,

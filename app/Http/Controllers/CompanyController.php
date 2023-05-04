@@ -15,20 +15,20 @@ class CompanyController extends Controller
     public function index(IndexRequest $request)
     {
 	    $validated= $request->validated();
-		if (isset($validated['category'])){
-			$company = Company::where('category_id',$validated['category']);
+		if (isset($validated['category_id'])){
+			$company = Company::where('category_id',$validated['category_id']);
 		}
-		if (isset($validated['text'])){
+		if (isset($validated['title'])){
 			if (isset($company))
-				$company = $company->where('name','like','%'.$validated['text'].'%');
+				$company = $company->where('name','like','%'.$validated['title'].'%');
 			else
-				$company = Company::where('name','like','%'.$validated['text'].'%');
+				$company = Company::where('name','like','%'.$validated['title'].'%');
 		}
 		if (!isset($company))
 			$company = Company::query();
 
         if ($company!=null) {
-            $company->with('user_id')->get();
+            $company->with('user')->get();
             foreach ($company as $c) {
                 if (auth('sanctum')->check())
                     $c['IsMarked'] = BookmarkController::IsMarked($c->id);
@@ -41,7 +41,7 @@ class CompanyController extends Controller
     public function user(UserRequest $request) {
         $validated= $request->validated();
         $company = Company::all()->where('id',$validated['id'])->select('user_id')->get();
-        $company->with('user_id')->get();
+        $company->with('user')->get();
         return response()->json($company);
     }
 
@@ -61,7 +61,10 @@ class CompanyController extends Controller
             Image::make($image)->resize(300,300)->save($location);
             $validated['logo']=$filename;
         }
+        $user['role']='company';
         $company=Company::create($validated);
+        $user->save();
+        $company->save();
         return response($company,201);
 	}
 

@@ -29,7 +29,7 @@ Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/company/show/{company}', [CompanyController::class, 'show']);
-Route::post('/company/user', [CompanyController::class, 'user']);
+Route::get('/company/user', [CompanyController::class, 'user']);
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
