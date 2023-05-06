@@ -18,8 +18,10 @@ class CategoryTest extends TestCase
      */
     public function getallcategories()
     {
+
         Category::factory()->count(5)->create();
         $response = $this->getJson('/api/categories');
         $response->assertStatus(200);
+
     }
 }
