@@ -15,7 +15,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'category_id'=>'exists:categories,id',
-            'title'=>'string|nullable',
+            'name'=>'string|nullable',
         ];
     }
 }

@@ -18,11 +18,11 @@ class CompanyController extends Controller
 		if (isset($validated['category_id'])){
 			$company = Company::where('category_id',$validated['category_id']);
 		}
-		if (isset($validated['title'])){
+		if (isset($validated['name'])){
 			if (isset($company))
-				$company = $company->where('name','like','%'.$validated['title'].'%');
+				$company = $company->where('name','like','%'.$validated['name'].'%');
 			else
-				$company = Company::where('name','like','%'.$validated['title'].'%');
+				$company = Company::where('name','like','%'.$validated['name'].'%');
 		}
 		if (!isset($company))
 			$company = Company::query();
