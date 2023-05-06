@@ -23,7 +23,6 @@ class MakeAdRequest extends FormRequest
             'max_budget' => 'number|min:1',
             'description' => 'required|min:10',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'sender'=> 'required|exists:users,id'
         ];
     }
 }

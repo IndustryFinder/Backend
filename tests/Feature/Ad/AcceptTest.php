@@ -3,6 +3,7 @@
 namespace Tests\Feature\Ad;
 
 use App\Models\Ad;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,18 +20,18 @@ class AcceptTest extends TestCase
      */
     public function AssignReceiverForAd()
     {
-        $data= Ad::factory()->create()->toArray();
-        $user= User::factory()->create();
+        $data= Ad::factory(['receiver'=>null])->create()->toArray();
+        $companny=Company::factory()->create();
         $this->actingAs(User::find($data['sender']));
-        $response = $this->postJson('/api/ad/accept',['user_id'=>$user->id ,'ad_id' =>$data['id']]);
+        $response = $this->postJson('/api/ad/accept',['receiver'=>$companny->id ,'ad_id' =>$data['id']]);
         $response->assertStatus(201);
     }
     /** @test */
     public function OnlySenderOfAdCanAccept()
     {
         $data= Ad::factory()->create()->toArray();
-        $user= User::factory()->create();
-        $response = $this->postJson('/api/ad/accept',['user_id'=>$user->id ,'ad_id' =>$data['id']]);
+        $companny=Company::factory()->create();
+        $response = $this->postJson('/api/ad/accept',['receiver'=>$companny->id,'ad_id' =>$data['id']]);
         $response->assertStatus(401);
     }
 

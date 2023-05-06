@@ -14,8 +14,8 @@ class IndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'category'=>'numeric',
-            'text'=>'string|nullable',
+            'category_id'=>'exists:categories,id',
+            'name'=>'string|nullable',
         ];
     }
 }

@@ -16,7 +16,8 @@ class AcceptRequest extends FormRequest
     {
         return [
             'ad_id' => 'required|exists:ads,id',
-            'user_id' => 'required|exists:users,id'
+            'receiver' => 'required|exists:companies,id'
+
         ];
     }
 }
