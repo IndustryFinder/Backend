@@ -19,7 +19,7 @@ class StoreTest extends TestCase
      */
     public function AddNewCompany()
     {
-        $data=Company::factory(['name'=>'parscompany'])->create()->toArray();
+        $data=Company::factory(['name'=>'parscompany'])->make()->toArray();
         $owner=User::factory(['role'=>'user'])->create();
         $this->actingAs(User::find($owner['id']));
         $response = $this->postJson('/api/company/add',$data);
