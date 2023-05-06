@@ -62,6 +62,8 @@ class UserController extends Controller
     public function AddCash(AddCashRequest $request){
         $validated=$request->validated();
         $id=auth('sanctum')->user()->id;
+        if($validated['cash'] < 0)
+            return response(['message'=>'Invalid input'],422);
         $user=User::find($id);
         $user->wallet+=$validated['cash'];
         $user->save();
