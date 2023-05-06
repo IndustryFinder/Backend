@@ -30,7 +30,7 @@ class SearchTest extends TestCase
     }
     /** @test  */
     public function FindCompanyByCategory(){
-        $data=Company::factory(['category_id'=>'1'])->count(5)->create()->toArray();
+        $data=Company::factory()->count(5)->create()->toArray();
         $response=$this->postJson("/api/company/search",['category_id'=>$data[1]['category_id']]);
         $response->assertStatus(200);
     }
