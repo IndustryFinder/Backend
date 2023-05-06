@@ -40,8 +40,7 @@ class CompanyController extends Controller
 
     public function user(UserRequest $request) {
         $validated= $request->validated();
-        $company = Company::all()->where('id',$validated['id'])->select('user_id')->get();
-        $company->with('user')->get();
+        $company = Company::where('id',$validated['id'])->with('user')->get();
         return response()->json($company);
     }
 
