@@ -25,13 +25,13 @@ class SearchTest extends TestCase
     /** @test  */
     public function FindCompanyByTitle(){
         $data=Company::factory(['name'=>'pars'])->count(5)->create()->toArray();
-        $response=$this->postJson("/api/company/search",$data['name']);
+        $response=$this->postJson("/api/company/search",['name'=>$data[1]['name']]);
         $response->assertStatus(200);
     }
     /** @test  */
     public function FindCompanyByCategory(){
         $data=Company::factory(['category_id'=>'1','id'=>1])->count(5)->create()->toArray();
-        $response=$this->postJson("/api/company/search",$data[1]);
+        $response=$this->postJson("/api/company/search",['category_id'=>$data[1]['category_id']]);
         $response->assertStatus(200);
     }
 }
