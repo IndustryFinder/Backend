@@ -61,6 +61,8 @@ class CompanyController extends Controller
             $validated['logo']=$filename;
         }
         $company=Company::create($validated);
+        $user->role='company';
+        $user->save();
         return response($company,201);
 	}
 
