@@ -19,7 +19,9 @@ class UsersTest extends TestCase
     public function AllUsersOfTheCompany()
     {
         $data=Company::factory()->create()->toArray();
-        $response = $this->getJson("/api/company/user/",['id'=>$data['id']]);
+        dd($data);
+        $response = $this->getJson("/api/company/user",['id'=>$data['id']]);
         $response->assertStatus(200);
+
     }
 }

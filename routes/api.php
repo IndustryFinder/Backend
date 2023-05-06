@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use \App\Http\Controllers\UserController;
@@ -30,6 +31,8 @@ Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/company/show/{company}', [CompanyController::class, 'show']);
 Route::get('/company/user', [CompanyController::class, 'user']);
+Route::get('/Comment/GetByCompany/{company}', [CommentController::class, 'getByCompany']);
+Route::get('/Comment/getAvgRate/{id}', [CommentController::class, 'avgRating']);
 Route::get('/phpinfo', function() {
     return phpinfo();
 });
@@ -75,11 +78,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/Request/GetByAd/{ad}', [RequestController::class, 'RequestsByAd']);
     Route::delete('/request/del/{request}', [RequestController::class, 'Destroy']);
   // Commit_&_rating
-    Route::post('/Comment/Add', [\App\Http\Controllers\CommentController::class, 'make']);
-    Route::delete('/Comment/Delete/{comment}', [\App\Http\Controllers\CommentController::class, 'delete']);
-    Route::get('/Comment/GetByCompany/{company}', [\App\Http\Controllers\CommentController::class, 'getByCompany']);
+    Route::post('/Comment/Add', [CommentController::class, 'make']);
+    Route::delete('/Comment/Delete/{comment}', [CommentController::class, 'delete']);
+
    // Route::post('/Comment/update/{comment}', [\App\Http\Controllers\CommentController::class, 'update']);
-    Route::get('/Comment/GetByUser/{id}', [\App\Http\Controllers\CommentController::class, 'getByUser']);
+    Route::get('/Comment/GetByUser/{id}', [CommentController::class, 'getByUser']);
     //Route::post('/Comment/response/{comment}{response}', [\App\Http\Controllers\CommentController::class, 'response']);
-    Route::get('/Comment/getAvgRate/{id}', [\App\Http\Controllers\CommentController::class, 'avgRating']);
+
 });
