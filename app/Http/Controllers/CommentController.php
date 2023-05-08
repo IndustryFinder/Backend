@@ -27,7 +27,8 @@ class CommentController extends Controller
 
     public function getByCompany(Company $company) {
         $comments = Comment::where('company_id', '=', $company['id']);
-        return response($comments->get(), 200);
+        $comments->with('user')->get();
+        return response($comments, 200);
     }
 
     public function getByUser($id) {
