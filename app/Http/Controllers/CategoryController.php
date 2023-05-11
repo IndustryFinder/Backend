@@ -22,9 +22,9 @@ class CategoryController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location=public_path('storage/AdPhoto'.$filename);
-            Image::make($image)->resize(300,300)->save($location);
-            $validated['photo']=$filename;
+            $location = 'category/';
+            Storage::put($location, $image);
+            $validated['photo'] = $location . $filename;
         }
         $category = Category::create($validated);
         return response($category, $category ? 201 : 500);
