@@ -67,9 +67,9 @@ class AdController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location=public_path('storage/AdPhoto'.$filename);
-            Image::make($image)->resize(300,300)->save($location);
-            $validated['photo']=$filename;
+            $location = 'ad/';
+            Storage::put($location, $image);
+            $validated['photo'] = $location . $filename;
         }
         $ad = Ad::create($validated);
         return response($ad, $ad ? 201 : 500);
@@ -86,9 +86,9 @@ class AdController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location=public_path('storage/AdPhoto'.$filename);
-            Image::make($image)->resize(300,300)->save($location);
-            $validated['photo']=$filename;
+            $location = 'ad/';
+            Storage::put($location, $image);
+            $validated['photo'] = $location . $filename;
         }
         $validated['sender']=auth('sanctum')->user()->id;
         $ad=$ad->update($validated);

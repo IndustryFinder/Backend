@@ -8,6 +8,7 @@ use App\Http\Requests\Company\UpdateRequest;
 use App\Http\Requests\Company\UserRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
@@ -56,9 +57,9 @@ class CompanyController extends Controller
         if ($request->hasFile('logo')) {
             $image   =$request->file('logo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location=public_path('storage/logos' . $filename);
-            Image::make($image)->resize(300,300)->save($location);
-            $validated['logo']=$filename;
+            $location = 'logos/';
+            Storage::put($location, $image);
+            $validated['logo'] = $location . $filename;
         }
         $user['role']='company';
         $company=Company::create($validated);
@@ -85,9 +86,9 @@ class CompanyController extends Controller
 	    if ($request->hasFile('logo')) {
 		    $image = $request->file('logo');
 		    $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-		    $location = public_path('storage/logos' . $filename);
-		    Image::make($image)->resize(300, 300)->save($location);
-		    $validated['logo'] = $filename;
+		    $location = 'logos/';
+		    Storage::put($location, $image);
+		    $validated['logo'] = $location . $filename;
 	    }
         $company = Company::find($id)->update($validated);
         return response(['message' => $company == 1 ? 'success' : 'failed'], $company == 1 ? 201 : 500);

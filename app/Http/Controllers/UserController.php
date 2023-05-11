@@ -36,9 +36,10 @@ class UserController extends Controller
 		if (isset($validated['email'])) $user->email=$validated['email'];
 		if($request->hasFile('avatar')){
 			$avatar=$request->file('avatar');
-			$filename=uniqid().'.'.$avatar->getClientOriginalExtension();
-			Image::make($avatar)->resize(300,300)->save(public_path('/storage/avatars/'.$filename));
-			$user->avatar=$filename;
+            $filename=uniqid() . '.' . $avatar->getClientOriginalExtension();
+            $location = 'avatar/';
+            Storage::put($location, $avatar);
+            $validated['avatar'] = $location . $filename;
 		}
 		$user->save();
 		return response(['user'=>$user]);
