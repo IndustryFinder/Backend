@@ -14,12 +14,12 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:5|max:50',
+            'title' => 'min:5|max:50',
             'isCompany'=>'boolean',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'exists:categories,id',
             'min_budget' => 'min:0',
             'max_budget' => 'number|min:1',
-            'description' => 'required|min:10',
+            'description' => 'min:10',
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
