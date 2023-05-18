@@ -31,7 +31,7 @@ class UpdateTest extends TestCase
         $data=User::factory()->create()->toArray();
         $newdata=['phone'=>'0912'];
         $response = $this->postJson('/api/user/update',$newdata);
-        $response->assertStatus(200);
+        $response->assertStatus(401);
         $this->assertDatabaseHas('users',$data);
     }
 }
