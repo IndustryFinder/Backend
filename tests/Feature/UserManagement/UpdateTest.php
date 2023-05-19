@@ -20,7 +20,7 @@ class UpdateTest extends TestCase
     {
         $data=User::factory()->create()->toArray();
         $this->actingAs(User::find($data['id']));
-        $newdata=['phone'=>'0912'];
+        $newdata=['phone'=>'09128946585'];
         $response = $this->postJson('/api/user/update',$newdata);
         $response->assertStatus(200);
         $this->assertDatabaseHas('users',$newdata);
@@ -29,7 +29,7 @@ class UpdateTest extends TestCase
     public function GuestCantUpdateUserInfo()
     {
         $data=User::factory()->create()->toArray();
-        $newdata=['phone'=>'0912'];
+        $newdata=['phone'=>'09128946586'];
         $response = $this->postJson('/api/user/update',$newdata);
         $response->assertStatus(401);
         $this->assertDatabaseHas('users',$data);
