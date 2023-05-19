@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
+use Musonza\Chat\Traits\Messageable;
 
 /**
  * App\Models\User
@@ -60,7 +61,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    use HasApiTokens,HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable , Messageable;
 
     /**
      * The attributes that are mass assignable.
