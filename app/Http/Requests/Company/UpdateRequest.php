@@ -14,10 +14,10 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:20|alpha_num',
-            'category_id' => 'required|exists:categories,id',
-            'email' => 'required|email:rfc|unique:companies,email',
-            'phone' => 'required|digits_between:10,10',
+            'name' => 'min:5|max:20|alpha_num',
+            'category_id' => 'exists:categories,id',
+            'email' => 'email:rfc|unique:companies,email',
+            'phone' => 'digits_between:10,10',
             'description' => 'max:250',
             'website' => 'url',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
