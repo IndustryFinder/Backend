@@ -86,6 +86,10 @@ class UserController extends Controller
     public function BuyPlan($id){
         $userId=auth('sanctum')->user()->id;
         $user=User::find($userId);
+        $currentDateTime = Carbon::now();
+        if($user->AdsRemaining > 0 && $currentDateTime < $user->PlanExpireDate){
+            return response(['message'=>'Already has active plan','PlanName'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate], 409);
+        }
         switch ($id) {
             case 1:
                 if($user->wallet >= 25000){
