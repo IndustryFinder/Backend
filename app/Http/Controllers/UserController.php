@@ -95,7 +95,7 @@ class UserController extends Controller
                 if($user->wallet >= 25000){
                     $user->wallet -= 25000;
                     $user->AdsRemaining += 10;
-                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->PlanExpireDate = Carbon::now()->addDays(30);
                     $user->activePlan = 'classic';
                     $user->save();
                     return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);

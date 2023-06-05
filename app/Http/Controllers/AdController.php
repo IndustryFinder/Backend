@@ -79,7 +79,8 @@ class AdController extends Controller
             $validated['photo'] = $location . $filename;
         }
         $ad = Ad::create($validated);
-        $user->AdsRemaining -= 1;
+        if($ad)
+            $user->AdsRemaining -= 1;
         return response($ad, $ad ? 201 : 500);
     }
 
