@@ -7,7 +7,9 @@ use App\Http\Requests\Ad\IndexRequest;
 use App\Http\Requests\Ad\MakeAdRequest;
 use App\Http\Requests\Ad\UpdateRequest;
 use App\Models\Ad;
+use App\Models\User;
 use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 
 class AdController extends Controller
 {
@@ -63,7 +65,12 @@ class AdController extends Controller
 
     public function makeAd(MakeAdRequest $request) {
         $validated = $request->validated();
-        $validated['sender']=auth('sanctum')->user()->id;
+        $userId = auth('sanctum')->user()->id;
+        $user=User::find($userId);
+        if($user->AdsRemaining <= 0 || !isset($user->PlanExpireDate) || $user->PlanExpireDate < Carbon::now()){
+            return response(['message'=>'You Need Active Plan!','AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],402);
+        }
+        $validated['sender'] = $userId;
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $filename=uniqid() . '.' . $image->getClientOriginalExtension();
@@ -72,6 +79,10 @@ class AdController extends Controller
             $validated['photo'] = $location . $filename;
         }
         $ad = Ad::create($validated);
+        if($ad){
+            $user->AdsRemaining -= 1;
+            $user->save();
+        }
         return response($ad, $ad ? 201 : 500);
     }
 

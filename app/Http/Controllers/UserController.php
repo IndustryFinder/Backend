@@ -86,12 +86,16 @@ class UserController extends Controller
     public function BuyPlan($id){
         $userId=auth('sanctum')->user()->id;
         $user=User::find($userId);
+        $currentDateTime = Carbon::now();
+        if($user->AdsRemaining > 0 && $currentDateTime < $user->PlanExpireDate){
+            return response(['message'=>'Already has active plan','PlanName'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate], 409);
+        }
         switch ($id) {
             case 1:
                 if($user->wallet >= 25000){
                     $user->wallet -= 25000;
-                    $user->AdsRemaining += 10;
-                    $user->PlanExpireDate = Carbon::now()->addDays(60);
+                    $user->AdsRemaining = 10;
+                    $user->PlanExpireDate = Carbon::now()->addDays(30);
                     $user->activePlan = 'classic';
                     $user->save();
                     return response(['message'=>'Successfully bought','Balance'=>$user->wallet, 'activePlan'=>$user->activePlan,'AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],200);
@@ -100,7 +104,7 @@ class UserController extends Controller
             case 2:
                 if($user->wallet >= 50000){
                     $user->wallet -= 50000;
-                    $user->AdsRemaining += 15;
+                    $user->AdsRemaining = 15;
                     $user->PlanExpireDate = Carbon::now()->addDays(60);
                     $user->activePlan = 'pro';
                     $user->save();
@@ -110,7 +114,7 @@ class UserController extends Controller
             case 3:
                 if($user->wallet >= 75000){
                     $user->wallet -= 75000;
-                    $user->AdsRemaining += 30;
+                    $user->AdsRemaining = 30;
                     $user->PlanExpireDate = Carbon::now()->addDays(90);
                     $user->activePlan = 'deluxe';
                     $user->save();
@@ -120,7 +124,7 @@ class UserController extends Controller
             case 4:
                 if($user->wallet >= 100000){
                     $user->wallet -= 100000;
-                    $user->AdsRemaining += 45;
+                    $user->AdsRemaining = 45;
                     $user->PlanExpireDate = Carbon::now()->addDays(120);
                     $user->activePlan = 'max';
                     $user->save();
