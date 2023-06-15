@@ -53,6 +53,14 @@ class RequestController extends Controller
         return response($result, 200);
     }
 
+    public function RequestsByCompany($id){
+        $requests = RequestModel::with('ad')
+            ->where('company_id', $id)
+            ->get();
+
+        return response($requests, 200);
+    }
+
     public  function RequestsByUser(User $user){
          $result= $user->Ad;
          foreach ($result as $r){

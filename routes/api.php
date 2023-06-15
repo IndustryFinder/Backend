@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/user/bookmarks',[BookmarkController::class,'index']);
 	Route::post('/user/bookmarks/add',[BookmarkController::class,'store']);
 	Route::delete('/user/bookmarks/del/{id}',[BookmarkController::class,'destroy']);
-    Route::get('/user/bookmarks/IsMarked/{campany}', [BookmarkController::class, 'IsMarked']);
+    Route::get('/user/bookmarks/IsMarked/{company}', [BookmarkController::class, 'IsMarked']);
 	//*** Ad ***//
     Route::get('/ad/searchByReceiver', [AdController::class, 'IndexByReceiver']);
     Route::get('/ad/searchBySender', [AdController::class, 'IndexBySender']);
@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/request/reject/{request}', [RequestController::class, 'Reject']);
     Route::get('/Request/GetByUser/{user}', [RequestController::class, 'RequestsByUser']);
     Route::get('/Request/GetByAd/{ad}', [RequestController::class, 'RequestsByAd']);
+    Route::get('/Request/GetByCompany/{id}', [RequestController::class, 'RequestsByCompany']);
     Route::delete('/request/del/{request}', [RequestController::class, 'Destroy']);
   // Commit_&_rating
     Route::post('/Comment/Add', [CommentController::class, 'make']);
