@@ -9,6 +9,7 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\WithdrawRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 
@@ -36,10 +37,9 @@ class UserController extends Controller
 		if (isset($validated['email'])) $user->email=$validated['email'];
 		if($request->hasFile('avatar')){
 			$avatar=$request->file('avatar');
-            $filename=uniqid() . '.' . $avatar->getClientOriginalExtension();
-            $location = 'avatar/';
-            Storage::put($location, $avatar);
-            $validated['avatar'] = $location . $filename;
+            $location = 'avatar';
+            $validated['avatar'] = Storage::put($location, $avatar);
+            $user['avatar'] = $validated['avatar'];
 		}
 		$user->save();
 		return response(['user'=>$user]);
