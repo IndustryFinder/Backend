@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
@@ -21,10 +22,8 @@ class CategoryController extends Controller
         $validated = $request->validated();
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = 'category/';
-            Storage::put($location, $image);
-            $validated['photo'] = $location . $filename;
+            $location = 'category';
+            $validated['photo'] = Storage::put($location, $image);
         }
         $category = Category::create($validated);
         return response($category, $category ? 201 : 500);

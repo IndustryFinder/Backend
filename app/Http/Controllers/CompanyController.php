@@ -49,17 +49,14 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
 		$user= auth('sanctum')->user();
-		if ($user->role=='company' || $user->role=='pro') {
-
+		if ($user->role=='company' || $user->role=='pro')
             return response(['error'=>'already own company'],401);
-        }
+
         $validated['user_id']=$user->id;
         if ($request->hasFile('logo')) {
-            $image   =$request->file('logo');
-            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = 'logos/';
-            Storage::put($location, $image);
-            $validated['logo'] = $location . $filename;
+            $image = $request->file('logo');
+            $location = 'logos';
+            $validated['logo'] = Storage::put($location, $image);
         }
         $user['role']='company';
         $company=Company::create($validated);
@@ -80,17 +77,15 @@ class CompanyController extends Controller
     }
 
 
-    public function update(UpdateRequest $request, $id)
+    public function update(Company $company, UpdateRequest $request)
     {
         $validated = $request->validated();
-	    if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
 		    $image = $request->file('logo');
-		    $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-		    $location = 'logos/';
-		    Storage::put($location, $image);
-		    $validated['logo'] = $location . $filename;
+		    $location = 'logos';
+            $validated['logo'] = Storage::put($location, $image);
 	    }
-        $company = Company::find($id)->update($validated);
+        $company=$company->update($validated);
         return response(['message' => $company == 1 ? 'success' : 'failed'], $company == 1 ? 201 : 500);
     }
 
