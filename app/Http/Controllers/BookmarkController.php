@@ -27,8 +27,8 @@ class BookmarkController extends Controller
         $validated = $request->validated();
 		$b=Bookmark::where('user_id',auth('sanctum')->user()->id)->where('marked_id',$validated['marked_id'])->get();
         if ($b->count()==0 ) {
-	        $mark           =new Bookmark();
-	        $mark->user_id  =auth('sanctum')->user()->id;
+	        $mark =new Bookmark();
+	        $mark->user_id =auth('sanctum')->user()->id;
 	        $mark->marked_id=$validated['marked_id'];
 	        $mark->save();
             return response(['message' => 'success'], 201);
@@ -36,14 +36,24 @@ class BookmarkController extends Controller
         return response(['message' => 'already exist'], 201);
     }
 
+    //delete bookmark with company id
     public function destroy($id)
     {
-        $result = Bookmark::find($id);
-		if ($result->user->id == auth('sanctum')->user()->id) {
-			$result->delete();
-			return response(['message' => 'success'], 200);
-		}
-		return response(['message' => 'unauthorised'], 401);
+        $result = Bookmark::where('marked_id',$id)->get();
+        if ($result->count() == 0)
+            return response(['message' => 'There is no bookmarks to delete!'], 200);
+
+        $user_id = auth('sanctum')->user()->id;
+        $counter = 0;
+        foreach ($result as $r){
+            if($r->user->id == $user_id){
+                $r->delete();
+                $counter++;
+            }
+        }
+        if($counter > 0)
+            return response(['message' => 'success'], 200);
+        return response(['message' => 'unauthorised'], 401);
 	}
 
     public static function IsMarked(Company $company) {
