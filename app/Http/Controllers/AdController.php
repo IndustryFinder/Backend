@@ -8,6 +8,7 @@ use App\Http\Requests\Ad\MakeAdRequest;
 use App\Http\Requests\Ad\UpdateRequest;
 use App\Models\Ad;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 
@@ -34,7 +35,7 @@ class AdController extends Controller
             $ads=$ads->with('Sender')->get();
 		}
         else{
-            $ads=Ad::all()->with('Sender')->get();
+            $ads=Ad::with('Sender')->get();
         }
         return response($ads);
 	}
@@ -67,16 +68,14 @@ class AdController extends Controller
         $validated = $request->validated();
         $userId = auth('sanctum')->user()->id;
         $user=User::find($userId);
-        if($user->AdsRemaining <= 0 || !isset($user->PlanExpireDate) || $user->PlanExpireDate < Carbon::now()){
+        if($user->AdsRemaining <= 0 || !isset($user->PlanExpireDate) || $user->PlanExpireDate < Carbon::now())
             return response(['message'=>'You Need Active Plan!','AdsRemaining'=>$user->AdsRemaining,'PlanExpireDate'=>$user->PlanExpireDate],402);
-        }
+
         $validated['sender'] = $userId;
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = 'ad/';
-            Storage::put($location, $image);
-            $validated['photo'] = $location . $filename;
+            $location = 'ad';
+            $validated['photo'] = Storage::put($location, $image);
         }
         $ad = Ad::create($validated);
         if($ad){
@@ -96,10 +95,8 @@ class AdController extends Controller
         }
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $filename=uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = 'ad/';
-            Storage::put($location, $image);
-            $validated['photo'] = $location . $filename;
+            $location = 'ad';
+            $validated['photo'] = Storage::put($location, $image);
         }
         $validated['sender']=auth('sanctum')->user()->id;
         $ad=$ad->update($validated);
@@ -116,7 +113,6 @@ class AdController extends Controller
         $ad->save();
         return response($ad, 201);
     }
-
 
 	public function destroy(Ad $ad){
 
