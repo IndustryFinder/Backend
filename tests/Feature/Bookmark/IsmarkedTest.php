@@ -21,7 +21,7 @@ class IsmarkedTest extends TestCase
     {
         $data= Bookmark::factory()->create()->toArray();
         $this->actingAs(User::find($data['user_id']));
-        $response = $this->getJson("/api/user/bookmarks/IsMarked/${data['id']}");
+        $response = $this->getJson("/api/user/bookmarks/IsMarked/${data['marked_id']}");
         $response->assertStatus(200);
     }
     /** @test */
