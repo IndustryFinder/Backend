@@ -7,15 +7,61 @@ use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\TodoUpdateRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\WithdrawRequest;
+use App\Models\Request;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 
 
 class UserController extends Controller
 {
+    public function ResetPass(HttpRequest $request){
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::broker()->sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? response(['status' => __($status)])
+            : response(['email' => __($status)]);
+    }
+
+    public function RecoverPass($token){
+        return redirect(env("FRONTEND_URL").'/reset-password/'.$token);
+    }
+
+    public function SubmitNewPass(HttpRequest $request){
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+//                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response(['status', __($status)], 200)
+            : response(['email' => [__($status)]], 401);
+    }
+
 	public function ChangePass(ChangePasswordRequest $request){
 		$validated=$request->validated();
 		$user=auth()->user();

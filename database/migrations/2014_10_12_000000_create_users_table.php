@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
 			$table->string('avatar')->nullable();
 			$table->boolean('is_active')->default(1);
             $table->enum('role',['user','company','pro','admin'])->default('user');
-            $table->float('wallet')->default(0);
+            $table->bigInteger('wallet')->default(0);
             $table->enum('activePlan',['noPlan','classic','pro','deluxe','max'])->default('noPlan');
             $table->integer('AdsRemaining')->default(0);
             $table->timestamp('PlanExpireDate')->nullable();
