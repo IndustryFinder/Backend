@@ -23,7 +23,8 @@ use App\Http\Controllers;
 |
 */
 Route::get('/ad/show/{ad}', [AdController::class, 'show']);
-Route::post('/user/resetpass',[UserController::class, 'ResetPass'])->name('password.reset');;
+Route::post('/user/resetpass',[UserController::class, 'ResetPass']);
+Route::get('/user/resetpass',[UserController::class, 'RecoverPass'])->name('password.reset');
 Route::get('/faker',[UserController::class, 'fakeAdder']);
 Route::post('/authentication/signup', [AuthController::class,'Register']);
 Route::post('/authentication/login',[AuthController::class,'Login']);
