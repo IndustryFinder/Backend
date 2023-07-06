@@ -33,8 +33,8 @@ class UserController extends Controller
             : response(['email' => __($status)]);
     }
 
-    public function RecoverPass($token){
-        return redirect(env("FRONTEND_URL").'/reset-password/'.$token);
+    public function RecoverPass(HttpRequest $request){
+        return redirect(env("FRONTEND_URL").'/reset-password/'.$request->token);
     }
 
     public function SubmitNewPass(HttpRequest $request){
