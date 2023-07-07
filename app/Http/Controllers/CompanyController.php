@@ -77,15 +77,16 @@ class CompanyController extends Controller
     }
 
 
-    public function update(Company $company, UpdateRequest $request)
+    public function update($company, UpdateRequest $request)
     {
+        $cmp = Company::find($company);
         $validated = $request->validated();
         if ($request->hasFile('logo')) {
 		    $image = $request->file('logo');
 		    $location = 'logos';
             $validated['logo'] = Storage::put($location, $image);
 	    }
-        $company=$company->update($validated);
+        $company=$cmp->update($validated);
         return response(['message' => $company == 1 ? 'success' : 'failed'], $company == 1 ? 201 : 500);
     }
 
