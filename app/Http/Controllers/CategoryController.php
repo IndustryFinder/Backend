@@ -20,12 +20,11 @@ class CategoryController extends Controller
 
     public function show($id){
         $category = Category::find($id);
-        if (!$category) {
+        if (!$category)
             return response()->json(['error' => 'Category not found'], 404);
-        }
         return response()->json($category);
     }
-    //need admin panel to refactor
+
     public function makeCategory(MakeCategoryRequest $request) {
         $validated = $request->validated();
         if ($request->hasFile('photo')) {

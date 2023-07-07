@@ -24,4 +24,26 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
 
     }
+    /** @test */
+    public function testShowValidCategory(){
+        // Create a category in the database
+        $category = Category::factory()->create();
+
+        // Call the show method with the valid category ID
+        $response = $this->getJson('/api/category/show/' . $category->id);
+
+        // Assert the response
+        $response->assertStatus(200);
+        $response->assertJson($category->toArray());
+    }
+    /** @test */
+    public function testShowInvalidCategory()
+    {
+        // Call the show method with an invalid category ID
+        $response = $this->getJson('/api/category/show/999');
+
+        // Assert the response
+        $response->assertStatus(404);
+        $response->assertJson(['error' => 'Category not found']);
+    }
 }
