@@ -43,7 +43,9 @@ class CommentController extends Controller
         foreach ($comments as $comment) {
             $res += $comment->rating;
         }
-        return response(['avg' => $res / $comments->count()]);
+        $count = $comments->count();
+        $result = $count > 0 ? $res / $count : 0;
+        return response(['avg' => $result]);
     }
 
 //    public  function update(Comment $comment){
