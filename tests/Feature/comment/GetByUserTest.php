@@ -34,4 +34,11 @@ class GetByUserTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([]);
     }
+    /** @test */
+    public function guestCantGetComments()
+    {
+        $user=User::factory()->create()->toArray();
+        $response=$this->getJson("/api/Comment/GetByUser/${user['id']}");
+        $response->assertStatus(401);
+    }
 }
