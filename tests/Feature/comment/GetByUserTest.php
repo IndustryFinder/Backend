@@ -25,4 +25,13 @@ class GetByUserTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson($comments->toArray());
     }
+    /** @test */
+    public function testGetByUserWithNoComments()
+    {
+        $user=User::factory()->create()->toArray();
+        $this->actingAs(User::find($user['id']));
+        $response=$this->getJson("/api/Comment/GetByUser/${user['id']}");
+        $response->assertStatus(200);
+        $response->assertJson([]);
+    }
 }
