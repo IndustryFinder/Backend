@@ -41,4 +41,11 @@ class AvgRatingTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(['avg' => $expectedAvgRating]);
     }
+    /** @test */
+    public function testAvgRatingWithNoComments()
+    {
+        $response = $this->getJson("/api/Comment/getAvgRate/1000");
+        $response->assertStatus(200);
+        $response->assertJson(['avg' => 0]);
+    }
 }
