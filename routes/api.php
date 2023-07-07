@@ -32,6 +32,7 @@ Route::post('/user/submitnewpass',[UserController::class,'SubmitNewPass']);
 Route::post('/company/search', [CompanyController::class, 'index']);
 Route::post('/ad/search', [AdController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/category/show/{id}', [CategoryController::class, 'show']);
 Route::get('/company/show/{company}', [CompanyController::class, 'show']);
 Route::get('/company/user', [CompanyController::class, 'user']);
 Route::get('/Comment/GetByCompany/{company}', [CommentController::class, 'getByCompany']);

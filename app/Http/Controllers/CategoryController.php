@@ -17,6 +17,14 @@ class CategoryController extends Controller
         $categories=Category::all();
         return response(['categories'=>$categories]);
     }
+
+    public function show($id){
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+        return response()->json($category);
+    }
     //need admin panel to refactor
     public function makeCategory(MakeCategoryRequest $request) {
         $validated = $request->validated();
